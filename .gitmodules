@@ -1,0 +1,6 @@
+[submodule "Linkhub"]
+	path = Linkhub
+	url = https://github.com/linkhub-sdk/linkhub.auth.vb6.git
+[submodule "PopbillTaxinvoice"]
+	path = PopbillTaxinvoice
+	url = https://github.com/linkhub-sdk/popbill.taxinvoice.vb6.git

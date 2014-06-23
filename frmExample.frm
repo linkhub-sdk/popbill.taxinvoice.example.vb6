@@ -753,8 +753,8 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-'파트너아이디
-Private Const PartnerID = "TESTER"
+'연동아이디
+Private Const LinkID = "TESTER"
 '비밀키. 유출에 주의하시기 바랍니다.
 Private Const SecretKey = "088b1258aoeMH5OtGjK4zaOlwZGVvSK40ceI8t4j7Hw="
 
@@ -773,7 +773,7 @@ Private Sub btn_GetURL_PBOX_Click()
 End Sub
 
 Private Sub btnAccept_Click()
-    Dim response As PBResponse
+    Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -788,14 +788,14 @@ Private Sub btnAccept_Click()
             Exit Sub
     End Select
     
-    Set response = TaxinvoiceService.Accept(txtCorpNum.Text, KeyType, txtMgtKey.Text, "발행예정 승인 메모", txtUserID.Text)
+    Set Response = TaxinvoiceService.Accept(txtCorpNum.Text, KeyType, txtMgtKey.Text, "발행예정 승인 메모", txtUserID.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("[" + CStr(response.code) + "] " + response.message)
+    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
 End Sub
 
 Private Sub btnAttachFile_Click()
@@ -808,7 +808,7 @@ Private Sub btnAttachFile_Click()
     
     If FilePath = "" Then Exit Sub
     
-    Dim response As PBResponse
+    Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -823,19 +823,19 @@ Private Sub btnAttachFile_Click()
             Exit Sub
     End Select
     
-    Set response = TaxinvoiceService.AttachFile(txtCorpNum.Text, KeyType, txtMgtKey.Text, FilePath, txtUserID.Text)
+    Set Response = TaxinvoiceService.AttachFile(txtCorpNum.Text, KeyType, txtMgtKey.Text, FilePath, txtUserID.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("[" + CStr(response.code) + "] " + response.message)
+    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
     
 End Sub
 
 Private Sub btnCancelIssue_Click()
-    Dim response As PBResponse
+    Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -850,18 +850,18 @@ Private Sub btnCancelIssue_Click()
             Exit Sub
     End Select
     
-    Set response = TaxinvoiceService.CancelIssue(txtCorpNum.Text, KeyType, txtMgtKey.Text, "발행 취소 메모", txtUserID.Text)
+    Set Response = TaxinvoiceService.CancelIssue(txtCorpNum.Text, KeyType, txtMgtKey.Text, "발행 취소 메모", txtUserID.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("[" + CStr(response.code) + "] " + response.message)
+    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
 End Sub
 
 Private Sub btnCancelIssue_rev_Click()
-    Dim response As PBResponse
+    Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -876,18 +876,18 @@ Private Sub btnCancelIssue_rev_Click()
             Exit Sub
     End Select
     
-    Set response = TaxinvoiceService.CancelIssue(txtCorpNum.Text, KeyType, txtMgtKey.Text, "발행 취소 메모", txtUserID.Text)
+    Set Response = TaxinvoiceService.CancelIssue(txtCorpNum.Text, KeyType, txtMgtKey.Text, "발행 취소 메모", txtUserID.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("[" + CStr(response.code) + "] " + response.message)
+    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
 End Sub
 
 Private Sub btnCancelSend_Click()
-    Dim response As PBResponse
+    Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -902,14 +902,14 @@ Private Sub btnCancelSend_Click()
             Exit Sub
     End Select
     
-    Set response = TaxinvoiceService.CancelSend(txtCorpNum.Text, KeyType, txtMgtKey.Text, "발행예정 취소 메모", txtUserID.Text)
+    Set Response = TaxinvoiceService.CancelSend(txtCorpNum.Text, KeyType, txtMgtKey.Text, "발행예정 취소 메모", txtUserID.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("[" + CStr(response.code) + "] " + response.message)
+    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
 End Sub
 
 Private Sub btnCertificateExpireDate_Click()
@@ -928,20 +928,20 @@ Private Sub btnCertificateExpireDate_Click()
 End Sub
 
 Private Sub btnCheckIsMember_Click()
-    Dim response As PBResponse
+    Dim Response As PBResponse
     
-    Set response = TaxinvoiceService.CheckIsMember(txtCorpNum.Text, PartnerID)
+    Set Response = TaxinvoiceService.CheckIsMember(txtCorpNum.Text, LinkID)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox (response.message)
+    MsgBox (Response.message)
 End Sub
 
 Private Sub btnCheckMgtKeyInUse_Click()
-    Dim response As PBResponse
+    Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -956,19 +956,19 @@ Private Sub btnCheckMgtKeyInUse_Click()
             Exit Sub
     End Select
     
-    Set response = TaxinvoiceService.CheckMgtKeyInUse(txtCorpNum.Text, KeyType, txtMgtKey.Text)
+    Set Response = TaxinvoiceService.CheckMgtKeyInUse(txtCorpNum.Text, KeyType, txtMgtKey.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("[" + CStr(response.code) + "] " + response.message)
+    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
     
 End Sub
 
 Private Sub btnDelete_Click()
-    Dim response As PBResponse
+    Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -983,18 +983,18 @@ Private Sub btnDelete_Click()
             Exit Sub
     End Select
     
-    Set response = TaxinvoiceService.Delete(txtCorpNum.Text, KeyType, txtMgtKey.Text, txtUserID.Text)
+    Set Response = TaxinvoiceService.Delete(txtCorpNum.Text, KeyType, txtMgtKey.Text, txtUserID.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("[" + CStr(response.code) + "] " + response.message)
+    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
 End Sub
 
 Private Sub btnDelete_rev_Click()
-    Dim response As PBResponse
+    Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -1009,18 +1009,18 @@ Private Sub btnDelete_rev_Click()
             Exit Sub
     End Select
     
-    Set response = TaxinvoiceService.Delete(txtCorpNum.Text, KeyType, txtMgtKey.Text, txtUserID.Text)
+    Set Response = TaxinvoiceService.Delete(txtCorpNum.Text, KeyType, txtMgtKey.Text, txtUserID.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("[" + CStr(response.code) + "] " + response.message)
+    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
 End Sub
 
 Private Sub btnDeleteFile_Click()
-    Dim response As PBResponse
+    Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -1035,18 +1035,18 @@ Private Sub btnDeleteFile_Click()
             Exit Sub
     End Select
     
-    Set response = TaxinvoiceService.DeleteFile(txtCorpNum.Text, KeyType, txtMgtKey.Text, txtFileID.Text, txtUserID.Text)
+    Set Response = TaxinvoiceService.DeleteFile(txtCorpNum.Text, KeyType, txtMgtKey.Text, txtFileID.Text, txtUserID.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("[" + CStr(response.code) + "] " + response.message)
+    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
 End Sub
 
 Private Sub btnDeny_Click()
-    Dim response As PBResponse
+    Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -1061,14 +1061,14 @@ Private Sub btnDeny_Click()
             Exit Sub
     End Select
     
-    Set response = TaxinvoiceService.Deny(txtCorpNum.Text, KeyType, txtMgtKey.Text, "발행예정 거부 메모", txtUserID.Text)
+    Set Response = TaxinvoiceService.Deny(txtCorpNum.Text, KeyType, txtMgtKey.Text, "발행예정 거부 메모", txtUserID.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("[" + CStr(response.code) + "] " + response.message)
+    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
 End Sub
 
 Private Sub btnGetBalance_Click()
@@ -1485,7 +1485,7 @@ Private Sub btnGetURL_WRITE_Click()
 End Sub
 
 Private Sub btnIssue_Click()
-    Dim response As PBResponse
+    Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -1500,19 +1500,19 @@ Private Sub btnIssue_Click()
             Exit Sub
     End Select
     
-    Set response = TaxinvoiceService.Issue(txtCorpNum.Text, KeyType, txtMgtKey.Text, "발행메모", "", False, txtUserID.Text)
+    Set Response = TaxinvoiceService.Issue(txtCorpNum.Text, KeyType, txtMgtKey.Text, "발행메모", "", False, txtUserID.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("[" + CStr(response.code) + "] " + response.message)
+    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
     
 End Sub
 
 Private Sub btnIssue_rev_Click()
-    Dim response As PBResponse
+    Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -1527,21 +1527,21 @@ Private Sub btnIssue_rev_Click()
             Exit Sub
     End Select
     
-    Set response = TaxinvoiceService.Issue(txtCorpNum.Text, KeyType, txtMgtKey.Text, "발행메모", "", False, txtUserID.Text)
+    Set Response = TaxinvoiceService.Issue(txtCorpNum.Text, KeyType, txtMgtKey.Text, "발행메모", "", False, txtUserID.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("[" + CStr(response.code) + "] " + response.message)
+    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
 End Sub
 
 Private Sub btnJoinMember_Click()
     Dim joinData As New PBJoinForm
-    Dim response As PBResponse
+    Dim Response As PBResponse
     
-    joinData.PartnerID = PartnerID '파트너 아이디
+    joinData.LinkID = LinkID '연동 아이디
     joinData.CorpNum = "1231212312" '사업자번호 "-" 제외.
     joinData.CEOName = "대표자성명"
     joinData.CorpName = "회원상호"
@@ -1551,26 +1551,26 @@ Private Sub btnJoinMember_Click()
     joinData.BizClass = "업종"
     joinData.ID = "userid"      '6자 이상 20자 미만.
     joinData.PWD = "pwd_must_be_long_enough"    '6자 이상 20자 미만.
-    joinData.contactName = "담당자성명"
+    joinData.ContactName = "담당자성명"
     joinData.ContactTEL = "02-999-9999"
     joinData.ContactHP = "010-1234-5678"
     joinData.ContactFAX = "02-999-9998"
     joinData.ContactEmail = "test@test.com"
     
-    Set response = TaxinvoiceService.JoinMember(joinData)
+    Set Response = TaxinvoiceService.JoinMember(joinData)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox (response.message)
+    MsgBox (Response.message)
     
     
 End Sub
 
 Private Sub btnRefuse_Click()
-    Dim response As PBResponse
+    Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -1585,14 +1585,14 @@ Private Sub btnRefuse_Click()
             Exit Sub
     End Select
     
-    Set response = TaxinvoiceService.Refuse(txtCorpNum.Text, KeyType, txtMgtKey.Text, "역)발행 요청 거부 메모", txtUserID.Text)
+    Set Response = TaxinvoiceService.Refuse(txtCorpNum.Text, KeyType, txtMgtKey.Text, "역)발행 요청 거부 메모", txtUserID.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("[" + CStr(response.code) + "] " + response.message)
+    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
 End Sub
 
 Private Sub btnRegister_Click()
@@ -1681,22 +1681,22 @@ Private Sub btnRegister_Click()
     '추가담당자 추가. 옵션.
     Set Taxinvoice.addContactList = New Collection
     Dim newContact As New PBTIContact
-    newContact.contactName = "담당자 성명"
+    newContact.ContactName = "담당자 성명"
     newContact.email = "test2@test.com"
     
     Taxinvoice.addContactList.Add newContact
     
     
-    Dim response As PBResponse
+    Dim Response As PBResponse
     
-    Set response = TaxinvoiceService.Register(txtCorpNum.Text, Taxinvoice, False, txtUserID.Text)
+    Set Response = TaxinvoiceService.Register(txtCorpNum.Text, Taxinvoice, False, txtUserID.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox (response.message)
+    MsgBox (Response.message)
     
 
 End Sub
@@ -1787,26 +1787,26 @@ Private Sub btnRegister_rev_Click()
     '추가담당자 추가. 옵션.
     Set Taxinvoice.addContactList = New Collection
     Dim newContact As New PBTIContact
-    newContact.contactName = "담당자 성명"
+    newContact.ContactName = "담당자 성명"
     newContact.email = "test2@test.com"
     
     Taxinvoice.addContactList.Add newContact
     
     
-    Dim response As PBResponse
+    Dim Response As PBResponse
     
-    Set response = TaxinvoiceService.Register(txtCorpNum.Text, Taxinvoice, False, txtUserID.Text)
+    Set Response = TaxinvoiceService.Register(txtCorpNum.Text, Taxinvoice, False, txtUserID.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox (response.message)
+    MsgBox (Response.message)
 End Sub
 
 Private Sub btnRequest_Click()
-    Dim response As PBResponse
+    Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -1821,18 +1821,18 @@ Private Sub btnRequest_Click()
             Exit Sub
     End Select
     
-    Set response = TaxinvoiceService.Request(txtCorpNum.Text, KeyType, txtMgtKey.Text, "역)발행 요청 메모", txtUserID.Text)
+    Set Response = TaxinvoiceService.Request(txtCorpNum.Text, KeyType, txtMgtKey.Text, "역)발행 요청 메모", txtUserID.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("[" + CStr(response.code) + "] " + response.message)
+    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
 End Sub
 
 Private Sub btnRequestCancel_Click()
-    Dim response As PBResponse
+    Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -1847,18 +1847,18 @@ Private Sub btnRequestCancel_Click()
             Exit Sub
     End Select
     
-    Set response = TaxinvoiceService.CancelRequest(txtCorpNum.Text, KeyType, txtMgtKey.Text, "역)발행 요청 취소 메모", txtUserID.Text)
+    Set Response = TaxinvoiceService.CancelRequest(txtCorpNum.Text, KeyType, txtMgtKey.Text, "역)발행 요청 취소 메모", txtUserID.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("[" + CStr(response.code) + "] " + response.message)
+    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
 End Sub
 
 Private Sub btnSend_Click()
-    Dim response As PBResponse
+    Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -1873,18 +1873,18 @@ Private Sub btnSend_Click()
             Exit Sub
     End Select
     
-    Set response = TaxinvoiceService.Send(txtCorpNum.Text, KeyType, txtMgtKey.Text, "발행예정 메모", txtUserID.Text)
+    Set Response = TaxinvoiceService.Send(txtCorpNum.Text, KeyType, txtMgtKey.Text, "발행예정 메모", txtUserID.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("[" + CStr(response.code) + "] " + response.message)
+    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
 End Sub
 
 Private Sub btnSendEmail_Click()
-    Dim response As PBResponse
+    Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -1899,18 +1899,18 @@ Private Sub btnSendEmail_Click()
             Exit Sub
     End Select
     
-    Set response = TaxinvoiceService.SendEmail(txtCorpNum.Text, KeyType, txtMgtKey.Text, "test@test.com", txtUserID.Text)
+    Set Response = TaxinvoiceService.SendEmail(txtCorpNum.Text, KeyType, txtMgtKey.Text, "test@test.com", txtUserID.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("[" + CStr(response.code) + "] " + response.message)
+    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
 End Sub
 
 Private Sub btnSendFAX_Click()
-    Dim response As PBResponse
+    Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -1925,18 +1925,18 @@ Private Sub btnSendFAX_Click()
             Exit Sub
     End Select
     
-    Set response = TaxinvoiceService.SendFax(txtCorpNum.Text, KeyType, txtMgtKey.Text, "07075106766", "111-2222-4444", txtUserID.Text)
+    Set Response = TaxinvoiceService.SendFax(txtCorpNum.Text, KeyType, txtMgtKey.Text, "07075106766", "111-2222-4444", txtUserID.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("[" + CStr(response.code) + "] " + response.message)
+    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
 End Sub
 
 Private Sub btnSendSMS_Click()
-    Dim response As PBResponse
+    Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -1951,18 +1951,18 @@ Private Sub btnSendSMS_Click()
             Exit Sub
     End Select
     
-    Set response = TaxinvoiceService.SendSMS(txtCorpNum.Text, KeyType, txtMgtKey.Text, "07075106766", "111-2222-4444", "문자 내용 최대 90Byte", txtUserID.Text)
+    Set Response = TaxinvoiceService.SendSMS(txtCorpNum.Text, KeyType, txtMgtKey.Text, "07075106766", "111-2222-4444", "문자 내용 최대 90Byte", txtUserID.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("[" + CStr(response.code) + "] " + response.message)
+    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
 End Sub
 
 Private Sub btnSendToNTS_Click()
-    Dim response As PBResponse
+    Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -1977,14 +1977,14 @@ Private Sub btnSendToNTS_Click()
             Exit Sub
     End Select
     
-    Set response = TaxinvoiceService.SendToNTS(txtCorpNum.Text, KeyType, txtMgtKey.Text, txtUserID.Text)
+    Set Response = TaxinvoiceService.SendToNTS(txtCorpNum.Text, KeyType, txtMgtKey.Text, txtUserID.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("[" + CStr(response.code) + "] " + response.message)
+    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
 End Sub
 
 Private Sub btnUnitCost_Click()
@@ -2101,22 +2101,22 @@ Private Sub btnUpdate_Click()
     '추가담당자 추가. 옵션.
     Set Taxinvoice.addContactList = New Collection
     Dim newContact As New PBTIContact
-    newContact.contactName = "담당자 성명"
+    newContact.ContactName = "담당자 성명"
     newContact.email = "test2@test.com"
     
     Taxinvoice.addContactList.Add newContact
     
     
-    Dim response As PBResponse
+    Dim Response As PBResponse
     
-    Set response = TaxinvoiceService.Update(txtCorpNum.Text, KeyType, txtMgtKey.Text, Taxinvoice, False, txtUserID.Text)
+    Set Response = TaxinvoiceService.Update(txtCorpNum.Text, KeyType, txtMgtKey.Text, Taxinvoice, False, txtUserID.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox (response.message)
+    MsgBox (Response.message)
 End Sub
 
 
@@ -2222,26 +2222,26 @@ Private Sub btnUpdate_rev_Click()
     '추가담당자 추가. 옵션.
     Set Taxinvoice.addContactList = New Collection
     Dim newContact As New PBTIContact
-    newContact.contactName = "담당자 성명"
+    newContact.ContactName = "담당자 성명"
     newContact.email = "test2@test.com"
     
     Taxinvoice.addContactList.Add newContact
     
     
-    Dim response As PBResponse
+    Dim Response As PBResponse
     
-    Set response = TaxinvoiceService.Update(txtCorpNum.Text, KeyType, txtMgtKey.Text, Taxinvoice, False, txtUserID.Text)
+    Set Response = TaxinvoiceService.Update(txtCorpNum.Text, KeyType, txtMgtKey.Text, Taxinvoice, False, txtUserID.Text)
     
-    If response Is Nothing Then
+    If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox (response.message)
+    MsgBox (Response.message)
 End Sub
 
 Private Sub Form_Load()
-    TaxinvoiceService.Initialize PartnerID, SecretKey
+    TaxinvoiceService.Initialize LinkID, SecretKey
     TaxinvoiceService.IsTest = True
     
     

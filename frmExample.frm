@@ -2,17 +2,17 @@ VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Begin VB.Form frmExample 
    Caption         =   "팝빌 세금계산서 SDK 예제"
-   ClientHeight    =   9825
+   ClientHeight    =   10260
    ClientLeft      =   60
    ClientTop       =   450
    ClientWidth     =   12015
    LinkTopic       =   "Form1"
-   ScaleHeight     =   9825
+   ScaleHeight     =   10260
    ScaleWidth      =   12015
    StartUpPosition =   3  'Windows 기본값
    Begin VB.Frame Frame7 
       Caption         =   " 세금계산서 관련 기능"
-      Height          =   6975
+      Height          =   7425
       Left            =   120
       TabIndex        =   16
       Top             =   2760
@@ -34,11 +34,19 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame14 
          Caption         =   " 문서 정보 "
-         Height          =   2055
+         Height          =   2520
          Left            =   6525
          TabIndex        =   64
          Top             =   4800
          Width           =   2970
+         Begin VB.CommandButton btnGetEPrintUrl 
+            Caption         =   "공급받는자 인쇄 팝업 URL"
+            Height          =   390
+            Left            =   90
+            TabIndex        =   70
+            Top             =   1140
+            Width           =   2745
+         End
          Begin VB.CommandButton btnGetPopUpURL 
             Caption         =   "문서 내용 보기 팝업 URL"
             Height          =   390
@@ -58,17 +66,17 @@ Begin VB.Form frmExample
          Begin VB.CommandButton btnGetMassPrintURL 
             Caption         =   "다량 인쇄 팝업 URL"
             Height          =   390
-            Left            =   75
+            Left            =   90
             TabIndex        =   66
-            Top             =   1140
+            Top             =   1590
             Width           =   2745
          End
          Begin VB.CommandButton btnGetMailURL 
             Caption         =   "이메일(공급받는자) 링크 URL"
             Height          =   390
-            Left            =   75
+            Left            =   90
             TabIndex        =   65
-            Top             =   1590
+            Top             =   2040
             Width           =   2745
          End
       End
@@ -754,7 +762,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 '연동아이디
-Private Const LinkID = "TESTER"
+Private Const linkID = "TESTER"
 '비밀키. 유출에 주의하시기 바랍니다.
 Private Const SecretKey = "088b1258aoeMH5OtGjK4zaOlwZGVvSK40ceI8t4j7Hw="
 
@@ -930,7 +938,7 @@ End Sub
 Private Sub btnCheckIsMember_Click()
     Dim Response As PBResponse
     
-    Set Response = TaxinvoiceService.CheckIsMember(txtCorpNum.Text, LinkID)
+    Set Response = TaxinvoiceService.CheckIsMember(txtCorpNum.Text, linkID)
     
     If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
@@ -1174,6 +1182,31 @@ Private Sub btnGetEmailPublicKeys_Click()
     Next
     
     MsgBox tmp
+End Sub
+
+Private Sub btnGetEPrintUrl_Click()
+    Dim url As String
+    Dim KeyType As MgtKeyType
+    
+    Select Case cboMgtKeyType.Text
+        Case "SELL"
+            KeyType = SELL
+        Case "BUY"
+            KeyType = BUY
+        Case "TRUSTEE"
+            KeyType = TRUSTEE
+        Case Else
+            MsgBox "관리번호 형태를 선택해주세요."
+            Exit Sub
+    End Select
+    
+    url = TaxinvoiceService.GetEPrintURL(txtCorpNum.Text, KeyType, txtMgtKey.Text, txtUserID.Text)
+    
+    If url = "" Then
+         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    MsgBox "URL : " + vbCrLf + url
 End Sub
 
 Private Sub btnGetFiles_Click()
@@ -1541,7 +1574,7 @@ Private Sub btnJoinMember_Click()
     Dim joinData As New PBJoinForm
     Dim Response As PBResponse
     
-    joinData.LinkID = LinkID '연동 아이디
+    joinData.linkID = linkID '연동 아이디
     joinData.CorpNum = "1231212312" '사업자번호 "-" 제외.
     joinData.CEOName = "대표자성명"
     joinData.CorpName = "회원상호"
@@ -1551,7 +1584,7 @@ Private Sub btnJoinMember_Click()
     joinData.BizClass = "업종"
     joinData.ID = "userid"      '6자 이상 20자 미만.
     joinData.PWD = "pwd_must_be_long_enough"    '6자 이상 20자 미만.
-    joinData.ContactName = "담당자성명"
+    joinData.contactName = "담당자성명"
     joinData.ContactTEL = "02-999-9999"
     joinData.ContactHP = "010-1234-5678"
     joinData.ContactFAX = "02-999-9998"
@@ -1681,7 +1714,7 @@ Private Sub btnRegister_Click()
     '추가담당자 추가. 옵션.
     Set Taxinvoice.addContactList = New Collection
     Dim newContact As New PBTIContact
-    newContact.ContactName = "담당자 성명"
+    newContact.contactName = "담당자 성명"
     newContact.email = "test2@test.com"
     
     Taxinvoice.addContactList.Add newContact
@@ -1787,7 +1820,7 @@ Private Sub btnRegister_rev_Click()
     '추가담당자 추가. 옵션.
     Set Taxinvoice.addContactList = New Collection
     Dim newContact As New PBTIContact
-    newContact.ContactName = "담당자 성명"
+    newContact.contactName = "담당자 성명"
     newContact.email = "test2@test.com"
     
     Taxinvoice.addContactList.Add newContact
@@ -2101,7 +2134,7 @@ Private Sub btnUpdate_Click()
     '추가담당자 추가. 옵션.
     Set Taxinvoice.addContactList = New Collection
     Dim newContact As New PBTIContact
-    newContact.ContactName = "담당자 성명"
+    newContact.contactName = "담당자 성명"
     newContact.email = "test2@test.com"
     
     Taxinvoice.addContactList.Add newContact
@@ -2222,7 +2255,7 @@ Private Sub btnUpdate_rev_Click()
     '추가담당자 추가. 옵션.
     Set Taxinvoice.addContactList = New Collection
     Dim newContact As New PBTIContact
-    newContact.ContactName = "담당자 성명"
+    newContact.contactName = "담당자 성명"
     newContact.email = "test2@test.com"
     
     Taxinvoice.addContactList.Add newContact
@@ -2241,7 +2274,7 @@ Private Sub btnUpdate_rev_Click()
 End Sub
 
 Private Sub Form_Load()
-    TaxinvoiceService.Initialize LinkID, SecretKey
+    TaxinvoiceService.Initialize linkID, SecretKey
     TaxinvoiceService.IsTest = True
     
     

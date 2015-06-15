@@ -724,6 +724,7 @@ Begin VB.Form frmExample
       Height          =   315
       Left            =   4560
       TabIndex        =   3
+      Text            =   "testkorea"
       Top             =   165
       Width           =   1935
    End
@@ -731,7 +732,7 @@ Begin VB.Form frmExample
       Height          =   315
       Left            =   1335
       TabIndex        =   1
-      Text            =   "1231212312"
+      Text            =   "1234567890"
       Top             =   180
       Width           =   1935
    End
@@ -761,10 +762,10 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-'연동아이디
+'링크아이디
 Private Const linkID = "TESTER"
 '비밀키. 유출에 주의하시기 바랍니다.
-Private Const SecretKey = "088b1258aoeMH5OtGjK4zaOlwZGVvSK40ceI8t4j7Hw="
+Private Const SecretKey = "SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I="
 
 Private TaxinvoiceService As New PBTIService
 
@@ -1631,7 +1632,7 @@ End Sub
 Private Sub btnRegister_Click()
     Dim Taxinvoice As New PBTaxinvoice
     
-    Taxinvoice.writeDate = "20140319"             '필수, 기재상 작성일자
+    Taxinvoice.writeDate = "20150615"             '필수, 기재상 작성일자
     Taxinvoice.chargeDirection = "정과금"         '필수, {정과금, 역과금}
     Taxinvoice.issueType = "정발행"               '필수, {정발행, 역발행, 위수탁}
     Taxinvoice.purposeType = "영수"               '필수, {영수, 청구}
@@ -1639,7 +1640,7 @@ Private Sub btnRegister_Click()
     Taxinvoice.taxType = "과세"                   '필수, {과세, 영세, 면세}
     
     
-    Taxinvoice.invoicerCorpNum = "1231212312"
+    Taxinvoice.invoicerCorpNum = "1234567890"
     Taxinvoice.invoicerTaxRegID = "" '종사업자 식별번호. 필요시 기재. 형식은 숫자 4자리.
     Taxinvoice.invoicerCorpName = "공급자 상호"
     Taxinvoice.invoicerMgtKey = txtMgtKey.Text
@@ -1893,6 +1894,8 @@ End Sub
 Private Sub btnSend_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
+    Dim EmailSubject As String
+    Dim Memo As String
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -1906,7 +1909,13 @@ Private Sub btnSend_Click()
             Exit Sub
     End Select
     
-    Set Response = TaxinvoiceService.Send(txtCorpNum.Text, KeyType, txtMgtKey.Text, "발행예정 메모", txtUserID.Text)
+    '발행예정 안내메일 제목, 공백처리시 기본제목으로 전송
+    EmailSubject = ""
+    
+    '발행예정 메모
+    Memo = "발행예정 메모"
+    
+    Set Response = TaxinvoiceService.Send(txtCorpNum.Text, KeyType, txtMgtKey.Text, Memo, EmailSubject, txtUserID.Text)
     
     If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)

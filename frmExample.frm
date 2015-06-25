@@ -9,7 +9,7 @@ Begin VB.Form frmExample
    LinkTopic       =   "Form1"
    ScaleHeight     =   10260
    ScaleWidth      =   12015
-   StartUpPosition =   3  'Windows 기본값
+   StartUpPosition =   2  '화면 가운데
    Begin VB.Frame Frame7 
       Caption         =   " 세금계산서 관련 기능"
       Height          =   7425
@@ -1092,8 +1092,6 @@ Private Sub btnGetBalance_Click()
     End If
     
     MsgBox "잔여포인트 : " + CStr(balance)
-    
-    
 End Sub
 
 Private Sub btnGetDetailInfo_Click()
@@ -1632,18 +1630,17 @@ End Sub
 Private Sub btnRegister_Click()
     Dim Taxinvoice As New PBTaxinvoice
     
-    Taxinvoice.writeDate = "20150615"             '필수, 기재상 작성일자
+    Taxinvoice.writeDate = "20150625"             '필수, 기재상 작성일자
     Taxinvoice.chargeDirection = "정과금"         '필수, {정과금, 역과금}
     Taxinvoice.issueType = "정발행"               '필수, {정발행, 역발행, 위수탁}
     Taxinvoice.purposeType = "영수"               '필수, {영수, 청구}
     Taxinvoice.issueTiming = "직접발행"           '필수, {직접발행, 승인시자동발행}
     Taxinvoice.taxType = "과세"                   '필수, {과세, 영세, 면세}
-    
-    
-    Taxinvoice.invoicerCorpNum = "1234567890"
+        
+    Taxinvoice.invoicerCorpNum = "1234567890"     '공급자 사업자번호
     Taxinvoice.invoicerTaxRegID = "" '종사업자 식별번호. 필요시 기재. 형식은 숫자 4자리.
     Taxinvoice.invoicerCorpName = "공급자 상호"
-    Taxinvoice.invoicerMgtKey = txtMgtKey.Text
+    Taxinvoice.invoicerMgtKey = txtMgtKey.Text    '공급자 문서관리번호, 1~24자리, 숫자,영문,'-','_' 조합하여 임의로 구성
     Taxinvoice.invoicerCEOName = "공급자"" 대표자 성명"
     Taxinvoice.invoicerAddr = "공급자 주소"
     Taxinvoice.invoicerBizClass = "공급자 업종"
@@ -1652,26 +1649,28 @@ Private Sub btnRegister_Click()
     Taxinvoice.invoicerEmail = "test@test.com"
     Taxinvoice.invoicerTEL = "070-7070-0707"
     Taxinvoice.invoicerHP = "010-000-2222"
-    Taxinvoice.invoicerSMSSendYN = True '발행시 문자발송기능 사용시 활용
+    Taxinvoice.invoicerSMSSendYN = True             '정발행시(공급자->공급받는자) 문자발송여부
     
-    Taxinvoice.invoiceeType = "사업자"
-    Taxinvoice.invoiceeCorpNum = "8888888888"
+    Taxinvoice.invoiceeType = "사업자"             '공급받는자 구분, {사업자, 개인, 외국인} 중 기재
+    Taxinvoice.invoiceeCorpNum = "8888888888"      '공급받는자 사업자번호
     Taxinvoice.invoiceeCorpName = "공급받는자 상호"
-    Taxinvoice.invoiceeMgtKey = ""
+    Taxinvoice.invoiceeMgtKey = ""                 '공급받는자 문서관리번호(역발행시에만 필수)
     Taxinvoice.invoiceeCEOName = "공급받는자 대표자 성명"
     Taxinvoice.invoiceeAddr = "공급받는자 주소"
     Taxinvoice.invoiceeBizClass = "공급받는자 업종"
     Taxinvoice.invoiceeBizType = "공급받는자 업태"
     Taxinvoice.invoiceeContactName1 = "공급받는자 담당자명"
     Taxinvoice.invoiceeEmail1 = "test@invoicee.com"
-    
+    Taxinvoice.invoiceeHP1 = "010-111-222"
+    Taxinvoice.invoiceeSMSSendYN = True           '역발행시(공급받는자->공급자) 문자발송여부
+            
     Taxinvoice.supplyCostTotal = "100000"         '필수 공급가액 합계
     Taxinvoice.taxTotal = "10000"                 '필수 세액 합계
     Taxinvoice.totalAmount = "110000"             '필수 합계금액.  공급가액 + 세액
     
     Taxinvoice.modifyCode = "" '수정세금계산서 작성시 1~6까지 선택기재.
     Taxinvoice.originalTaxinvoiceKey = "" '수정세금계산서 작성시 원본세금계산서의 ItemKey기재. ItemKey는 문서확인.
-    Taxinvoice.serialNum = "123"
+    Taxinvoice.serialNum = "123"  '일련번호
     Taxinvoice.cash = ""          '현금
     Taxinvoice.chkBill = ""       '수표
     Taxinvoice.note = ""          '어음
@@ -1679,13 +1678,11 @@ Private Sub btnRegister_Click()
     Taxinvoice.remark1 = "비고1"
     Taxinvoice.remark2 = "비고2"
     Taxinvoice.remark3 = "비고3"
-    Taxinvoice.kwon = "1"
-    Taxinvoice.ho = "1"
+    Taxinvoice.kwon = "1"           '권
+    Taxinvoice.ho = "1"             '호
     
     Taxinvoice.businessLicenseYN = False '사업자등록증 이미지 첨부시 설정.
     Taxinvoice.bankBookYN = False         '통장사본 이미지 첨부시 설정.
-    Taxinvoice.faxreceiveNum = ""         '발행시 Fax발송기능 사용시 수신번호 기재.
-    Taxinvoice.faxsendYN = False          '발행시 Fax발송시 설정.
     
     
     '상세항목 추가.
@@ -1715,14 +1712,16 @@ Private Sub btnRegister_Click()
     '추가담당자 추가. 옵션.
     Set Taxinvoice.addContactList = New Collection
     Dim newContact As New PBTIContact
+    newContact.serialNum = 1
     newContact.contactName = "담당자 성명"
     newContact.email = "test2@test.com"
     
     Taxinvoice.addContactList.Add newContact
-    
+        
     
     Dim Response As PBResponse
     
+    'Register(사업자번호, 세금계산서 객체, 거래명세서 동시작성여부, 팝빌회워아이디)
     Set Response = TaxinvoiceService.Register(txtCorpNum.Text, Taxinvoice, False, txtUserID.Text)
     
     If Response Is Nothing Then
@@ -1790,9 +1789,7 @@ Private Sub btnRegister_rev_Click()
     
     Taxinvoice.businessLicenseYN = False '사업자등록증 이미지 첨부시 설정.
     Taxinvoice.bankBookYN = False         '통장사본 이미지 첨부시 설정.
-    Taxinvoice.faxreceiveNum = ""         '발행시 Fax발송기능 사용시 수신번호 기재.
-    Taxinvoice.faxsendYN = False          '발행시 Fax발송시 설정.
-    
+       
     
     '상세항목 추가.
     Set Taxinvoice.detailList = New Collection
@@ -1828,7 +1825,7 @@ Private Sub btnRegister_rev_Click()
     
     
     Dim Response As PBResponse
-    
+    'Register(사업자번호, 세금계산서 객체, 거래명세서 동시작성여부, 팝빌회원아이디)
     Set Response = TaxinvoiceService.Register(txtCorpNum.Text, Taxinvoice, False, txtUserID.Text)
     
     If Response Is Nothing Then
@@ -1993,6 +1990,7 @@ Private Sub btnSendSMS_Click()
             Exit Sub
     End Select
     
+    'SendSMS(사업자번호, 문서유형, 문서관리번호, 발신번호, 수신번호, 문자내용)
     Set Response = TaxinvoiceService.SendSMS(txtCorpNum.Text, KeyType, txtMgtKey.Text, "07075106766", "111-2222-4444", "문자 내용 최대 90Byte", txtUserID.Text)
     
     If Response Is Nothing Then
@@ -2112,9 +2110,7 @@ Private Sub btnUpdate_Click()
     
     Taxinvoice.businessLicenseYN = False '사업자등록증 이미지 첨부시 설정.
     Taxinvoice.bankBookYN = False         '통장사본 이미지 첨부시 설정.
-    Taxinvoice.faxreceiveNum = ""         '발행시 Fax발송기능 사용시 수신번호 기재.
-    Taxinvoice.faxsendYN = False          '발행시 Fax발송시 설정.
-    
+        
     
     '상세항목 추가.
     Set Taxinvoice.detailList = New Collection
@@ -2233,9 +2229,6 @@ Private Sub btnUpdate_rev_Click()
     
     Taxinvoice.businessLicenseYN = False '사업자등록증 이미지 첨부시 설정.
     Taxinvoice.bankBookYN = False         '통장사본 이미지 첨부시 설정.
-    Taxinvoice.faxreceiveNum = ""         '발행시 Fax발송기능 사용시 수신번호 기재.
-    Taxinvoice.faxsendYN = False          '발행시 Fax발송시 설정.
-    
     
     '상세항목 추가.
     Set Taxinvoice.detailList = New Collection
@@ -2283,7 +2276,10 @@ Private Sub btnUpdate_rev_Click()
 End Sub
 
 Private Sub Form_Load()
+    '모듈 초기화
     TaxinvoiceService.Initialize linkID, SecretKey
+    
+    '연동환경 설정값 True(테스트용), False(상업용)
     TaxinvoiceService.IsTest = True
     
     

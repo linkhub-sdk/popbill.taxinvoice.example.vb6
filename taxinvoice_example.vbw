@@ -1,9 +1,9 @@
-frmExample = 304, 43, 1497, 782, , 22, 29, 1308, 917, C
+frmExample = 63, 54, 1256, 793, Z, 22, 29, 1308, 917, C
 cStringBuilder = 0, 0, 0, 0, C
 Linkhub = 44, 58, 1251, 703, 
 LinkhubToken = 66, 87, 1259, 827, 
 PBTIService = 22, 29, 1271, 781, 
-PBTaxinvoice = 48, 27, 1241, 741, Z
+PBTaxinvoice = 48, 27, 1241, 741, 
 PBTIDetail = 176, 232, 1369, 946, 
 PBTIContact = 198, 261, 1391, 975, 
 PBTIInfo = 220, 290, 1413, 1004, 
@@ -13,3 +13,4 @@ PBJoinForm = 44, 58, 1237, 772,
 PBResponse = 0, 0, 0, 0, C
 PBContactInfo = 66, 87, 1307, 795, 
 PBCorpInfo = 198, 261, 1440, 969, 
+PBTISearchList = 154, 203, 1396, 911, 

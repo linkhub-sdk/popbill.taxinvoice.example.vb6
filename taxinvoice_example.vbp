@@ -16,6 +16,7 @@ Class=PBJoinForm; PopbillTaxinvoice\PBJoinForm.cls
 Class=PBResponse; PopbillTaxinvoice\PBResponse.cls
 Class=PBContactInfo; PopbillTaxinvoice\PBContactInfo.cls
 Class=PBCorpInfo; PopbillTaxinvoice\PBCorpInfo.cls
+Class=PBTISearchList; PopbillTaxinvoice\PBTISearchList.cls
 IconForm="frmExample"
 Startup="frmExample"
 ExeName32="taxinvoice_example.exe"

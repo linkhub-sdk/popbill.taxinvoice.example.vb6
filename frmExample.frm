@@ -1338,7 +1338,7 @@ Private Sub btnGetDetailInfo_Click()
     tmp = tmp + "chargeDirection : " + tiDetailInfo.chargeDirection + vbCrLf
     tmp = tmp + "issueType : " + tiDetailInfo.issueType + vbCrLf
     tmp = tmp + "issueTiming : " + tiDetailInfo.issueTiming + vbCrLf
-    tmp = tmp + "taxType : " + tiDetailInfo.TaxType + vbCrLf
+    tmp = tmp + "taxType : " + tiDetailInfo.taxType + vbCrLf
     
     tmp = tmp + "invoicerCorpNum : " + tiDetailInfo.invoicerCorpNum + vbCrLf
     tmp = tmp + "invoicerMgtKey : " + tiDetailInfo.invoicerMgtKey + vbCrLf
@@ -1475,7 +1475,7 @@ Private Sub btnGetInfo_Click()
     
     tmp = tmp + "itemKey : " + tiInfo.itemKey + vbCrLf
     tmp = tmp + "stateCode : " + CStr(tiInfo.stateCode) + vbCrLf
-    tmp = tmp + "taxType : " + tiInfo.TaxType + vbCrLf
+    tmp = tmp + "taxType : " + tiInfo.taxType + vbCrLf
     tmp = tmp + "purposeType : " + tiInfo.purposeType + vbCrLf
     tmp = tmp + "modifyCode : " + tiInfo.modifyCode + vbCrLf
     tmp = tmp + "issueType : " + tiInfo.issueType + vbCrLf
@@ -1543,7 +1543,7 @@ Private Sub btnGetInfos_Click()
     Dim info As PBTIInfo
     
     For Each info In resultList
-        tmp = tmp + info.itemKey + " | " + CStr(info.stateCode) + " | " + info.TaxType + " | " + info.writeDate + " | " + info.regDT + vbCrLf
+        tmp = tmp + info.itemKey + " | " + CStr(info.stateCode) + " | " + info.taxType + " | " + info.writeDate + " | " + info.regDT + vbCrLf
     Next
     
     MsgBox tmp
@@ -1918,12 +1918,12 @@ End Sub
 Private Sub btnRegister_Click()
     Dim Taxinvoice As New PBTaxinvoice
     
-    Taxinvoice.writeDate = "20150625"             '필수, 기재상 작성일자
+    Taxinvoice.writeDate = "20151008"             '필수, 기재상 작성일자
     Taxinvoice.chargeDirection = "정과금"         '필수, {정과금, 역과금}
     Taxinvoice.issueType = "정발행"               '필수, {정발행, 역발행, 위수탁}
     Taxinvoice.purposeType = "영수"               '필수, {영수, 청구}
     Taxinvoice.issueTiming = "직접발행"           '필수, {직접발행, 승인시자동발행}
-    Taxinvoice.TaxType = "과세"                   '필수, {과세, 영세, 면세}
+    Taxinvoice.taxType = "과세"                   '필수, {과세, 영세, 면세}
         
     Taxinvoice.invoicerCorpNum = "1234567890"     '공급자 사업자번호
     Taxinvoice.invoicerTaxRegID = ""              '종사업자 식별번호. 필요시 기재. 형식은 숫자 4자리.
@@ -2031,7 +2031,7 @@ Private Sub btnRegister_rev_Click()
     Taxinvoice.issueType = "역발행"               '필수, {정발행, 역발행, 위수탁}
     Taxinvoice.purposeType = "영수"               '필수, {영수, 청구}
     Taxinvoice.issueTiming = "직접발행"           '필수, {직접발행, 승인시자동발행}
-    Taxinvoice.TaxType = "과세"                   '필수, {과세, 영세, 면세}
+    Taxinvoice.taxType = "과세"                   '필수, {과세, 영세, 면세}
     
     
     Taxinvoice.invoicerCorpNum = "8888888888"
@@ -2139,7 +2139,7 @@ Dim Taxinvoice As New PBTaxinvoice
     Taxinvoice.issueType = "정발행"               '필수, {정발행, 역발행, 위수탁}
     Taxinvoice.purposeType = "영수"               '필수, {영수, 청구}
     Taxinvoice.issueTiming = "직접발행"           '필수, {직접발행, 승인시자동발행}
-    Taxinvoice.TaxType = "과세"                   '필수, {과세, 영세, 면세}
+    Taxinvoice.taxType = "과세"                   '필수, {과세, 영세, 면세}
         
     Taxinvoice.invoicerCorpNum = "1234567890"     '공급자 사업자번호
     Taxinvoice.invoicerTaxRegID = ""              '종사업자 식별번호. 필요시 기재. 형식은 숫자 4자리.
@@ -2297,7 +2297,7 @@ Private Sub btnSearch_Click()
     Dim EDate As String
     Dim State As New Collection
     Dim TType As New Collection
-    Dim TaxType As New Collection
+    Dim taxType As New Collection
     Dim LateOnly As String
     Dim Page As Integer
     Dim PerPage As Integer
@@ -2326,16 +2326,16 @@ Private Sub btnSearch_Click()
     TType.Add "N"           '문서유형 배열, N-일반 M-수정 중 선택, 미기재시 전체조회
     TType.Add "M"
     
-    TaxType.Add "T"         '과세형태 배열, T-과세, N-면세 Z-영세 중 선택, 미기재시 전체조회
-    TaxType.Add "N"
-    TaxType.Add "Z"
+    taxType.Add "T"         '과세형태 배열, T-과세, N-면세 Z-영세 중 선택, 미기재시 전체조회
+    taxType.Add "N"
+    taxType.Add "Z"
     
     LateOnly = ""          '지연발행 여부, 0-정상발행분만 조회 1-지연발행분만조회, 공백처리시 전체조회
     
     Page = 1                '페이지 번호
     PerPage = 10            '페이지 목록개수, 최대 1000건
     
-    Set tiSearchList = TaxinvoiceService.Search(txtCorpNum.Text, KeyType, DType, SDate, EDate, State, TType, TaxType, LateOnly, Page, PerPage)
+    Set tiSearchList = TaxinvoiceService.Search(txtCorpNum.Text, KeyType, DType, SDate, EDate, State, TType, taxType, LateOnly, Page, PerPage)
      
     If tiSearchList Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
@@ -2356,7 +2356,7 @@ Private Sub btnSearch_Click()
     Dim info As PBTIInfo
     
     For Each info In tiSearchList.list
-        tmp = tmp + info.itemKey + " | " + CStr(info.stateCode) + " | " + info.TaxType + " | " + info.writeDate + " | " + info.regDT + " | " + _
+        tmp = tmp + info.itemKey + " | " + CStr(info.stateCode) + " | " + info.taxType + " | " + info.writeDate + " | " + info.regDT + " | " + _
         CStr(info.lateIssueYN) + " | " + info.invoicerCorpNum + " | " + info.invoicerCorpName + " | " + info.invoiceeCorpNum + " | " + info.invoiceeCorpName + " | " + _
         info.issueType + " | " + info.supplyCostTotal + " | " + info.taxTotal + vbCrLf
     Next
@@ -2540,7 +2540,7 @@ Private Sub btnUpdate_Click()
     Taxinvoice.issueType = "정발행"               '필수, {정발행, 역발행, 위수탁}
     Taxinvoice.purposeType = "영수"               '필수, {영수, 청구}
     Taxinvoice.issueTiming = "직접발행"           '필수, {직접발행, 승인시자동발행}
-    Taxinvoice.TaxType = "과세"                   '필수, {과세, 영세, 면세}
+    Taxinvoice.taxType = "과세"                   '필수, {과세, 영세, 면세}
     
     
     Taxinvoice.invoicerCorpNum = "1231212312"
@@ -2659,7 +2659,7 @@ Private Sub btnUpdate_rev_Click()
     Taxinvoice.issueType = "역발행"               '필수, {정발행, 역발행, 위수탁}
     Taxinvoice.purposeType = "영수"               '필수, {영수, 청구}
     Taxinvoice.issueTiming = "직접발행"           '필수, {직접발행, 승인시자동발행}
-    Taxinvoice.TaxType = "과세"                   '필수, {과세, 영세, 면세}
+    Taxinvoice.taxType = "과세"                   '필수, {과세, 영세, 면세}
     
     
     Taxinvoice.invoicerCorpNum = "8888888888"

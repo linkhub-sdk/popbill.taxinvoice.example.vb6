@@ -2,13 +2,13 @@ VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Begin VB.Form frmExample 
    Caption         =   "팝빌 세금계산서 SDK 예제"
-   ClientHeight    =   12345
+   ClientHeight    =   12000
    ClientLeft      =   60
    ClientTop       =   450
-   ClientWidth     =   14220
+   ClientWidth     =   14205
    LinkTopic       =   "Form1"
-   ScaleHeight     =   12345
-   ScaleWidth      =   14220
+   ScaleHeight     =   12000
+   ScaleWidth      =   14205
    StartUpPosition =   2  '화면 가운데
    Begin VB.CommandButton btnPopbillURL_CERT 
       Caption         =   " 공인인증서 등록 URL"
@@ -165,10 +165,10 @@ Begin VB.Form frmExample
       Begin VB.Frame Frame14 
          Caption         =   " 문서 정보 "
          Height          =   2760
-         Left            =   7320
+         Left            =   7560
          TabIndex        =   62
          Top             =   5040
-         Width           =   3090
+         Width           =   3210
          Begin VB.CommandButton btnGetEPrintUrl 
             Caption         =   "공급받는자 인쇄 팝업 URL"
             Height          =   390
@@ -213,7 +213,7 @@ Begin VB.Form frmExample
       Begin VB.Frame Frame13 
          Caption         =   " 기타 URL "
          Height          =   2295
-         Left            =   10560
+         Left            =   11040
          TabIndex        =   57
          Top             =   5040
          Width           =   2265
@@ -253,14 +253,14 @@ Begin VB.Form frmExample
       Begin VB.Frame Frame12 
          Caption         =   " 부가 서비스"
          Height          =   1935
-         Left            =   5160
+         Left            =   5040
          TabIndex        =   53
          Top             =   5040
-         Width           =   2025
+         Width           =   2265
          Begin VB.CommandButton btnSendEmail 
             Caption         =   "이메일 전송"
             Height          =   390
-            Left            =   90
+            Left            =   210
             TabIndex        =   56
             Top             =   390
             Width           =   1845
@@ -268,7 +268,7 @@ Begin VB.Form frmExample
          Begin VB.CommandButton btnSendSMS 
             Caption         =   "문자 전송"
             Height          =   390
-            Left            =   90
+            Left            =   210
             TabIndex        =   55
             Top             =   825
             Width           =   1845
@@ -276,7 +276,7 @@ Begin VB.Form frmExample
          Begin VB.CommandButton btnSendFAX 
             Caption         =   "팩스 전송"
             Height          =   390
-            Left            =   75
+            Left            =   195
             TabIndex        =   54
             Top             =   1290
             Width           =   1845
@@ -1524,6 +1524,8 @@ Private Sub btnGetInfos_Click()
     Dim KeyList As New Collection
     
     KeyType = SELL
+    
+    '관리번호 배열, 최대 1000건
     KeyList.Add "123123"
     KeyList.Add "123123"
     KeyList.Add "123"
@@ -1918,7 +1920,7 @@ End Sub
 Private Sub btnRegister_Click()
     Dim Taxinvoice As New PBTaxinvoice
     
-    Taxinvoice.writeDate = "20151008"             '필수, 기재상 작성일자
+    Taxinvoice.writeDate = "20151012"             '필수, 기재상 작성일자
     Taxinvoice.chargeDirection = "정과금"         '필수, {정과금, 역과금}
     Taxinvoice.issueType = "정발행"               '필수, {정발행, 역발행, 위수탁}
     Taxinvoice.purposeType = "영수"               '필수, {영수, 청구}
@@ -2026,7 +2028,7 @@ End Sub
 Private Sub btnRegister_rev_Click()
     Dim Taxinvoice As New PBTaxinvoice
     
-    Taxinvoice.writeDate = "20140319"             '필수, 기재상 작성일자
+    Taxinvoice.writeDate = "20151008"             '필수, 기재상 작성일자
     Taxinvoice.chargeDirection = "정과금"         '필수, {정과금, 역과금}
     Taxinvoice.issueType = "역발행"               '필수, {정발행, 역발행, 위수탁}
     Taxinvoice.purposeType = "영수"               '필수, {영수, 청구}
@@ -2126,15 +2128,16 @@ Private Sub btnRegister_rev_Click()
 End Sub
 
 Private Sub btnRegistIssue_Click()
-Dim Taxinvoice As New PBTaxinvoice
+    
+    Dim Taxinvoice As New PBTaxinvoice
     
     Taxinvoice.writeSpecification = False         '거래명세서 동시작성 여부
     Taxinvoice.forceIssue = False                 '지연발행 강제여부
     Taxinvoice.memo = ""                          '메모
     Taxinvoice.emailSubject = ""                  '안내메일 제목, 공백처리시 기본제목으로 전송
-    Taxinvoice.dealInvoiceMgtKey = ""             '거래명세서 동시작성시 명세서 관리번호(기본값 세금계산서 관리번호)
+    Taxinvoice.dealInvoiceMgtKey = ""             '거래명세서 동시작성시 명세서 관리번호, 미기재시 세금계산서 관리번호로 자동작성
         
-    Taxinvoice.writeDate = "20151007"             '필수, 기재상 작성일자
+    Taxinvoice.writeDate = "20151012"             '필수, 기재상 작성일자
     Taxinvoice.chargeDirection = "정과금"         '필수, {정과금, 역과금}
     Taxinvoice.issueType = "정발행"               '필수, {정발행, 역발행, 위수탁}
     Taxinvoice.purposeType = "영수"               '필수, {영수, 청구}
@@ -2233,7 +2236,7 @@ Dim Taxinvoice As New PBTaxinvoice
         Exit Sub
     End If
     
-    MsgBox (Response.message)
+    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
     
 End Sub
 
@@ -2383,11 +2386,8 @@ Private Sub btnSend_Click()
             Exit Sub
     End Select
     
-    '발행예정 안내메일 제목, 공백처리시 기본제목으로 전송
-    emailSubject = ""
-    
-    '발행예정 메모
-    memo = "발행예정 메모"
+    emailSubject = ""       '발행예정 안내메일 제목, 공백처리시 기본제목으로 전송
+    memo = "발행예정 메모"  '메모
     
     Set Response = TaxinvoiceService.Send(txtCorpNum.Text, KeyType, txtMgtKey.Text, memo, emailSubject, txtUserID.Text)
     
@@ -2402,6 +2402,7 @@ End Sub
 Private Sub btnSendEmail_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
+    Dim receiveEmail As String
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -2415,7 +2416,9 @@ Private Sub btnSendEmail_Click()
             Exit Sub
     End Select
     
-    Set Response = TaxinvoiceService.SendEmail(txtCorpNum.Text, KeyType, txtMgtKey.Text, "test@test.com", txtUserID.Text)
+    receiveEmail = "test@test.com" '수신자 메일주소
+    
+    Set Response = TaxinvoiceService.SendEmail(txtCorpNum.Text, KeyType, txtMgtKey.Text, receiveEmail, txtUserID.Text)
     
     If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
@@ -2428,6 +2431,8 @@ End Sub
 Private Sub btnSendFAX_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
+    Dim senderNum As String
+    Dim receiveNum As String
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -2440,8 +2445,11 @@ Private Sub btnSendFAX_Click()
             MsgBox "관리번호 형태를 선택해주세요."
             Exit Sub
     End Select
-    
-    Set Response = TaxinvoiceService.SendFax(txtCorpNum.Text, KeyType, txtMgtKey.Text, "07075106766", "111-2222-4444", txtUserID.Text)
+        
+    senderNum = "07075103710"     '발신번호
+    receiveNum = "111-222-4444"   '수신번호
+        
+    Set Response = TaxinvoiceService.SendFax(txtCorpNum.Text, KeyType, txtMgtKey.Text, senderNum, receiveNum, txtUserID.Text)
     
     If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
@@ -2454,6 +2462,9 @@ End Sub
 Private Sub btnSendSMS_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
+    Dim senderNum As String
+    Dim receiveNum As String
+    Dim contents As String
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -2467,8 +2478,11 @@ Private Sub btnSendSMS_Click()
             Exit Sub
     End Select
     
-    'SendSMS(사업자번호, 문서유형, 문서관리번호, 발신번호, 수신번호, 문자내용)
-    Set Response = TaxinvoiceService.SendSMS(txtCorpNum.Text, KeyType, txtMgtKey.Text, "07075106766", "111-2222-4444", "문자 내용 최대 90Byte", txtUserID.Text)
+    senderNum = "07075103710"
+    receiveNum = "111-2222-4444"
+    contents = "문자 내용, 90Byte초과시 길이가 조정되어 전송됨"
+    
+    Set Response = TaxinvoiceService.SendSMS(txtCorpNum.Text, KeyType, txtMgtKey.Text, senderNum, receiveNum, contents, txtUserID.Text)
     
     If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)

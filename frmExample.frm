@@ -252,11 +252,27 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame12 
          Caption         =   " 부가 서비스"
-         Height          =   1935
+         Height          =   2775
          Left            =   5040
          TabIndex        =   53
          Top             =   5040
          Width           =   2265
+         Begin VB.CommandButton btnDetachStatement 
+            Caption         =   "전자명세서 첨부해제"
+            Height          =   390
+            Left            =   210
+            TabIndex        =   85
+            Top             =   2200
+            Width           =   1845
+         End
+         Begin VB.CommandButton btnAttachStatement 
+            Caption         =   "전자명세서 첨부"
+            Height          =   390
+            Left            =   210
+            TabIndex        =   84
+            Top             =   1750
+            Width           =   1845
+         End
          Begin VB.CommandButton btnSendEmail 
             Caption         =   "이메일 전송"
             Height          =   390
@@ -276,7 +292,7 @@ Begin VB.Form frmExample
          Begin VB.CommandButton btnSendFAX 
             Caption         =   "팩스 전송"
             Height          =   390
-            Left            =   195
+            Left            =   210
             TabIndex        =   54
             Top             =   1290
             Width           =   1845
@@ -971,6 +987,37 @@ Private Sub btnAttachFile_Click()
     
 End Sub
 
+Private Sub btnAttachStatement_Click()
+    Dim Response As PBResponse
+    Dim KeyType As MgtKeyType
+    Dim SubItemCode As Integer
+    Dim SubMgtKey As String
+    
+    Select Case cboMgtKeyType.Text
+        Case "SELL"
+            KeyType = SELL
+        Case "BUY"
+            KeyType = BUY
+        Case "TRUSTEE"
+            KeyType = TRUSTEE
+        Case Else
+            MsgBox "관리번호 형태를 선택해주세요."
+            Exit Sub
+    End Select
+    
+    SubItemCode = 121           '첨부할 전자명세서 종류코드, 121-거래명세서, 122-청구서, 123-견적서, 124-발주서, 125-입금표,126-영수증
+    SubMgtKey = "20151223-01"   '첨부할 전자명세서 관리번호
+        
+    Set Response = TaxinvoiceService.AttachStatement(txtCorpNum.Text, KeyType, txtMgtKey.Text, SubItemCode, SubMgtKey)
+    
+    If Response Is Nothing Then
+        MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
+End Sub
+
 Private Sub btnCancelIsse_2_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
@@ -1264,6 +1311,37 @@ Private Sub btnDeny_Click()
     End Select
     
     Set Response = TaxinvoiceService.Deny(txtCorpNum.Text, KeyType, txtMgtKey.Text, "발행예정 거부 메모", txtUserID.Text)
+    
+    If Response Is Nothing Then
+        MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
+End Sub
+
+Private Sub btnDetachStatement_Click()
+    Dim Response As PBResponse
+    Dim KeyType As MgtKeyType
+    Dim SubItemCode As Integer
+    Dim SubMgtKey As String
+    
+    Select Case cboMgtKeyType.Text
+        Case "SELL"
+            KeyType = SELL
+        Case "BUY"
+            KeyType = BUY
+        Case "TRUSTEE"
+            KeyType = TRUSTEE
+        Case Else
+            MsgBox "관리번호 형태를 선택해주세요."
+            Exit Sub
+    End Select
+    
+    SubItemCode = 121           '첨부할 전자명세서 종류코드, 121-거래명세서, 122-청구서, 123-견적서, 124-발주서, 125-입금표,126-영수증
+    SubMgtKey = "20151223-01"   '첨부할 전자명세서 관리번호
+        
+    Set Response = TaxinvoiceService.DetachStatement(txtCorpNum.Text, KeyType, txtMgtKey.Text, SubItemCode, SubMgtKey)
     
     If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
@@ -2464,7 +2542,7 @@ Private Sub btnSendSMS_Click()
     Dim KeyType As MgtKeyType
     Dim senderNum As String
     Dim receiveNum As String
-    Dim contents As String
+    Dim Contents As String
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -2480,9 +2558,9 @@ Private Sub btnSendSMS_Click()
     
     senderNum = "07075103710"
     receiveNum = "111-2222-4444"
-    contents = "문자 내용, 90Byte초과시 길이가 조정되어 전송됨"
+    Contents = "문자 내용, 90Byte초과시 길이가 조정되어 전송됨"
     
-    Set Response = TaxinvoiceService.SendSMS(txtCorpNum.Text, KeyType, txtMgtKey.Text, senderNum, receiveNum, contents, txtUserID.Text)
+    Set Response = TaxinvoiceService.SendSMS(txtCorpNum.Text, KeyType, txtMgtKey.Text, senderNum, receiveNum, Contents, txtUserID.Text)
     
     If Response Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
@@ -2807,6 +2885,7 @@ Private Sub btnUpdateCorpInfo_Click()
     
     MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
 End Sub
+
 
 Private Sub Form_Load()
     '모듈 초기화

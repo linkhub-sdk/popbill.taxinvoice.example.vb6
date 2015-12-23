@@ -2428,7 +2428,7 @@ Private Sub btnSearch_Click()
     tmp = tmp + "total : " + CStr(tiSearchList.total) + vbCrLf
     tmp = tmp + "perPage : " + CStr(tiSearchList.PerPage) + vbCrLf
     tmp = tmp + "pageNum : " + CStr(tiSearchList.pageNum) + vbCrLf
-    tmp = tmp + "perCount : " + CStr(tiSearchList.pageCount) + vbCrLf
+    tmp = tmp + "pageCount : " + CStr(tiSearchList.pageCount) + vbCrLf
     tmp = tmp + "message : " + tiSearchList.message + vbCrLf + vbCrLf
     
     tmp = tmp + "itemKey | stateCode | TaxTye | writeDate | regDT | lateIssueYN | invoicerCorpNum | invoicerCorpName | invoiceeCorpNum | invoiceeCorpName | " + _

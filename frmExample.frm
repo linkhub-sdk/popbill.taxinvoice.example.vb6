@@ -2417,7 +2417,7 @@ Private Sub btnSearch_Click()
     Page = 1                '페이지 번호
     PerPage = 10            '페이지 목록개수, 최대 1000건
     
-    Order = "A"             '정렬방향, D-내림차순(기본값), A-오름차순
+    Order = "D"             '정렬방향, D-내림차순(기본값), A-오름차순
     
     Set tiSearchList = TaxinvoiceService.Search(txtCorpNum.Text, KeyType, DType, SDate, EDate, State, TType, taxType, LateOnly, Page, PerPage, Order)
      

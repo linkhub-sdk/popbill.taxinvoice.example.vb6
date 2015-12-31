@@ -2382,6 +2382,7 @@ Private Sub btnSearch_Click()
     Dim LateOnly As String
     Dim Page As Integer
     Dim PerPage As Integer
+    Dim Order As String
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -2397,8 +2398,8 @@ Private Sub btnSearch_Click()
     
     
     DType = "I"             '[필수] 일자유형, R-등록일시 W-작성일자 I-발행일시 중 택1
-    SDate = "20151006"      '[필수] 시작일자, yyyyMMdd
-    EDate = "20151007"      '[필수] 종료일자, yyyyMMdd
+    SDate = "20151206"      '[필수] 시작일자, yyyyMMdd
+    EDate = "20151231"      '[필수] 종료일자, yyyyMMdd
     
     State.Add "100"         '전송상태값 배열, 미기재시 전체상태조회, 문서상태값 3자리숫자 작성
     State.Add "2**"         '2,3번째 와일드카드 가능
@@ -2411,12 +2412,14 @@ Private Sub btnSearch_Click()
     taxType.Add "N"
     taxType.Add "Z"
     
-    LateOnly = ""          '지연발행 여부, 0-정상발행분만 조회 1-지연발행분만조회, 공백처리시 전체조회
+    LateOnly = ""           '지연발행 여부, 0-정상발행분만 조회 1-지연발행분만조회, 공백처리시 전체조회
     
     Page = 1                '페이지 번호
     PerPage = 10            '페이지 목록개수, 최대 1000건
     
-    Set tiSearchList = TaxinvoiceService.Search(txtCorpNum.Text, KeyType, DType, SDate, EDate, State, TType, taxType, LateOnly, Page, PerPage)
+    Order = "A"             '정렬방향, D-내림차순(기본값), A-오름차순
+    
+    Set tiSearchList = TaxinvoiceService.Search(txtCorpNum.Text, KeyType, DType, SDate, EDate, State, TType, taxType, LateOnly, Page, PerPage, Order)
      
     If tiSearchList Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)

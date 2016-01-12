@@ -1564,12 +1564,17 @@ Private Sub btnGetInfo_Click()
     tmp = tmp + "invoicerCorpName : " + tiInfo.invoicerCorpName + vbCrLf
     tmp = tmp + "invoicerCorpNum : " + tiInfo.invoicerCorpNum + vbCrLf
     tmp = tmp + "invoicerMgtKey : " + tiInfo.invoicerMgtKey + vbCrLf
+    tmp = tmp + "invoicerPrintYN : " + CStr(tiInfo.invoicerPrintYN) + vbCrLf
+    
     tmp = tmp + "invoiceeCorpName : " + tiInfo.invoiceeCorpName + vbCrLf
     tmp = tmp + "invoiceeCorpNum : " + tiInfo.invoiceeCorpNum + vbCrLf
     tmp = tmp + "invoiceeMgtKey : " + tiInfo.invoiceeMgtKey + vbCrLf
+    tmp = tmp + "invoiceePrintYN : " + CStr(tiInfo.invoiceePrintYN) + vbCrLf
+    
     tmp = tmp + "trusteeCorpName : " + tiInfo.trusteeCorpName + vbCrLf
     tmp = tmp + "trusteeCorpNum : " + tiInfo.trusteeCorpNum + vbCrLf
     tmp = tmp + "trusteeMgtKey : " + tiInfo.trusteeMgtKey + vbCrLf
+    tmp = tmp + "trusteePrintYN : " + CStr(tiInfo.trusteePrintYN) + vbCrLf
     
     tmp = tmp + "supplyCostTotal : " + tiInfo.supplyCostTotal + vbCrLf
     tmp = tmp + "taxTotal : " + tiInfo.taxTotal + vbCrLf
@@ -1604,7 +1609,7 @@ Private Sub btnGetInfos_Click()
     KeyType = SELL
     
     '관리번호 배열, 최대 1000건
-    KeyList.Add "123123"
+    KeyList.Add "20160112-01"
     KeyList.Add "123123"
     KeyList.Add "123"
     KeyList.Add "123123123"
@@ -1618,12 +1623,13 @@ Private Sub btnGetInfos_Click()
     
     Dim tmp As String
     
-    tmp = "ItemKey | StateCode | TaxType | WriteDate | RegDT" + vbCrLf
+    tmp = "ItemKey | StateCode | TaxType | WriteDate | RegDT | InvoicerPrintYN | InvoiceePrintYN | TrusteePrintYN " + vbCrLf
     
     Dim info As PBTIInfo
     
     For Each info In resultList
-        tmp = tmp + info.itemKey + " | " + CStr(info.stateCode) + " | " + info.taxType + " | " + info.writeDate + " | " + info.regDT + vbCrLf
+        tmp = tmp + info.itemKey + " | " + CStr(info.stateCode) + " | " + info.taxType + " | " + info.writeDate + " | " + info.regDT + " | "
+        tmp = tmp + CStr(info.invoicerPrintYN) + " | " + CStr(info.invoiceePrintYN) + " | " + CStr(info.trusteePrintYN) + vbCrLf
     Next
     
     MsgBox tmp
@@ -2398,8 +2404,8 @@ Private Sub btnSearch_Click()
     
     
     DType = "I"             '[필수] 일자유형, R-등록일시 W-작성일자 I-발행일시 중 택1
-    SDate = "20151206"      '[필수] 시작일자, yyyyMMdd
-    EDate = "20151231"      '[필수] 종료일자, yyyyMMdd
+    SDate = "20151201"      '[필수] 시작일자, yyyyMMdd
+    EDate = "20160112"      '[필수] 종료일자, yyyyMMdd
     
     State.Add "100"         '전송상태값 배열, 미기재시 전체상태조회, 문서상태값 3자리숫자 작성
     State.Add "2**"         '2,3번째 와일드카드 가능
@@ -2434,15 +2440,27 @@ Private Sub btnSearch_Click()
     tmp = tmp + "pageCount : " + CStr(tiSearchList.pageCount) + vbCrLf
     tmp = tmp + "message : " + tiSearchList.message + vbCrLf + vbCrLf
     
-    tmp = tmp + "itemKey | stateCode | TaxTye | writeDate | regDT | lateIssueYN | invoicerCorpNum | invoicerCorpName | invoiceeCorpNum | invoiceeCorpName | " + _
-                "issueType | supplyCostTotal | taxTotal" + vbCrLf
+    tmp = tmp + "itemKey | stateCode | TaxTye | writeDate | regDT | lateIssueYN | invoicerCorpNum | invoicerCorpName | invoicerPrintYn | invoiceeCorpNum | invoiceeCorpName | invoiceePrintYN | " + _
+                "issueType | supplyCostTotal | taxTotal | trusteePrintYN " + vbCrLf
             
     Dim info As PBTIInfo
     
     For Each info In tiSearchList.list
-        tmp = tmp + info.itemKey + " | " + CStr(info.stateCode) + " | " + info.taxType + " | " + info.writeDate + " | " + info.regDT + " | " + _
-        CStr(info.lateIssueYN) + " | " + info.invoicerCorpNum + " | " + info.invoicerCorpName + " | " + info.invoiceeCorpNum + " | " + info.invoiceeCorpName + " | " + _
-        info.issueType + " | " + info.supplyCostTotal + " | " + info.taxTotal + vbCrLf
+        tmp = tmp + info.itemKey + " | "
+        tmp = tmp + CStr(info.stateCode) + " | "
+        tmp = tmp + info.taxType + " | "
+        tmp = tmp + info.writeDate + " | "
+        tmp = tmp + info.regDT + " | "
+        tmp = tmp + CStr(info.lateIssueYN) + " | "
+        tmp = tmp + info.invoicerCorpNum + " | "
+        tmp = tmp + info.invoicerCorpName + " | "
+        tmp = tmp + CStr(info.invoicerPrintYN) + " | "
+        tmp = tmp + info.invoiceeCorpNum + " | "
+        tmp = tmp + info.invoiceeCorpName + " | "
+        tmp = tmp + CStr(info.invoiceePrintYN) + " | "
+        tmp = tmp + info.issueType + " | "
+        tmp = tmp + info.supplyCostTotal + " | "
+        tmp = tmp + info.taxTotal + vbCrLf
     Next
     
     MsgBox tmp

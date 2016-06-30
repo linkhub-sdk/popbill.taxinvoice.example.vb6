@@ -14,3 +14,4 @@ PBResponse = 0, 0, 0, 0, C
 PBContactInfo = 66, 87, 1307, 795, 
 PBCorpInfo = 198, 261, 1440, 969, 
 PBTISearchList = 154, 203, 1396, 911, 
+PBChargeInfo = 0, 0, 0, 0, C

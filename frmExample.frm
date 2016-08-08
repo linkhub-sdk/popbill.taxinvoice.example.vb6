@@ -5,10 +5,10 @@ Begin VB.Form frmExample
    ClientHeight    =   12000
    ClientLeft      =   60
    ClientTop       =   450
-   ClientWidth     =   14205
+   ClientWidth     =   14490
    LinkTopic       =   "Form1"
    ScaleHeight     =   12000
-   ScaleWidth      =   14205
+   ScaleWidth      =   14490
    StartUpPosition =   2  '화면 가운데
    Begin VB.CommandButton btnPopbillURL_CHRG 
       Caption         =   " 포인트 충전 URL"
@@ -16,7 +16,7 @@ Begin VB.Form frmExample
       Left            =   9360
       TabIndex        =   82
       Top             =   1800
-      Width           =   1935
+      Width           =   2415
    End
    Begin VB.CommandButton btnSearch 
       Caption         =   "문서 목록조회"
@@ -29,7 +29,7 @@ Begin VB.Form frmExample
    Begin VB.CommandButton btnUpdateCorpInfo 
       Caption         =   "회사정보 수정"
       Height          =   410
-      Left            =   11640
+      Left            =   12120
       TabIndex        =   76
       Top             =   1800
       Width           =   1815
@@ -53,7 +53,7 @@ Begin VB.Form frmExample
    Begin VB.Frame Frame15 
       Caption         =   "회사정보 관련"
       Height          =   2415
-      Left            =   11520
+      Left            =   12000
       TabIndex        =   71
       Top             =   960
       Width           =   2055
@@ -748,11 +748,11 @@ Begin VB.Form frmExample
    End
    Begin VB.Frame Frame1 
       Caption         =   " 팝빌 기본 API "
-      Height          =   3015
+      Height          =   2895
       Left            =   240
       TabIndex        =   4
       Top             =   600
-      Width           =   13575
+      Width           =   14055
       Begin VB.Frame Frame6 
          Caption         =   " 공인인증서 관련"
          Height          =   2415
@@ -863,14 +863,22 @@ Begin VB.Form frmExample
          Left            =   9000
          TabIndex        =   5
          Top             =   360
-         Width           =   2175
+         Width           =   2655
+         Begin VB.CommandButton btnGetPopbillURL_SEAL 
+            Caption         =   "인감 및 첨부문서 등록 URL"
+            Height          =   375
+            Left            =   120
+            TabIndex        =   87
+            Top             =   1320
+            Width           =   2415
+         End
          Begin VB.CommandButton btnGetPopbillURL_LOGIN 
             Caption         =   " 팝빌 로그인 URL"
             Height          =   410
             Left            =   120
             TabIndex        =   6
             Top             =   360
-            Width           =   1935
+            Width           =   2415
          End
       End
    End
@@ -1756,6 +1764,19 @@ Private Sub btnGetPopbillURL_LOGIN_Click()
         Exit Sub
     End If
     MsgBox "URL : " + vbCrLf + url
+End Sub
+
+Private Sub btnGetPopbillURL_SEAL_Click()
+    Dim url As String
+    
+    url = TaxinvoiceService.GetPopbillURL(txtCorpNum.Text, txtUserID.Text, "SEAL")
+    
+    If url = "" Then
+         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    MsgBox "URL : " + vbCrLf + url
+    
 End Sub
 
 Private Sub btnGetPopUpURL_Click()

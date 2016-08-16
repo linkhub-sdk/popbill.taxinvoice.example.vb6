@@ -929,6 +929,8 @@ Private Const SecretKey = "SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I="
 
 Private TaxinvoiceService As New PBTIService
 
+
+
 Private Sub btn_GetURL_PBOX_Click()
     Dim url As String
     
@@ -2440,6 +2442,7 @@ Private Sub btnSearch_Click()
     Dim TaxRegIDType As String
     Dim TaxRegID As String
     Dim TaxRegIDYN As String
+    Dim QString As String
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -2455,8 +2458,8 @@ Private Sub btnSearch_Click()
     
     
     DType = "W"             '[필수] 일자유형, R-등록일시 W-작성일자 I-발행일시 중 택1
-    SDate = "20160501"      '[필수] 시작일자, yyyyMMdd
-    EDate = "20160630"      '[필수] 종료일자, yyyyMMdd
+    SDate = "20160701"      '[필수] 시작일자, yyyyMMdd
+    EDate = "20160831"      '[필수] 종료일자, yyyyMMdd
     
     State.Add "3**"         '전송상태값 배열, 미기재시 전체상태조회, 문서상태값 3자리숫자 작성
     State.Add "6**"         '2,3번째 와일드카드 가능
@@ -2479,9 +2482,9 @@ Private Sub btnSearch_Click()
     TaxRegIDType = "S"      '종사업장번호 유형 S-공급자, B-공급받는자, T-수탁자
     TaxRegID = ""           '종사업장번호, 콤마(,)로 구분하여 구성 ex) 0001,0002
     TaxRegIDYN = ""         '종사업장 유무, 공백-전체조회, 0-종사업장번호 없는경우만 조회, 1-종사업장번호 조건 조회
-        
+    QString = ""            '거래처 조회, 거래처 상호 또는 거래처 사업자등록번호 조회, 공백처리시 전체조회
     
-    Set tiSearchList = TaxinvoiceService.Search(txtCorpNum.Text, KeyType, DType, SDate, EDate, State, TType, taxType, LateOnly, Page, PerPage, Order, TaxRegIDType, TaxRegID, TaxRegIDYN)
+    Set tiSearchList = TaxinvoiceService.Search(txtCorpNum.Text, KeyType, DType, SDate, EDate, State, TType, taxType, LateOnly, Page, PerPage, Order, TaxRegIDType, TaxRegID, TaxRegIDYN, QString)
      
     If tiSearchList Is Nothing Then
         MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)

@@ -974,14 +974,14 @@ Private Sub btn_GetURL_PBOX_Click()
     MsgBox "URL : " + vbCrLf + url
 End Sub
 
+'=========================================================================
+' 발행예정 세금계산서를 [승인]처리합니다.
+'=========================================================================
+
 Private Sub btnAccept_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     Dim memo As String
-    
-    '=========================================================================
-    ' 발행예정 세금계산서를 [승인]처리합니다.
-    '=========================================================================
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -1073,8 +1073,11 @@ Private Sub btnAttachStatement_Click()
             Exit Sub
     End Select
     
-    SubItemCode = 121           '첨부할 전자명세서 종류코드, 121-거래명세서, 122-청구서, 123-견적서, 124-발주서, 125-입금표,126-영수증
-    SubMgtKey = "20151223-01"   '첨부할 전자명세서 관리번호
+    '첨부할 전자명세서 종류코드, 121-거래명세서, 122-청구서, 123-견적서, 124-발주서, 125-입금표,126-영수증
+    SubItemCode = 121
+    
+    '첨부할 전자명세서 관리번호
+    SubMgtKey = "20151223-01"
         
     Set Response = TaxinvoiceService.AttachStatement(txtCorpNum.Text, KeyType, txtMgtKey.Text, SubItemCode, SubMgtKey)
     
@@ -1085,7 +1088,6 @@ Private Sub btnAttachStatement_Click()
     
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
-
 
 '=========================================================================
 '[발행완료] 상태의 세금계산서를 [발행취소] 합니다.
@@ -1125,18 +1127,19 @@ Private Sub btnCancelIsse_2_Click()
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
     
 End Sub
+
+'=========================================================================
+'[발행완료] 상태의 세금계산서를 [발행취소] 합니다.
+' - [발행취소]는 국세청 전송전에만 가능합니다.
+' - 발행취소된 세금계산서는 국세청에 전송되지 않습니다.
+' - 발행취소 세금계산서에 기재된 문서관리번호를 재사용 하기 위해서는
+'   삭제(Delete API)를 호출하여 [삭제] 처리 하셔야 합니다.
+'=========================================================================
+
 Private Sub btnCancelIssue_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     Dim memo As String
-    
-    '=========================================================================
-    '[발행완료] 상태의 세금계산서를 [발행취소] 합니다.
-    ' - [발행취소]는 국세청 전송전에만 가능합니다.
-    ' - 발행취소된 세금계산서는 국세청에 전송되지 않습니다.
-    ' - 발행취소 세금계산서에 기재된 문서관리번호를 재사용 하기 위해서는
-    '   삭제(Delete API)를 호출하여 [삭제] 처리 하셔야 합니다.
-    '=========================================================================
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -1163,14 +1166,12 @@ Private Sub btnCancelIssue_Click()
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
 
-
 '=========================================================================
 '[발행완료] 상태의 세금계산서를 [발행취소] 합니다.
 ' - [발행취소]는 국세청 전송전에만 가능합니다.
 ' - 발행취소된 세금계산서는 국세청에 전송되지 않습니다.
 ' - 발행취소 세금계산서에 기재된 문서관리번호를 재사용 하기 위해서는
 '   삭제(Delete API)를 호출하여 [삭제] 처리 하셔야 합니다.
-
 '=========================================================================
 
 Private Sub btnCancelIssue_rev_Click()
@@ -1203,16 +1204,16 @@ Private Sub btnCancelIssue_rev_Click()
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
 
+'=========================================================================
+' 발행예정 세금계산서를 [취소]처리 합니다.
+' - [취소]된 세금계산서를 삭제(Delete API)하면 등록된 문서관리번호를
+'   재사용할 수 있습니다.
+'=========================================================================
+
 Private Sub btnCancelSend_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     Dim memo As String
-    
-    '=========================================================================
-    ' 발행예정 세금계산서를 [취소]처리 합니다.
-    ' - [취소]된 세금계산서를 삭제(Delete API)하면 등록된 문서관리번호를
-    '   재사용할 수 있습니다.
-    '=========================================================================
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -1259,7 +1260,6 @@ Private Sub btnCertificateExpireDate_Click()
  
 End Sub
 
-
 '=========================================================================
 ' 팝빌 회원아이디 중복여부를 확인합니다.
 ' 응답코드 : 1(사용중), 2(미사용중)
@@ -1277,7 +1277,6 @@ Private Sub btnCheckID_Click()
     
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
-
 
 '=========================================================================
 ' 해당 사업자의 파트너 연동회원 가입여부를 확인합니다.
@@ -1329,7 +1328,6 @@ Private Sub btnCheckMgtKeyInUse_Click()
     
 End Sub
 
-
 '=========================================================================
 ' 1건의 전자세금계산서를 삭제합니다.
 ' - 세금계산서를 삭제해야만 문서관리번호(mgtKey)를 재사용할 수 있습니다.
@@ -1363,16 +1361,16 @@ Private Sub btnDelete_2_Click()
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
 
+'=========================================================================
+' 1건의 전자세금계산서를 삭제합니다.
+' - 세금계산서를 삭제해야만 문서관리번호(mgtKey)를 재사용할 수 있습니다.
+' - 삭제가능한 문서 상태 : [임시저장], [발행취소], [발행예정 취소],
+'   [발행예정 거부]
+'=========================================================================
+
 Private Sub btnDelete_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
-    
-    '=========================================================================
-    ' 1건의 전자세금계산서를 삭제합니다.
-    ' - 세금계산서를 삭제해야만 문서관리번호(mgtKey)를 재사용할 수 있습니다.
-    ' - 삭제가능한 문서 상태 : [임시저장], [발행취소], [발행예정 취소],
-    '   [발행예정 거부]
-    '=========================================================================
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -1395,7 +1393,6 @@ Private Sub btnDelete_Click()
     
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
-
 
 '=========================================================================
 ' 1건의 전자세금계산서를 삭제합니다.
@@ -1554,7 +1551,6 @@ Private Sub btnGetBalance_Click()
     
     MsgBox "잔여포인트 : " + CStr(balance)
 End Sub
-
 
 '=========================================================================
 ' 연동회원의 전자세금계산서 API 서비스 과금정보를 확인합니다.
@@ -1733,7 +1729,6 @@ Private Sub btnGetEPrintUrl_Click()
     End If
     MsgBox "URL : " + vbCrLf + url
 End Sub
-
 
 '=========================================================================
 ' 세금계산서에 첨부된 파일의 목록을 확인합니다.
@@ -1979,7 +1974,6 @@ Private Sub btnGetMassPrintURL_Click()
     
 End Sub
  
-
 '=========================================================================
 ' 파트너의 잔여포인트를 확인합니다.
 ' - 과금방식이 연동과금인 경우 연동회원 잔여포인트(GetBalance API)를
@@ -2147,24 +2141,24 @@ Private Sub btnGetURL_WRITE_Click()
     MsgBox "URL : " + vbCrLf + url
 End Sub
 
+'=========================================================================
+' [임시저장] 상태의 세금계산서를 [발행]처리 합니다.
+' - 발행(Issue API)를 호출하는 시점에서 포인트가 차감됩니다.
+' - [발행완료] 세금계산서는 연동회원의 국세청 전송설정에 따라
+'   익일/즉시전송 처리됩니다. 기본설정(익일전송)
+' - 국세청 전송설정은 "팝빌 로그인" > [전자세금계산서] > [환경설정] >
+'   [전자세금계산서 관리] > [국세청 전송 및 지연발행 설정] 탭에서
+'   확인할 수 있습니다.
+' - 국세청 전송정책에 대한 사항은 "[전자세금계산서 API 연동매뉴얼] >
+'   1.4. 국세청 전송 정책" 을 참조하시기 바랍니다
+'=========================================================================
+
 Private Sub btnIssue_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     Dim memo As String
     Dim emailSubject As String
     Dim forceIssue As Boolean
-    
-    '=========================================================================
-    ' [임시저장] 상태의 세금계산서를 [발행]처리 합니다.
-    ' - 발행(Issue API)를 호출하는 시점에서 포인트가 차감됩니다.
-    ' - [발행완료] 세금계산서는 연동회원의 국세청 전송설정에 따라
-    '   익일/즉시전송 처리됩니다. 기본설정(익일전송)
-    ' - 국세청 전송설정은 "팝빌 로그인" > [전자세금계산서] > [환경설정] >
-    '   [전자세금계산서 관리] > [국세청 전송 및 지연발행 설정] 탭에서
-    '   확인할 수 있습니다.
-    ' - 국세청 전송정책에 대한 사항은 "[전자세금계산서 API 연동매뉴얼] >
-    '   1.4. 국세청 전송 정책" 을 참조하시기 바랍니다
-    '=========================================================================
 
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -2186,8 +2180,7 @@ Private Sub btnIssue_Click()
     
     '지연발행 강제여부, 기본값 - False
     '발행마감일이 지난 세금계산서를 발행하는 경우, 가산세가 부과될 수 있습니다.
-    '발행마감일 이후에 발행하는 지연발행 세금계산서를 신고해야 하는 경우
-    'forceIssue 값을 True로 선언하여 발행(Issue API)을 호출할 수 있습니다.
+    '지연발행 세금계산서를 신고해야 하는 경우 forceIssue 값을 True로 선언하여 발행(Issue API)을 호출할 수 있습니다.
     forceIssue = False
     
     Set Response = TaxinvoiceService.Issue(txtCorpNum.Text, KeyType, txtMgtKey.Text, memo, emailSubject, forceIssue, txtUserID.Text)
@@ -2200,7 +2193,6 @@ Private Sub btnIssue_Click()
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
     
 End Sub
-
 
 '=========================================================================
 ' 역발행 요청받은 세금계산서를 [발행]처리 합니다.
@@ -2241,8 +2233,7 @@ Private Sub btnIssue_rev_Click()
     
     '지연발행 강제여부, 기본값 - False
     '발행마감일이 지난 세금계산서를 발행하는 경우, 가산세가 부과될 수 있습니다.
-    '발행마감일 이후에 발행하는 지연발행 세금계산서를 신고해야 하는 경우
-    'forceIssue 값을 True로 선언하여 발행(Issue API)을 호출할 수 있습니다.
+    '지연발행 세금계산서를 신고해야 하는 경우 forceIssue 값을 True로 선언하여 발행(Issue API)을 호출할 수 있습니다.
     forceIssue = False
     
     Set Response = TaxinvoiceService.Issue(txtCorpNum.Text, KeyType, txtMgtKey.Text, memo, emailSubject, forceIssue, txtUserID.Text)
@@ -2254,7 +2245,6 @@ Private Sub btnIssue_rev_Click()
     
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
-
 
 '=========================================================================
 ' 파트너의 연동회원으로 회원가입을 요청합니다.
@@ -2381,7 +2371,6 @@ Private Sub btnPopbillURL_CHRG_Click()
     MsgBox "URL : " + vbCrLf + url
 End Sub
 
-
 '=========================================================================
 ' 공급받는자에게 요청받은 역발행 세금계산서를 [거부]처리 합니다.
 ' - 세금계산서의 문서관리번호를 재사용하기 위해서는 삭제 (Delete API) 를
@@ -2463,7 +2452,6 @@ Private Sub btnRegistContact_Click()
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
     
 End Sub
-
 
 '=========================================================================
 ' 1건의 세금계산서를 임시저장 합니다.
@@ -2610,22 +2598,22 @@ Private Sub btnRegister_Click()
     Taxinvoice.serialNum = "123"
     
     '기재 상 '권' 항목, 최대값 32767
-    Taxinvoice.kwon = "1"           '권
+    Taxinvoice.kwon = "1"
     
     '기재 상 '호' 항목, 최대값 32767
-    Taxinvoice.ho = "1"             '호
+    Taxinvoice.ho = "1"
     
     '기재 상 '현금' 항목
-    Taxinvoice.cash = ""          '현금
+    Taxinvoice.cash = ""
     
     '기재 상 '수표' 항목
-    Taxinvoice.chkBill = ""       '수표
+    Taxinvoice.chkBill = ""
     
     '기재 상 '어음' 항목
-    Taxinvoice.note = ""          '어음
+    Taxinvoice.note = ""
     
     '기재 상 '외상미수금' 항목
-    Taxinvoice.credit = ""        '외상미수금
+    Taxinvoice.credit = ""
     
     '기재 상 '비고'항목
     Taxinvoice.remark1 = "비고1"
@@ -2636,7 +2624,7 @@ Private Sub btnRegister_Click()
     Taxinvoice.businessLicenseYN = False
     
     '통장사본 이미지 첨부여부
-    Taxinvoice.bankBookYN = False         '통장사본 이미지 첨부시 설정.
+    Taxinvoice.bankBookYN = False
     
 
     '=========================================================================
@@ -2723,6 +2711,12 @@ Private Sub btnRegister_Click()
     
 
 End Sub
+
+'=========================================================================
+' 1건의 역발행 세금계산서를 [임시저장] 합니다.
+' - 세금계산서 항목별 정보는 "[전자세금계산서 API 연동매뉴얼] > 4.1. (세금)계산서
+'   구성"을 참조하시기 바랍니다.
+'=========================================================================
 
 Private Sub btnRegister_rev_Click()
     Dim Taxinvoice As New PBTaxinvoice
@@ -2858,22 +2852,22 @@ Private Sub btnRegister_rev_Click()
     Taxinvoice.serialNum = "123"
     
     '기재 상 '권' 항목, 최대값 32767
-    Taxinvoice.kwon = "1"           '권
+    Taxinvoice.kwon = "1"
     
     '기재 상 '호' 항목, 최대값 32767
-    Taxinvoice.ho = "1"             '호
+    Taxinvoice.ho = "1"
     
     '기재 상 '현금' 항목
-    Taxinvoice.cash = ""          '현금
+    Taxinvoice.cash = ""
     
     '기재 상 '수표' 항목
-    Taxinvoice.chkBill = ""       '수표
+    Taxinvoice.chkBill = ""
     
     '기재 상 '어음' 항목
-    Taxinvoice.note = ""          '어음
+    Taxinvoice.note = ""
     
     '기재 상 '외상미수금' 항목
-    Taxinvoice.credit = ""        '외상미수금
+    Taxinvoice.credit = ""
     
     '기재 상 '비고'항목
     Taxinvoice.remark1 = "비고1"
@@ -2884,7 +2878,7 @@ Private Sub btnRegister_rev_Click()
     Taxinvoice.businessLicenseYN = False
     
     '통장사본 이미지 첨부여부
-    Taxinvoice.bankBookYN = False         '통장사본 이미지 첨부시 설정.
+    Taxinvoice.bankBookYN = False
     
 
     '=========================================================================
@@ -2966,7 +2960,6 @@ Private Sub btnRegister_rev_Click()
     
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
-
 
 '=========================================================================
 ' 1건의 세금계산서를 즉시발행 처리합니다.
@@ -3108,22 +3101,22 @@ Private Sub btnRegistIssue_Click()
     Taxinvoice.serialNum = "123"
     
     '기재 상 '권' 항목, 최대값 32767
-    Taxinvoice.kwon = "1"           '권
+    Taxinvoice.kwon = "1"
     
     '기재 상 '호' 항목, 최대값 32767
-    Taxinvoice.ho = "1"             '호
+    Taxinvoice.ho = "1"
     
     '기재 상 '현금' 항목
-    Taxinvoice.cash = ""          '현금
+    Taxinvoice.cash = ""
     
     '기재 상 '수표' 항목
-    Taxinvoice.chkBill = ""       '수표
+    Taxinvoice.chkBill = ""
     
     '기재 상 '어음' 항목
-    Taxinvoice.note = ""          '어음
+    Taxinvoice.note = ""
     
     '기재 상 '외상미수금' 항목
-    Taxinvoice.credit = ""        '외상미수금
+    Taxinvoice.credit = ""
     
     '기재 상 '비고'항목
     Taxinvoice.remark1 = "비고1"
@@ -3134,7 +3127,7 @@ Private Sub btnRegistIssue_Click()
     Taxinvoice.businessLicenseYN = False
     
     '통장사본 이미지 첨부여부
-    Taxinvoice.bankBookYN = False         '통장사본 이미지 첨부시 설정.
+    Taxinvoice.bankBookYN = False
     
 
     '=========================================================================
@@ -3238,9 +3231,8 @@ Private Sub btnRegistIssue_Click()
     
 End Sub
 
-
 '=========================================================================
-' 공급받는자가 공급자에게 1건의 세금계산서 역)발행을 요청합니다.
+' 공급받는자가 공급자에게 1건의 역발행 세금계산서를 요청합니다.
 ' - 역발행 세금계산서 프로세스를 구현하기 위해서는 공급자/공급받는자가 모두
 '   팝빌에 회원이여야 합니다.
 ' - 역발행 요청후 공급자가 [발행] 처리시 포인트가 차감되며 역발행
@@ -3277,7 +3269,6 @@ Private Sub btnRequest_Click()
     
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
-
 
 '=========================================================================
 ' 역발행 세금계산서를 [취소] 처리합니다.
@@ -3441,19 +3432,19 @@ Private Sub btnSearch_Click()
        
 End Sub
 
+'=========================================================================
+' 1건의 [임시저장] 상태의 세금계산서를 [발행예정] 처리합니다.
+' - 발행예정이란 공급자와 공급받는자 사이에 세금계산서 확인 후 발행하는
+'   방법입니다.
+' - "[전자세금계산서 API 연동매뉴얼] > 1.3.1. 정발행 프로세스 흐름도
+'   > 다. 임시저장 발행예정" 의 프로세스를 참조하시기 바랍니다.
+'=========================================================================
+
 Private Sub btnSend_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     Dim emailSubject As String
     Dim memo As String
-    
-    '=========================================================================
-    ' 1건의 [임시저장] 상태의 세금계산서를 [발행예정] 처리합니다.
-    ' - 발행예정이란 공급자와 공급받는자 사이에 세금계산서 확인 후 발행하는
-    '   방법입니다.
-    ' - "[전자세금계산서 API 연동매뉴얼] > 1.3.1. 정발행 프로세스 흐름도
-    '   > 다. 임시저장 발행예정" 의 프로세스를 참조하시기 바랍니다.
-    '=========================================================================
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -3642,7 +3633,6 @@ Private Sub btnSendToNTS_Click()
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
 
-
 '=========================================================================
 ' 전자세금계산서 발행단가를 확인합니다.
 '=========================================================================
@@ -3659,7 +3649,6 @@ Private Sub btnUnitCost_Click()
     
     MsgBox "발행단가 : " + CStr(unitCost)
 End Sub
-
 
 '=========================================================================
 ' [임시저장] 상태의 세금계산서의 항목을 수정합니다.
@@ -3816,22 +3805,22 @@ Private Sub btnUpdate_Click()
     Taxinvoice.serialNum = "123"
     
     '기재 상 '권' 항목, 최대값 32767
-    Taxinvoice.kwon = "1"           '권
+    Taxinvoice.kwon = "1"
     
     '기재 상 '호' 항목, 최대값 32767
-    Taxinvoice.ho = "1"             '호
+    Taxinvoice.ho = "1"
     
     '기재 상 '현금' 항목
-    Taxinvoice.cash = ""          '현금
+    Taxinvoice.cash = ""
     
     '기재 상 '수표' 항목
-    Taxinvoice.chkBill = ""       '수표
+    Taxinvoice.chkBill = ""
     
     '기재 상 '어음' 항목
-    Taxinvoice.note = ""          '어음
+    Taxinvoice.note = ""
     
     '기재 상 '외상미수금' 항목
-    Taxinvoice.credit = ""        '외상미수금
+    Taxinvoice.credit = ""
     
     '기재 상 '비고'항목
     Taxinvoice.remark1 = "비고1"
@@ -3842,7 +3831,7 @@ Private Sub btnUpdate_Click()
     Taxinvoice.businessLicenseYN = False
     
     '통장사본 이미지 첨부여부
-    Taxinvoice.bankBookYN = False         '통장사본 이미지 첨부시 설정.
+    Taxinvoice.bankBookYN = False
     
 
     '=========================================================================
@@ -3927,18 +3916,6 @@ Private Sub btnUpdate_Click()
     
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
-
-
-Private Function ByteArrayToHex(ByRef ByteArray() As Byte) As String
-    Dim l As Long, strRet As String
-    
-    For l = LBound(ByteArray) To UBound(ByteArray)
-        strRet = strRet & Hex$(ByteArray(l)) & " "
-    Next l
-    
-    'Remove last space at end.
-    ByteArrayToHex = Left$(strRet, Len(strRet) - 1)
-End Function
 
 '=========================================================================
 ' [임시저장] 상태의 세금계산서의 항목을 수정합니다.
@@ -4084,22 +4061,22 @@ Private Sub btnUpdate_rev_Click()
     Taxinvoice.serialNum = "123"
     
     '기재 상 '권' 항목, 최대값 32767
-    Taxinvoice.kwon = "1"           '권
+    Taxinvoice.kwon = "1"
     
     '기재 상 '호' 항목, 최대값 32767
-    Taxinvoice.ho = "1"             '호
+    Taxinvoice.ho = "1"
     
     '기재 상 '현금' 항목
-    Taxinvoice.cash = ""          '현금
+    Taxinvoice.cash = ""
     
     '기재 상 '수표' 항목
-    Taxinvoice.chkBill = ""       '수표
+    Taxinvoice.chkBill = ""
     
     '기재 상 '어음' 항목
-    Taxinvoice.note = ""          '어음
+    Taxinvoice.note = ""
     
     '기재 상 '외상미수금' 항목
-    Taxinvoice.credit = ""        '외상미수금
+    Taxinvoice.credit = ""
     
     '기재 상 '비고'항목
     Taxinvoice.remark1 = "비고1"
@@ -4165,7 +4142,6 @@ Private Sub btnUpdate_rev_Click()
     ' - 세금계산서 발행안내 메일을 수신받을 공급받는자 담당자가 다수인 경우
     ' 담당자 정보를 추가하여 발행안내메일을 다수에게 전송할 수 있습니다.
     '=========================================================================
-    
     
     Set Taxinvoice.addContactList = New Collection
     Dim newContact As New PBTIContact

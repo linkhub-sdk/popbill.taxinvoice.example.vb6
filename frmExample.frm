@@ -924,18 +924,18 @@ Attribute VB_Exposed = False
 '
 ' 팝빌 전자세금계산서 API VB 6.0 SDK Example
 '
-' - VB6 SDK 연동환경 설정방법 안내 :
+' - VB6 SDK 연동환경 설정방법 안내 : http://blog.linkhub.co.kr/569
 ' - 업데이트 일자 : 2016-10-10
-' - 연동 기술지원 연락처 : 1600-8536 / 070-4504-2991 (직통 / 정요한대리)
-' - 연동 기술지원 이메일 : support@linkhub.co.kr
+' - 연동 기술지원 연락처 : 1600-8536 / 070-4304-2991 (직통 / 정요한대리)
+' - 연동 기술지원 이메일 : dev@linkhub.co.kr
 '
 ' <테스트 연동개발 준비사항>
 ' 1) 30, 33번 라인에 선언된 링크아이디(LinkID)와 비밀키(SecretKey)를
 '    링크허브 가입시 메일로 발급받은 인증정보를 참조하여 변경합니다.
 ' 2) 팝빌 개발용 사이트(test.popbill.com)에 연동회원으로 가입합니다.
 ' 3) 전자세금계산서 발행을 위해 공인인증서를 등록합니다.
-'    - 팝빌사이트 로그인 > [전자세금계산서] 선택 > 왼쪽하단 [환경설정]
-'      > [공인인증서 관리] 메뉴
+'    - 팝빌사이트 로그인 > [전자세금계산서] > [환경설정]
+'      > [공인인증서 관리]
 '    - 공인인증서 등록 팝업 URL (GetPopbillURL API)을 이용하여 등록
 '
 '=========================================================================
@@ -1011,7 +1011,7 @@ End Sub
 
 '=========================================================================
 ' 세금계산서에 첨부파일을 등록합니다.
-' - 첨부파일 등록은 세금계산서가 [임시저장] 상태인 경우에만 가능합니다.
+' - [임시저장] 상태의 세금계산서만 파일을 첨부할수 있습니다.
 ' - 첨부파일은 최대 5개까지 등록할 수 있습니다.
 '=========================================================================
 
@@ -1052,7 +1052,7 @@ Private Sub btnAttachFile_Click()
 End Sub
 
 '=========================================================================
-'팝빌에 등록된 1건의 전자명세서를 세금계산서에 첨부합니다.
+'1건의 전자명세서를 세금계산서에 첨부합니다.
 '=========================================================================
 
 Private Sub btnAttachStatement_Click()
@@ -1090,7 +1090,7 @@ Private Sub btnAttachStatement_Click()
 End Sub
 
 '=========================================================================
-'[발행완료] 상태의 세금계산서를 [발행취소] 합니다.
+'[발행완료] 상태의 세금계산서를 [발행취소] 처리합니다.
 ' - [발행취소]는 국세청 전송전에만 가능합니다.
 ' - 발행취소된 세금계산서는 국세청에 전송되지 않습니다.
 ' - 발행취소 세금계산서에 기재된 문서관리번호를 재사용 하기 위해서는
@@ -1129,7 +1129,7 @@ Private Sub btnCancelIsse_2_Click()
 End Sub
 
 '=========================================================================
-'[발행완료] 상태의 세금계산서를 [발행취소] 합니다.
+'[발행완료] 상태의 세금계산서를 [발행취소] 처리합니다.
 ' - [발행취소]는 국세청 전송전에만 가능합니다.
 ' - 발행취소된 세금계산서는 국세청에 전송되지 않습니다.
 ' - 발행취소 세금계산서에 기재된 문서관리번호를 재사용 하기 위해서는
@@ -1167,7 +1167,7 @@ Private Sub btnCancelIssue_Click()
 End Sub
 
 '=========================================================================
-'[발행완료] 상태의 세금계산서를 [발행취소] 합니다.
+'[발행완료] 상태의 세금계산서를 [발행취소] 처리합니다.
 ' - [발행취소]는 국세청 전송전에만 가능합니다.
 ' - 발행취소된 세금계산서는 국세청에 전송되지 않습니다.
 ' - 발행취소 세금계산서에 기재된 문서관리번호를 재사용 하기 위해서는
@@ -1205,7 +1205,7 @@ Private Sub btnCancelIssue_rev_Click()
 End Sub
 
 '=========================================================================
-' 발행예정 세금계산서를 [취소]처리 합니다.
+' 발행예정 세금계산서를 [취소] 처리 합니다.
 ' - [취소]된 세금계산서를 삭제(Delete API)하면 등록된 문서관리번호를
 '   재사용할 수 있습니다.
 '=========================================================================
@@ -1591,11 +1591,11 @@ Private Sub btnGetCorpInfo_Click()
     
     Dim tmp As String
     
-    tmp = tmp + "ceoname : " + CorpInfo.ceoname + vbCrLf
-    tmp = tmp + "corpName : " + CorpInfo.corpName + vbCrLf
-    tmp = tmp + "addr : " + CorpInfo.addr + vbCrLf
-    tmp = tmp + "bizType : " + CorpInfo.bizType + vbCrLf
-    tmp = tmp + "bizClass : " + CorpInfo.bizClass + vbCrLf
+    tmp = tmp + "ceoname(대표자성명) : " + CorpInfo.ceoname + vbCrLf
+    tmp = tmp + "corpName(상호) : " + CorpInfo.corpName + vbCrLf
+    tmp = tmp + "addr(주소) : " + CorpInfo.addr + vbCrLf
+    tmp = tmp + "bizType(업태) : " + CorpInfo.bizType + vbCrLf
+    tmp = tmp + "bizClass(종목) : " + CorpInfo.bizClass + vbCrLf
     
     MsgBox tmp
     
@@ -1681,6 +1681,8 @@ End Sub
 
 Private Sub btnGetEmailPublicKeys_Click()
     Dim resultList As Collection
+    Dim tmp As String
+    Dim email As Variant
     
     Set resultList = TaxinvoiceService.GetEmailPublicKeys(txtCorpNum.Text)
      
@@ -1688,11 +1690,7 @@ Private Sub btnGetEmailPublicKeys_Click()
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
-    
-    Dim tmp As String
-    
-    Dim email As Variant
-    
+
     For Each email In resultList
         tmp = tmp + email + vbCrLf
     Next
@@ -2013,7 +2011,7 @@ End Sub
 
 '=========================================================================
 ' 인감 및 첨부문서 등록 팝업 URL을 반환합니다.
-' - 보안정책에 따라 반환된 URL은 30초의 유효시간을 갖습니다.
+' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
 '=========================================================================
 
 Private Sub btnGetPopbillURL_SEAL_Click()
@@ -2295,7 +2293,6 @@ Private Sub btnJoinMember_Click()
     
     '담당자 메일, 최대 70자
     joinData.ContactEmail = "test@test.com"
-    
     
     Set Response = TaxinvoiceService.JoinMember(joinData)
     
@@ -2700,7 +2697,7 @@ Private Sub btnRegister_Click()
     
     Dim Response As PBResponse
     
-    Set Response = TaxinvoiceService.Register(txtCorpNum.Text, Taxinvoice, writeSpecificateion, txtUserID.Text)
+    Set Response = TaxinvoiceService.Register(txtCorpNum.Text, Taxinvoice, writeSpecification, txtUserID.Text)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)

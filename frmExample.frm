@@ -1252,7 +1252,7 @@ Private Sub btnCertificateExpireDate_Click()
     expireDate = TaxinvoiceService.GetCertificateExpireDate(txtCorpNum.Text)
     
     If expireDate = "" Then
-        MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
@@ -2256,7 +2256,7 @@ Private Sub btnJoinMember_Click()
     joinData.LinkID = LinkID
     
     '사업자번호, '-'제외, 10자리
-    joinData.CorpNum = "1231212312"
+    joinData.CorpNum = "1234567890"
     
     '대표자성명, 최대 30자
     joinData.ceoname = "대표자성명"
@@ -2315,7 +2315,7 @@ Private Sub btnListContact_Click()
     Set resultList = TaxinvoiceService.ListContact(txtCorpNum.Text, txtUserID.Text)
      
     If resultList Is Nothing Then
-        MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
@@ -2344,7 +2344,7 @@ Private Sub btnPopbillURL_CERT_Click()
     url = TaxinvoiceService.GetPopbillURL(txtCorpNum.Text, txtUserID.Text, "CERT")
     
     If url = "" Then
-        MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     MsgBox "URL : " + vbCrLf + url
@@ -2413,7 +2413,7 @@ Private Sub btnRegistContact_Click()
     Dim Response As PBResponse
     
     '담당자 아이디, 6자 이상 20자 미만
-    joinData.id = "testkorea_20151007"
+    joinData.id = "testkorea"
     
     '비밀번호, 6자 이상 20자 미만
     joinData.pwd = "test@test.com"
@@ -2465,7 +2465,7 @@ Private Sub btnRegister_Click()
     Dim writeSpecification As Boolean
     
     '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20161010
-    Taxinvoice.writeDate = "20161010"
+    Taxinvoice.writeDate = "20161013"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
     Taxinvoice.issueType = "정발행"
@@ -2719,7 +2719,7 @@ Private Sub btnRegister_rev_Click()
     Dim Taxinvoice As New PBTaxinvoice
     
     '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20161010
-    Taxinvoice.writeDate = "20161010"
+    Taxinvoice.writeDate = "20161013"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
     Taxinvoice.issueType = "역발행"
@@ -2968,7 +2968,7 @@ Private Sub btnRegistIssue_Click()
     Dim Taxinvoice As New PBTaxinvoice
         
    '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20161010
-    Taxinvoice.writeDate = "20161010"
+    Taxinvoice.writeDate = "20161013"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
     Taxinvoice.issueType = "정발행"
@@ -3640,7 +3640,7 @@ Private Sub btnUnitCost_Click()
     unitCost = TaxinvoiceService.GetUnitCost(txtCorpNum.Text)
     
     If unitCost < 0 Then
-        MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
@@ -4199,7 +4199,7 @@ Private Sub btnUpdateContact_Click()
     Set Response = TaxinvoiceService.UpdateContact(txtCorpNum.Text, joinData, txtUserID.Text)
     
     If Response Is Nothing Then
-        MsgBox ("[" + CStr(TaxinvoiceService.LastErrCode) + "] " + TaxinvoiceService.LastErrMessage)
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     

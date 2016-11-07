@@ -2464,7 +2464,7 @@ Private Sub btnRegister_Click()
     Dim writeSpecification As Boolean
     
     '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20161010
-    Taxinvoice.writeDate = "20161013"
+    Taxinvoice.writeDate = "20161107"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
     Taxinvoice.issueType = "정발행"
@@ -2692,7 +2692,7 @@ Private Sub btnRegister_Click()
     Taxinvoice.addContactList.Add newContact2
     
     '거래명세서 동시작성 여부
-    writeSpecification = False
+    writeSpecification = True
     
     Dim Response As PBResponse
     

@@ -1667,6 +1667,9 @@ Private Sub btnGetDetailInfo_Click()
     tmp = tmp + "invoiceeTEL1 : " + tiDetailInfo.invoiceeTEL1 + vbCrLf
     tmp = tmp + "invoiceeHP1 : " + tiDetailInfo.invoiceeHP1 + vbCrLf
     tmp = tmp + "invoiceeEmail1 : " + tiDetailInfo.invoiceeEmail1 + vbCrLf
+    tmp = tmp + "closeDownState : " + CStr(tiDetailInfo.closeDownState) + vbCrLf
+    tmp = tmp + "closeDownStateDate : " + tiDetailInfo.closeDownStateDate + vbCrLf
+    
 
     '''  상세내역 생략 '''
     
@@ -1809,6 +1812,8 @@ Private Sub btnGetInfo_Click()
     tmp = tmp + "invoiceeCorpNum : " + tiInfo.invoiceeCorpNum + vbCrLf
     tmp = tmp + "invoiceeMgtKey : " + tiInfo.invoiceeMgtKey + vbCrLf
     tmp = tmp + "invoiceePrintYN : " + CStr(tiInfo.invoiceePrintYN) + vbCrLf
+    tmp = tmp + "closeDownState : " + CStr(tiInfo.closeDownState) + vbCrLf
+    tmp = tmp + "closeDownStateDate : " + tiInfo.closeDownStateDate + vbCrLf
     
     tmp = tmp + "trusteeCorpName : " + tiInfo.trusteeCorpName + vbCrLf
     tmp = tmp + "trusteeCorpNum : " + tiInfo.trusteeCorpNum + vbCrLf
@@ -1855,7 +1860,7 @@ Private Sub btnGetInfos_Click()
     KeyType = SELL
     
     '세금계산서 문서관리번호 배열, 최대 1000건
-    KeyList.Add "20161010-01"
+    KeyList.Add "20161221-03"
     KeyList.Add "20161010-02"
     KeyList.Add "20161010-03"
     KeyList.Add "20161010-04"
@@ -1869,13 +1874,13 @@ Private Sub btnGetInfos_Click()
     
     Dim tmp As String
     
-    tmp = "ItemKey | StateCode | TaxType | WriteDate | RegDT | InvoicerPrintYN | InvoiceePrintYN | TrusteePrintYN " + vbCrLf
+    tmp = "ItemKey | StateCode | TaxType | WriteDate | RegDT | InvoicerPrintYN | InvoiceePrintYN | CloseDownState | CloseDownStateDate " + vbCrLf
     
     Dim info As PBTIInfo
     
     For Each info In resultList
         tmp = tmp + info.itemKey + " | " + CStr(info.stateCode) + " | " + info.taxType + " | " + info.writeDate + " | " + info.regDT + " | "
-        tmp = tmp + CStr(info.invoicerPrintYN) + " | " + CStr(info.invoiceePrintYN) + " | " + CStr(info.trusteePrintYN) + vbCrLf
+        tmp = tmp + CStr(info.invoicerPrintYN) + " | " + CStr(info.invoiceePrintYN) + " | " + CStr(info.closeDownState) + " | " + info.closeDownStateDate + vbCrLf
     Next
     
     MsgBox tmp
@@ -2967,7 +2972,7 @@ Private Sub btnRegistIssue_Click()
     Dim Taxinvoice As New PBTaxinvoice
         
    '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20161010
-    Taxinvoice.writeDate = "20161013"
+    Taxinvoice.writeDate = "20161107"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
     Taxinvoice.issueType = "정발행"
@@ -3345,7 +3350,7 @@ Private Sub btnSearch_Click()
     SDate = "20160901"
     
     '[필수] 종료일자, yyyyMMdd
-    EDate = "20161031"
+    EDate = "20161231"
     
     '전송상태값 배열, 미기재시 전체상태조회, 문서상태값 3자리숫자 작성
     '2,3번째 와일드카드 가능
@@ -3401,8 +3406,9 @@ Private Sub btnSearch_Click()
     tmp = tmp + "pageCount : " + CStr(tiSearchList.pageCount) + vbCrLf
     tmp = tmp + "message : " + tiSearchList.message + vbCrLf + vbCrLf
     
-    tmp = tmp + "itemKey | stateCode | TaxTye | writeDate | regDT | lateIssueYN | invoicerCorpNum | invoicerCorpName | invoicerPrintYn | invoiceeCorpNum | invoiceeCorpName | invoiceePrintYN | " + _
-                "issueType | supplyCostTotal | taxTotal | trusteePrintYN " + vbCrLf
+    tmp = tmp + "itemKey | stateCode | TaxTye | writeDate | regDT | lateIssueYN | invoicerCorpNum | invoicerCorpName | invoicerPrintYn " + _
+               "| invoiceeCorpNum | invoiceeCorpName | invoiceePrintYN | closeDownState | closeDownStateDate " + _
+               "| issueType | supplyCostTotal | taxTotal | trusteePrintYN " + vbCrLf
             
     Dim info As PBTIInfo
     
@@ -3419,6 +3425,8 @@ Private Sub btnSearch_Click()
         tmp = tmp + info.invoiceeCorpNum + " | "
         tmp = tmp + info.invoiceeCorpName + " | "
         tmp = tmp + CStr(info.invoiceePrintYN) + " | "
+        tmp = tmp + CStr(info.closeDownState) + " | "
+        tmp = tmp + info.closeDownStateDate + " | "
         tmp = tmp + info.issueType + " | "
         tmp = tmp + info.supplyCostTotal + " | "
         tmp = tmp + info.taxTotal + vbCrLf

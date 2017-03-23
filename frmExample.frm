@@ -1814,6 +1814,7 @@ Private Sub btnGetInfo_Click()
     tmp = tmp + "invoiceePrintYN : " + CStr(tiInfo.invoiceePrintYN) + vbCrLf
     tmp = tmp + "closeDownState : " + CStr(tiInfo.closeDownState) + vbCrLf
     tmp = tmp + "closeDownStateDate : " + tiInfo.closeDownStateDate + vbCrLf
+    tmp = tmp + "interOPYN : " + CStr(tiInfo.interOPYN) + vbCrLf
     
     tmp = tmp + "trusteeCorpName : " + tiInfo.trusteeCorpName + vbCrLf
     tmp = tmp + "trusteeCorpNum : " + tiInfo.trusteeCorpNum + vbCrLf
@@ -1874,13 +1875,13 @@ Private Sub btnGetInfos_Click()
     
     Dim tmp As String
     
-    tmp = "ItemKey | StateCode | TaxType | WriteDate | RegDT | InvoicerPrintYN | InvoiceePrintYN | CloseDownState | CloseDownStateDate " + vbCrLf
+    tmp = "ItemKey | StateCode | TaxType | WriteDate | RegDT | InvoicerPrintYN | InvoiceePrintYN | CloseDownState | CloseDownStateDate | InterOPYN" + vbCrLf
     
     Dim info As PBTIInfo
     
     For Each info In resultList
         tmp = tmp + info.itemKey + " | " + CStr(info.stateCode) + " | " + info.taxType + " | " + info.writeDate + " | " + info.regDT + " | "
-        tmp = tmp + CStr(info.invoicerPrintYN) + " | " + CStr(info.invoiceePrintYN) + " | " + CStr(info.closeDownState) + " | " + info.closeDownStateDate + vbCrLf
+        tmp = tmp + CStr(info.invoicerPrintYN) + " | " + CStr(info.invoiceePrintYN) + " | " + CStr(info.closeDownState) + " | " + info.closeDownStateDate + " | " + CStr(info.interOPYN) + vbCrLf
     Next
     
     MsgBox tmp
@@ -3408,7 +3409,7 @@ Private Sub btnSearch_Click()
     
     tmp = tmp + "itemKey | stateCode | TaxTye | writeDate | regDT | lateIssueYN | invoicerCorpNum | invoicerCorpName | invoicerPrintYn " + _
                "| invoiceeCorpNum | invoiceeCorpName | invoiceePrintYN | closeDownState | closeDownStateDate " + _
-               "| issueType | supplyCostTotal | taxTotal | trusteePrintYN " + vbCrLf
+               "| issueType | supplyCostTotal | taxTotal | interOPYN " + vbCrLf
             
     Dim info As PBTIInfo
     
@@ -3429,7 +3430,8 @@ Private Sub btnSearch_Click()
         tmp = tmp + info.closeDownStateDate + " | "
         tmp = tmp + info.issueType + " | "
         tmp = tmp + info.supplyCostTotal + " | "
-        tmp = tmp + info.taxTotal + vbCrLf
+        tmp = tmp + info.taxTotal + " | "
+        tmp = tmp + CStr(info.interOPYN) + vbCrLf
     Next
     
     MsgBox tmp

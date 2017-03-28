@@ -1814,7 +1814,7 @@ Private Sub btnGetInfo_Click()
     tmp = tmp + "invoiceePrintYN : " + CStr(tiInfo.invoiceePrintYN) + vbCrLf
     tmp = tmp + "closeDownState : " + CStr(tiInfo.closeDownState) + vbCrLf
     tmp = tmp + "closeDownStateDate : " + tiInfo.closeDownStateDate + vbCrLf
-    tmp = tmp + "interOPYN : " + CStr(tiInfo.interOPYN) + vbCrLf
+    tmp = tmp + "interOPYN : " + CStr(tiInfo.InterOPYN) + vbCrLf
     
     tmp = tmp + "trusteeCorpName : " + tiInfo.trusteeCorpName + vbCrLf
     tmp = tmp + "trusteeCorpNum : " + tiInfo.trusteeCorpNum + vbCrLf
@@ -1881,7 +1881,7 @@ Private Sub btnGetInfos_Click()
     
     For Each info In resultList
         tmp = tmp + info.itemKey + " | " + CStr(info.stateCode) + " | " + info.taxType + " | " + info.writeDate + " | " + info.regDT + " | "
-        tmp = tmp + CStr(info.invoicerPrintYN) + " | " + CStr(info.invoiceePrintYN) + " | " + CStr(info.closeDownState) + " | " + info.closeDownStateDate + " | " + CStr(info.interOPYN) + vbCrLf
+        tmp = tmp + CStr(info.invoicerPrintYN) + " | " + CStr(info.invoiceePrintYN) + " | " + CStr(info.closeDownState) + " | " + info.closeDownStateDate + " | " + CStr(info.InterOPYN) + vbCrLf
     Next
     
     MsgBox tmp
@@ -3331,6 +3331,7 @@ Private Sub btnSearch_Click()
     Dim TaxRegID As String
     Dim TaxRegIDYN As String
     Dim QString As String
+    Dim InterOPYN As String
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -3391,8 +3392,12 @@ Private Sub btnSearch_Click()
     '거래처 조회, 거래처 상호 또는 거래처 사업자등록번호 조회, 공백처리시 전체조회
     QString = ""
     
+    '연동문서 조회여부, 공백-전체조회, 0-일반문서 조회, 1-연동문서 조회
+    InterOPYN = ""
+    
     Set tiSearchList = TaxinvoiceService.Search(txtCorpNum.Text, KeyType, DType, SDate, EDate, State, TType, _
-                        taxType, LateOnly, Page, PerPage, Order, TaxRegIDType, TaxRegID, TaxRegIDYN, QString)
+                        taxType, LateOnly, Page, PerPage, Order, TaxRegIDType, TaxRegID, TaxRegIDYN, QString, _
+                        txtUserID.Text, InterOPYN)
      
     If tiSearchList Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -3431,7 +3436,7 @@ Private Sub btnSearch_Click()
         tmp = tmp + info.issueType + " | "
         tmp = tmp + info.supplyCostTotal + " | "
         tmp = tmp + info.taxTotal + " | "
-        tmp = tmp + CStr(info.interOPYN) + vbCrLf
+        tmp = tmp + CStr(info.InterOPYN) + vbCrLf
     Next
     
     MsgBox tmp

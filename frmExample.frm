@@ -1796,7 +1796,7 @@ Private Sub btnGetInfo_Click()
     tmp = tmp + "modifyCode  (수정 사유코드) : " + tiInfo.modifyCode + vbCrLf
     tmp = tmp + "issueType (발행형태) : " + tiInfo.issueType + vbCrLf
     tmp = tmp + "lateIssueYN (지연발행 여부) : " + CStr(tiInfo.lateIssueYN) + vbCrLf
-    tmp = tmp + "interOPYN (연동문서 여부) : " + CStr(tiInfo.InterOPYN) + vbCrLf
+    tmp = tmp + "interOPYN (연동문서 여부) : " + CStr(tiInfo.interOPYN) + vbCrLf
     
     tmp = tmp + "writeDate (작성일자) : " + tiInfo.writeDate + vbCrLf
     
@@ -1873,7 +1873,7 @@ Private Sub btnGetInfos_Click()
     
     For Each info In resultList
         tmp = tmp + info.itemKey + " | " + CStr(info.stateCode) + " | " + info.taxType + " | " + info.writeDate + " | " + info.regDT + " | "
-        tmp = tmp + CStr(info.invoicerPrintYN) + " | " + CStr(info.invoiceePrintYN) + " | " + CStr(info.closeDownState) + " | " + info.closeDownStateDate + " | " + CStr(info.InterOPYN) + vbCrLf
+        tmp = tmp + CStr(info.invoicerPrintYN) + " | " + CStr(info.invoiceePrintYN) + " | " + CStr(info.closeDownState) + " | " + info.closeDownStateDate + " | " + CStr(info.interOPYN) + vbCrLf
     Next
     
     MsgBox tmp
@@ -3323,7 +3323,7 @@ Private Sub btnSearch_Click()
     Dim TaxRegID As String
     Dim TaxRegIDYN As String
     Dim QString As String
-    Dim InterOPYN As String
+    Dim interOPYN As String
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -3385,11 +3385,11 @@ Private Sub btnSearch_Click()
     QString = ""
     
     '연동문서 여부, 공백-전체조회, 0-일반문서 조회, 1-연동문서 조회
-    InterOPYN = ""
+    interOPYN = ""
     
     Set tiSearchList = TaxinvoiceService.Search(txtCorpNum.Text, KeyType, DType, SDate, EDate, State, TType, _
                         taxType, LateOnly, Page, PerPage, Order, TaxRegIDType, TaxRegID, TaxRegIDYN, QString, _
-                        txtUserID.Text, InterOPYN)
+                        txtUserID.Text, interOPYN)
      
     If tiSearchList Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -3403,32 +3403,59 @@ Private Sub btnSearch_Click()
     tmp = tmp + "pageNum (페이지 번호) : " + CStr(tiSearchList.pageNum) + vbCrLf
     tmp = tmp + "pageCount (페이지 개수) : " + CStr(tiSearchList.pageCount) + vbCrLf
     tmp = tmp + "message (응답메시지) : " + tiSearchList.message + vbCrLf + vbCrLf
+                
+    Dim tiInfo As PBTIInfo
     
-    tmp = tmp + "itemKey | stateCode | TaxTye | writeDate | regDT | lateIssueYN | invoicerCorpNum | invoicerCorpName | invoicerPrintYn " + _
-               "| invoiceeCorpNum | invoiceeCorpName | invoiceePrintYN | closeDownState | closeDownStateDate " + _
-               "| issueType | supplyCostTotal | taxTotal | interOPYN " + vbCrLf
-            
-    Dim info As PBTIInfo
-    
-    For Each info In tiSearchList.list
-        tmp = tmp + info.itemKey + " | "
-        tmp = tmp + CStr(info.stateCode) + " | "
-        tmp = tmp + info.taxType + " | "
-        tmp = tmp + info.writeDate + " | "
-        tmp = tmp + info.regDT + " | "
-        tmp = tmp + CStr(info.lateIssueYN) + " | "
-        tmp = tmp + info.invoicerCorpNum + " | "
-        tmp = tmp + info.invoicerCorpName + " | "
-        tmp = tmp + CStr(info.invoicerPrintYN) + " | "
-        tmp = tmp + info.invoiceeCorpNum + " | "
-        tmp = tmp + info.invoiceeCorpName + " | "
-        tmp = tmp + CStr(info.invoiceePrintYN) + " | "
-        tmp = tmp + CStr(info.closeDownState) + " | "
-        tmp = tmp + info.closeDownStateDate + " | "
-        tmp = tmp + info.issueType + " | "
-        tmp = tmp + info.supplyCostTotal + " | "
-        tmp = tmp + info.taxTotal + " | "
-        tmp = tmp + CStr(info.InterOPYN) + vbCrLf
+    For Each tiInfo In tiSearchList.list
+        tmp = tmp + "itemKey (세금계산서 아이템키) : " + tiInfo.itemKey + vbCrLf
+        tmp = tmp + "taxType (과세형태) : " + tiInfo.taxType + vbCrLf
+        tmp = tmp + "writeDate (작성일자) : " + tiInfo.writeDate + vbCrLf
+        tmp = tmp + "regDT (임시저장 일자) : " + tiInfo.regDT + vbCrLf
+        tmp = tmp + "issueType (발행형태) : " + tiInfo.issueType + vbCrLf
+        tmp = tmp + "supplyCostTotal (공급가액 합계) : " + tiInfo.supplyCostTotal + vbCrLf
+        tmp = tmp + "taxTotal (세액 합계) : " + tiInfo.taxTotal + vbCrLf
+        tmp = tmp + "purposeType (영수/청구) : " + tiInfo.purposeType + vbCrLf
+        tmp = tmp + "issueDT (발행일시) : " + tiInfo.issueDT + vbCrLf
+        tmp = tmp + "lateIssueYN (지연발행 여부) : " + CStr(tiInfo.lateIssueYN) + vbCrLf
+        tmp = tmp + "preIssueDT (발행예정일시) : " + tiInfo.preIssueDT + vbCrLf
+        tmp = tmp + "openYN (개봉 여부) : " + CStr(tiInfo.openYN) + vbCrLf
+        tmp = tmp + "openDT (개봉 일시) : " + tiInfo.openDT + vbCrLf
+        tmp = tmp + "stateMemo (상태메모) : " + tiInfo.stateMemo + vbCrLf
+        tmp = tmp + "stateCode (상태코드) : " + CStr(tiInfo.stateCode) + vbCrLf
+        
+        tmp = tmp + "modifyCode  (수정 사유코드) : " + tiInfo.modifyCode + vbCrLf
+        
+        tmp = tmp + "interOPYN (연동문서 여부) : " + CStr(tiInfo.interOPYN) + vbCrLf
+        
+        tmp = tmp + "invoicerCorpName (공급자 상호) : " + tiInfo.invoicerCorpName + vbCrLf
+        tmp = tmp + "invoicerCorpNum (공급자 사업자번호) : " + tiInfo.invoicerCorpNum + vbCrLf
+        tmp = tmp + "invoicerMgtKey (공급자 문서관리번호) : " + tiInfo.invoicerMgtKey + vbCrLf
+        tmp = tmp + "invoicerPrintYN (공급자 인쇄여부) : " + CStr(tiInfo.invoicerPrintYN) + vbCrLf
+        
+        tmp = tmp + "invoiceeCorpName (공급받는자 상호) : " + tiInfo.invoiceeCorpName + vbCrLf
+        tmp = tmp + "invoiceeCorpNum (공급받는자 사업자번호) : " + tiInfo.invoiceeCorpNum + vbCrLf
+        tmp = tmp + "invoiceeMgtKey (공급받는자 문서관리번호) : " + tiInfo.invoiceeMgtKey + vbCrLf
+        tmp = tmp + "invoiceePrintYN (공급받는지 인쇄여부) : " + CStr(tiInfo.invoiceePrintYN) + vbCrLf
+        tmp = tmp + "closeDownState (공급받는자 휴폐업상태) : " + CStr(tiInfo.closeDownState) + vbCrLf
+        tmp = tmp + "closeDownStateDate (공급받는자 휴폐업일자) : " + tiInfo.closeDownStateDate + vbCrLf
+        
+        tmp = tmp + "trusteeCorpName (수탁자 상호) : " + tiInfo.trusteeCorpName + vbCrLf
+        tmp = tmp + "trusteeCorpNum (수탁자 사업자번호) : " + tiInfo.trusteeCorpNum + vbCrLf
+        tmp = tmp + "trusteeMgtKey (수탁자 문서관리번호) : " + tiInfo.trusteeMgtKey + vbCrLf
+        tmp = tmp + "trusteePrintYN (수탁자 인쇄여부) : " + CStr(tiInfo.trusteePrintYN) + vbCrLf
+        
+        
+        tmp = tmp + "stateDT (상태 변경일시) : " + tiInfo.stateDT + vbCrLf
+        
+        
+        tmp = tmp + "ntsresult (국세청 전송결과) : " + tiInfo.ntsresult + vbCrLf
+        tmp = tmp + "ntsconfirmNum (국세청승인번호) : " + tiInfo.ntsconfirmNum + vbCrLf
+        tmp = tmp + "ntssendDT (국세청 전송일시) : " + tiInfo.ntssendDT + vbCrLf
+        tmp = tmp + "ntsresultDT (국세청 결과 수신일시) : " + tiInfo.ntsresultDT + vbCrLf
+        tmp = tmp + "ntssendErrCode (전송실패 사유코드) : " + tiInfo.ntssendErrCode + vbCrLf
+        
+        
+        
     Next
     
     MsgBox tmp

@@ -951,7 +951,7 @@ Attribute VB_Exposed = False
 ' 팝빌 전자세금계산서 API VB 6.0 SDK Example
 '
 ' - VB6 SDK 연동환경 설정방법 안내 : http://blog.linkhub.co.kr/569
-' - 업데이트 일자 : 2017-08-30
+' - 업데이트 일자 : 2017-12-06
 ' - 연동 기술지원 연락처 : 1600-9854 / 070-4304-2991
 ' - 연동 기술지원 이메일 : code@linkhub.co.kr
 '
@@ -1659,7 +1659,7 @@ Private Sub btnGetDetailInfo_Click()
     
     tmp = tmp + "writeDate (작성일자) : " + tiDetailInfo.writeDate + vbCrLf
     tmp = tmp + "chargeDirection (과금방향) : " + tiDetailInfo.chargeDirection + vbCrLf
-    tmp = tmp + "issueType (발행형태) : " + tiDetailInfo.issueType + vbCrLf
+    tmp = tmp + "issueType (발행형태) : " + tiDetailInfo.IssueType + vbCrLf
     tmp = tmp + "issueTiming (발행시점) : " + tiDetailInfo.issueTiming + vbCrLf
     tmp = tmp + "taxType (과세형태) : " + tiDetailInfo.taxType + vbCrLf
     
@@ -1820,7 +1820,7 @@ Private Sub btnGetInfo_Click()
     tmp = tmp + "taxType (과세형태) : " + tiInfo.taxType + vbCrLf
     tmp = tmp + "purposeType (영수/청구) : " + tiInfo.purposeType + vbCrLf
     tmp = tmp + "modifyCode  (수정 사유코드) : " + tiInfo.modifyCode + vbCrLf
-    tmp = tmp + "issueType (발행형태) : " + tiInfo.issueType + vbCrLf
+    tmp = tmp + "issueType (발행형태) : " + tiInfo.IssueType + vbCrLf
     tmp = tmp + "lateIssueYN (지연발행 여부) : " + CStr(tiInfo.lateIssueYN) + vbCrLf
     tmp = tmp + "interOPYN (연동문서 여부) : " + CStr(tiInfo.interOPYN) + vbCrLf
     
@@ -2507,7 +2507,7 @@ Private Sub btnRegister_Click()
     Taxinvoice.writeDate = "20170223"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
-    Taxinvoice.issueType = "정발행"
+    Taxinvoice.IssueType = "정발행"
     
     '[필수] {정과금, 역과금} 중 기재, '역과금'은 역발행 프로세스에서만 이용가능
     '- 정과금(공급자 과금), 역과금(공급받는자 과금)
@@ -2761,7 +2761,7 @@ Private Sub btnRegister_rev_Click()
     Taxinvoice.writeDate = "20170223"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
-    Taxinvoice.issueType = "역발행"
+    Taxinvoice.IssueType = "역발행"
     
     '[필수] {정과금, 역과금} 중 기재, '역과금'은 역발행 프로세스에서만 이용가능
     '- 정과금(공급자 과금), 역과금(공급받는자 과금)
@@ -3010,7 +3010,7 @@ Private Sub btnRegistIssue_Click()
     Taxinvoice.writeDate = "20170328"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
-    Taxinvoice.issueType = "정발행"
+    Taxinvoice.IssueType = "정발행"
     
     '[필수] {정과금, 역과금} 중 기재, '역과금'은 역발행 프로세스에서만 이용가능
     '- 정과금(공급자 과금), 역과금(공급받는자 과금)
@@ -3357,6 +3357,7 @@ Private Sub btnSearch_Click()
     Dim State As New Collection
     Dim TType As New Collection
     Dim taxType As New Collection
+    Dim IssueType As New Collection
     Dim LateOnly As String
     Dim Page As Integer
     Dim PerPage As Integer
@@ -3383,10 +3384,10 @@ Private Sub btnSearch_Click()
     DType = "W"
     
     '[필수] 시작일자, yyyyMMdd
-    SDate = "20170101"
+    SDate = "20171101"
     
     '[필수] 종료일자, yyyyMMdd
-    EDate = "20170601"
+    EDate = "20171231"
     
     '전송상태값 배열, 미기재시 전체상태조회, 문서상태값 3자리숫자 작성
     '2,3번째 와일드카드 가능
@@ -3401,6 +3402,11 @@ Private Sub btnSearch_Click()
     taxType.Add "T"
     taxType.Add "N"
     taxType.Add "Z"
+    
+    '발행형태 배열, N-정발행, R-역발행, T-위수탁
+    IssueType.Add "N"
+    IssueType.Add "R"
+    IssueType.Add "T"
     
     '지연발행 여부, 0-정상발행분만 조회 1-지연발행분만조회, 공백처리시 전체조회
     LateOnly = ""
@@ -3431,7 +3437,7 @@ Private Sub btnSearch_Click()
     
     Set tiSearchList = TaxinvoiceService.Search(txtCorpNum.Text, KeyType, DType, SDate, EDate, State, TType, _
                         taxType, LateOnly, Page, PerPage, Order, TaxRegIDType, TaxRegID, TaxRegIDYN, QString, _
-                        txtUserID.Text, interOPYN)
+                        txtUserID.Text, interOPYN, IssueType)
      
     If tiSearchList Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -3453,7 +3459,7 @@ Private Sub btnSearch_Click()
         tmp = tmp + "taxType (과세형태) : " + tiInfo.taxType + vbCrLf
         tmp = tmp + "writeDate (작성일자) : " + tiInfo.writeDate + vbCrLf
         tmp = tmp + "regDT (임시저장 일자) : " + tiInfo.regDT + vbCrLf
-        tmp = tmp + "issueType (발행형태) : " + tiInfo.issueType + vbCrLf
+        tmp = tmp + "issueType (발행형태) : " + tiInfo.IssueType + vbCrLf
         tmp = tmp + "supplyCostTotal (공급가액 합계) : " + tiInfo.supplyCostTotal + vbCrLf
         tmp = tmp + "taxTotal (세액 합계) : " + tiInfo.taxTotal + vbCrLf
         tmp = tmp + "purposeType (영수/청구) : " + tiInfo.purposeType + vbCrLf
@@ -3750,7 +3756,7 @@ Private Sub btnUpdate_Click()
     Taxinvoice.writeDate = "20170223"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
-    Taxinvoice.issueType = "정발행"
+    Taxinvoice.IssueType = "정발행"
     
     '[필수] {정과금, 역과금} 중 기재, '역과금'은 역발행 프로세스에서만 이용가능
     '- 정과금(공급자 과금), 역과금(공급받는자 과금)
@@ -4006,7 +4012,7 @@ Private Sub btnUpdate_rev_Click()
     Taxinvoice.writeDate = "20170223"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
-    Taxinvoice.issueType = "역발행"
+    Taxinvoice.IssueType = "역발행"
     
     '[필수] {정과금, 역과금} 중 기재, '역과금'은 역발행 프로세스에서만 이용가능
     '- 정과금(공급자 과금), 역과금(공급받는자 과금)

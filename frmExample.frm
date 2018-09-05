@@ -10,19 +10,46 @@ Begin VB.Form frmExample
    ScaleHeight     =   12000
    ScaleWidth      =   19005
    StartUpPosition =   2  '화면 가운데
+   Begin VB.CommandButton btnUpdateemailconfig 
+      Caption         =   "알림메일 전송설정 수정"
+      Height          =   390
+      Index           =   3
+      Left            =   7560
+      TabIndex        =   91
+      Top             =   9960
+      Width           =   2085
+   End
+   Begin VB.CommandButton btnListemailconfig 
+      Caption         =   "알림메일 전송목록 조회"
+      Height          =   390
+      Index           =   2
+      Left            =   7560
+      TabIndex        =   90
+      Top             =   9480
+      Width           =   2085
+   End
+   Begin VB.CommandButton btnAssignmgtkey 
+      Caption         =   "관리번호 할당"
+      Height          =   390
+      Index           =   1
+      Left            =   5520
+      TabIndex        =   89
+      Top             =   9960
+      Width           =   1965
+   End
    Begin VB.Frame Frame17 
       Caption         =   "파트너과금 포인트"
       Height          =   1935
       Index           =   1
       Left            =   6720
-      TabIndex        =   86
+      TabIndex        =   84
       Top             =   840
       Width           =   2295
       Begin VB.CommandButton btnGetPartnerURL_CHRG 
          Caption         =   "포인트 충전 URL"
          Height          =   410
          Left            =   120
-         TabIndex        =   90
+         TabIndex        =   88
          Top             =   840
          Width           =   2055
       End
@@ -30,7 +57,7 @@ Begin VB.Form frmExample
          Caption         =   "파트너 잔여포인트 확인"
          Height          =   410
          Left            =   120
-         TabIndex        =   89
+         TabIndex        =   87
          Top             =   360
          Width           =   2055
       End
@@ -39,7 +66,7 @@ Begin VB.Form frmExample
       Caption         =   "문서 목록조회"
       Height          =   390
       Left            =   3080
-      TabIndex        =   79
+      TabIndex        =   77
       Top             =   10320
       Width           =   1845
    End
@@ -47,7 +74,7 @@ Begin VB.Form frmExample
       Caption         =   "회사정보 수정"
       Height          =   410
       Left            =   9360
-      TabIndex        =   74
+      TabIndex        =   72
       Top             =   1680
       Width           =   1815
    End
@@ -55,7 +82,7 @@ Begin VB.Form frmExample
       Caption         =   "담당자 정보 수정"
       Height          =   410
       Left            =   13800
-      TabIndex        =   72
+      TabIndex        =   70
       Top             =   2160
       Width           =   1815
    End
@@ -63,7 +90,7 @@ Begin VB.Form frmExample
       Caption         =   "담당자 목록 조회"
       Height          =   410
       Left            =   13800
-      TabIndex        =   71
+      TabIndex        =   69
       Top             =   1680
       Width           =   1815
    End
@@ -71,14 +98,14 @@ Begin VB.Form frmExample
       Caption         =   "회사정보 관련"
       Height          =   1935
       Left            =   9240
-      TabIndex        =   69
+      TabIndex        =   67
       Top             =   840
       Width           =   2055
       Begin VB.CommandButton btnGetCorpInfo 
          Caption         =   "회사정보 조회"
          Height          =   410
          Left            =   120
-         TabIndex        =   73
+         TabIndex        =   71
          Top             =   360
          Width           =   1815
       End
@@ -87,9 +114,170 @@ Begin VB.Form frmExample
       Caption         =   "ID 중복 확인"
       Height          =   410
       Left            =   480
-      TabIndex        =   68
+      TabIndex        =   66
       Top             =   1680
       Width           =   1455
+   End
+   Begin VB.Frame Frame1 
+      Caption         =   " 팝빌 기본 API "
+      Height          =   2295
+      Left            =   240
+      TabIndex        =   4
+      Top             =   600
+      Width           =   18495
+      Begin VB.Frame Frame17 
+         Caption         =   "연동과금 포인트"
+         Height          =   1935
+         Index           =   0
+         Left            =   4440
+         TabIndex        =   83
+         Top             =   240
+         Width           =   1935
+         Begin VB.CommandButton btnGetBalance 
+            Caption         =   "잔여포인트 확인"
+            Height          =   410
+            Left            =   120
+            TabIndex        =   86
+            Top             =   360
+            Width           =   1695
+         End
+         Begin VB.CommandButton btnPopbillURL_CHRG 
+            Caption         =   " 포인트 충전 URL"
+            Height          =   410
+            Left            =   120
+            TabIndex        =   85
+            Top             =   840
+            Width           =   1695
+         End
+      End
+      Begin VB.Frame Frame6 
+         Caption         =   " 공인인증서 관련"
+         Height          =   1935
+         Left            =   11160
+         TabIndex        =   12
+         Top             =   240
+         Width           =   2175
+         Begin VB.CommandButton btnPopbillURL_CERT 
+            Caption         =   " 공인인증서 등록 URL"
+            Height          =   410
+            Left            =   120
+            TabIndex        =   81
+            Top             =   840
+            Width           =   1935
+         End
+         Begin VB.CommandButton btnCertificateExpireDate 
+            Caption         =   "인증서 만료일 확인"
+            Height          =   410
+            Left            =   120
+            TabIndex        =   14
+            Top             =   360
+            Width           =   1935
+         End
+      End
+      Begin VB.Frame Frame2 
+         Caption         =   " 회원정보"
+         Height          =   1935
+         Left            =   120
+         TabIndex        =   10
+         Top             =   240
+         Width           =   1695
+         Begin VB.CommandButton btnCheckIsMember 
+            Caption         =   "가입 여부 확인"
+            Height          =   410
+            Left            =   120
+            TabIndex        =   15
+            Top             =   360
+            Width           =   1455
+         End
+         Begin VB.CommandButton btnJoinMember 
+            Caption         =   "회원 가입"
+            Height          =   410
+            Left            =   120
+            TabIndex        =   11
+            Top             =   1320
+            Width           =   1455
+         End
+      End
+      Begin VB.Frame Frame3 
+         Caption         =   " 포인트 관련"
+         Height          =   1935
+         Left            =   1920
+         TabIndex        =   8
+         Top             =   240
+         Width           =   2415
+         Begin VB.CommandButton btnGetChargeInfo 
+            Caption         =   "과금정보 확인"
+            Height          =   410
+            Left            =   120
+            TabIndex        =   80
+            Top             =   360
+            Width           =   2175
+         End
+         Begin VB.CommandButton btnUnitCost 
+            Caption         =   "요금 단가 확인"
+            Height          =   410
+            Left            =   120
+            TabIndex        =   9
+            Top             =   840
+            Width           =   2175
+         End
+      End
+      Begin VB.Frame Frame4 
+         Caption         =   "담당자 관련"
+         Height          =   1935
+         Left            =   13440
+         TabIndex        =   7
+         Top             =   240
+         Width           =   2055
+         Begin VB.CommandButton btnRegistContact 
+            Caption         =   "담당자 추가"
+            Height          =   410
+            Left            =   120
+            TabIndex        =   68
+            Top             =   360
+            Width           =   1815
+         End
+      End
+      Begin VB.Frame Frame5 
+         Caption         =   " 팝빌 기본 URL"
+         Height          =   1935
+         Left            =   15600
+         TabIndex        =   5
+         Top             =   240
+         Width           =   2655
+         Begin VB.CommandButton btnGetPopbillURL_SEAL 
+            Caption         =   "인감 및 첨부문서 등록 URL"
+            Height          =   375
+            Left            =   120
+            TabIndex        =   82
+            Top             =   840
+            Width           =   2415
+         End
+         Begin VB.CommandButton btnGetPopbillURL_LOGIN 
+            Caption         =   " 팝빌 로그인 URL"
+            Height          =   410
+            Left            =   120
+            TabIndex        =   6
+            Top             =   360
+            Width           =   2415
+         End
+      End
+   End
+   Begin VB.TextBox txtUserID 
+      Height          =   315
+      Left            =   6000
+      TabIndex        =   3
+      Text            =   "testkorea"
+      Top             =   165
+      Width           =   1935
+   End
+   Begin VB.TextBox txtCorpNum 
+      Height          =   315
+      Left            =   2280
+      TabIndex        =   1
+      Text            =   "1234567890"
+      Top             =   180
+      Width           =   1935
    End
    Begin VB.Frame Frame7 
       Caption         =   " 세금계산서 관련 기능"
@@ -97,12 +285,12 @@ Begin VB.Form frmExample
       Left            =   240
       TabIndex        =   13
       Top             =   3120
-      Width           =   13575
+      Width           =   17535
       Begin VB.Frame Frame16 
          Caption         =   "정발행 (즉시발행) 프로세스"
          Height          =   3255
          Left            =   240
-         TabIndex        =   75
+         TabIndex        =   73
          Top             =   840
          Width           =   3255
          Begin VB.CommandButton btnCancelIsse_2 
@@ -111,7 +299,7 @@ Begin VB.Form frmExample
             Height          =   495
             Left            =   240
             Style           =   1  '그래픽
-            TabIndex        =   78
+            TabIndex        =   76
             Top             =   2110
             Width           =   975
          End
@@ -120,7 +308,7 @@ Begin VB.Form frmExample
             Height          =   495
             Left            =   1920
             Style           =   1  '그래픽
-            TabIndex        =   77
+            TabIndex        =   75
             Top             =   2110
             Width           =   975
          End
@@ -130,7 +318,7 @@ Begin VB.Form frmExample
             Height          =   495
             Left            =   480
             Style           =   1  '그래픽
-            TabIndex        =   76
+            TabIndex        =   74
             Top             =   720
             Width           =   1215
          End
@@ -160,7 +348,7 @@ Begin VB.Form frmExample
          Caption         =   "유통메일목록"
          Height          =   390
          Left            =   9960
-         TabIndex        =   66
+         TabIndex        =   64
          Top             =   255
          Width           =   1725
       End
@@ -174,15 +362,15 @@ Begin VB.Form frmExample
       Begin VB.Frame Frame14 
          Caption         =   " 문서 정보 "
          Height          =   2760
-         Left            =   7560
-         TabIndex        =   61
+         Left            =   9720
+         TabIndex        =   59
          Top             =   5040
          Width           =   3210
          Begin VB.CommandButton btnGetEPrintUrl 
             Caption         =   "공급받는자 인쇄 팝업 URL"
             Height          =   390
             Left            =   210
-            TabIndex        =   67
+            TabIndex        =   65
             Top             =   1260
             Width           =   2745
          End
@@ -190,7 +378,7 @@ Begin VB.Form frmExample
             Caption         =   "문서 내용 보기 팝업 URL"
             Height          =   390
             Left            =   210
-            TabIndex        =   65
+            TabIndex        =   63
             Top             =   390
             Width           =   2745
          End
@@ -198,7 +386,7 @@ Begin VB.Form frmExample
             Caption         =   "인쇄 팝업 URL"
             Height          =   390
             Left            =   210
-            TabIndex        =   64
+            TabIndex        =   62
             Top             =   825
             Width           =   2745
          End
@@ -206,7 +394,7 @@ Begin VB.Form frmExample
             Caption         =   "다량 인쇄 팝업 URL"
             Height          =   390
             Left            =   210
-            TabIndex        =   63
+            TabIndex        =   61
             Top             =   1710
             Width           =   2745
          End
@@ -214,7 +402,7 @@ Begin VB.Form frmExample
             Caption         =   "이메일(공급받는자) 링크 URL"
             Height          =   390
             Left            =   210
-            TabIndex        =   62
+            TabIndex        =   60
             Top             =   2160
             Width           =   2745
          End
@@ -222,15 +410,15 @@ Begin VB.Form frmExample
       Begin VB.Frame Frame13 
          Caption         =   " 기타 URL "
          Height          =   2295
-         Left            =   11040
-         TabIndex        =   56
+         Left            =   13200
+         TabIndex        =   54
          Top             =   5040
          Width           =   2265
          Begin VB.CommandButton btnGetURL_TBOX 
             Caption         =   "임시 문서함"
             Height          =   390
             Left            =   210
-            TabIndex        =   60
+            TabIndex        =   58
             Top             =   390
             Width           =   1845
          End
@@ -238,7 +426,7 @@ Begin VB.Form frmExample
             Caption         =   "매출 문서함"
             Height          =   390
             Left            =   210
-            TabIndex        =   59
+            TabIndex        =   57
             Top             =   825
             Width           =   1845
          End
@@ -246,7 +434,7 @@ Begin VB.Form frmExample
             Caption         =   "매입 문서함"
             Height          =   390
             Left            =   195
-            TabIndex        =   58
+            TabIndex        =   56
             Top             =   1260
             Width           =   1845
          End
@@ -254,7 +442,7 @@ Begin VB.Form frmExample
             Caption         =   "매출 작성"
             Height          =   390
             Left            =   195
-            TabIndex        =   57
+            TabIndex        =   55
             Top             =   1710
             Width           =   1845
          End
@@ -265,46 +453,46 @@ Begin VB.Form frmExample
          Left            =   5040
          TabIndex        =   52
          Top             =   5040
-         Width           =   2265
+         Width           =   4545
+         Begin VB.CommandButton btnSendFAX 
+            Caption         =   "팩스 전송"
+            Height          =   375
+            Left            =   240
+            TabIndex        =   93
+            Top             =   1320
+            Width           =   1935
+         End
+         Begin VB.CommandButton btnSendSMS 
+            Caption         =   "문자 전송"
+            Height          =   375
+            Left            =   240
+            TabIndex        =   92
+            Top             =   840
+            Width           =   1935
+         End
          Begin VB.CommandButton btnDetachStatement 
             Caption         =   "전자명세서 첨부해제"
             Height          =   390
-            Left            =   210
-            TabIndex        =   81
-            Top             =   2200
-            Width           =   1845
+            Left            =   2280
+            TabIndex        =   79
+            Top             =   840
+            Width           =   2085
          End
          Begin VB.CommandButton btnAttachStatement 
             Caption         =   "전자명세서 첨부"
             Height          =   390
-            Left            =   210
-            TabIndex        =   80
-            Top             =   1750
-            Width           =   1845
+            Left            =   2280
+            TabIndex        =   78
+            Top             =   390
+            Width           =   2085
          End
          Begin VB.CommandButton btnSendEmail 
             Caption         =   "이메일 전송"
             Height          =   390
-            Left            =   210
-            TabIndex        =   55
-            Top             =   390
-            Width           =   1845
-         End
-         Begin VB.CommandButton btnSendSMS 
-            Caption         =   "문자 전송"
-            Height          =   390
-            Left            =   210
-            TabIndex        =   54
-            Top             =   825
-            Width           =   1845
-         End
-         Begin VB.CommandButton btnSendFAX 
-            Caption         =   "팩스 전송"
-            Height          =   390
-            Left            =   210
+            Left            =   240
             TabIndex        =   53
-            Top             =   1290
-            Width           =   1845
+            Top             =   390
+            Width           =   1965
          End
       End
       Begin VB.Frame Frame11 
@@ -763,167 +951,6 @@ Begin VB.Form frmExample
          Width           =   2115
       End
    End
-   Begin VB.Frame Frame1 
-      Caption         =   " 팝빌 기본 API "
-      Height          =   2295
-      Left            =   240
-      TabIndex        =   4
-      Top             =   600
-      Width           =   18495
-      Begin VB.Frame Frame17 
-         Caption         =   "연동과금 포인트"
-         Height          =   1935
-         Index           =   0
-         Left            =   4440
-         TabIndex        =   85
-         Top             =   240
-         Width           =   1935
-         Begin VB.CommandButton btnGetBalance 
-            Caption         =   "잔여포인트 확인"
-            Height          =   410
-            Left            =   120
-            TabIndex        =   88
-            Top             =   360
-            Width           =   1695
-         End
-         Begin VB.CommandButton btnPopbillURL_CHRG 
-            Caption         =   " 포인트 충전 URL"
-            Height          =   410
-            Left            =   120
-            TabIndex        =   87
-            Top             =   840
-            Width           =   1695
-         End
-      End
-      Begin VB.Frame Frame6 
-         Caption         =   " 공인인증서 관련"
-         Height          =   1935
-         Left            =   11160
-         TabIndex        =   12
-         Top             =   240
-         Width           =   2175
-         Begin VB.CommandButton btnPopbillURL_CERT 
-            Caption         =   " 공인인증서 등록 URL"
-            Height          =   410
-            Left            =   120
-            TabIndex        =   83
-            Top             =   840
-            Width           =   1935
-         End
-         Begin VB.CommandButton btnCertificateExpireDate 
-            Caption         =   "인증서 만료일 확인"
-            Height          =   410
-            Left            =   120
-            TabIndex        =   14
-            Top             =   360
-            Width           =   1935
-         End
-      End
-      Begin VB.Frame Frame2 
-         Caption         =   " 회원정보"
-         Height          =   1935
-         Left            =   120
-         TabIndex        =   10
-         Top             =   240
-         Width           =   1695
-         Begin VB.CommandButton btnCheckIsMember 
-            Caption         =   "가입 여부 확인"
-            Height          =   410
-            Left            =   120
-            TabIndex        =   15
-            Top             =   360
-            Width           =   1455
-         End
-         Begin VB.CommandButton btnJoinMember 
-            Caption         =   "회원 가입"
-            Height          =   410
-            Left            =   120
-            TabIndex        =   11
-            Top             =   1320
-            Width           =   1455
-         End
-      End
-      Begin VB.Frame Frame3 
-         Caption         =   " 포인트 관련"
-         Height          =   1935
-         Left            =   1920
-         TabIndex        =   8
-         Top             =   240
-         Width           =   2415
-         Begin VB.CommandButton btnGetChargeInfo 
-            Caption         =   "과금정보 확인"
-            Height          =   410
-            Left            =   120
-            TabIndex        =   82
-            Top             =   360
-            Width           =   2175
-         End
-         Begin VB.CommandButton btnUnitCost 
-            Caption         =   "요금 단가 확인"
-            Height          =   410
-            Left            =   120
-            TabIndex        =   9
-            Top             =   840
-            Width           =   2175
-         End
-      End
-      Begin VB.Frame Frame4 
-         Caption         =   "담당자 관련"
-         Height          =   1935
-         Left            =   13440
-         TabIndex        =   7
-         Top             =   240
-         Width           =   2055
-         Begin VB.CommandButton btnRegistContact 
-            Caption         =   "담당자 추가"
-            Height          =   410
-            Left            =   120
-            TabIndex        =   70
-            Top             =   360
-            Width           =   1815
-         End
-      End
-      Begin VB.Frame Frame5 
-         Caption         =   " 팝빌 기본 URL"
-         Height          =   1935
-         Left            =   15600
-         TabIndex        =   5
-         Top             =   240
-         Width           =   2655
-         Begin VB.CommandButton btnGetPopbillURL_SEAL 
-            Caption         =   "인감 및 첨부문서 등록 URL"
-            Height          =   375
-            Left            =   120
-            TabIndex        =   84
-            Top             =   840
-            Width           =   2415
-         End
-         Begin VB.CommandButton btnGetPopbillURL_LOGIN 
-            Caption         =   " 팝빌 로그인 URL"
-            Height          =   410
-            Left            =   120
-            TabIndex        =   6
-            Top             =   360
-            Width           =   2415
-         End
-      End
-   End
-   Begin VB.TextBox txtUserID 
-      Height          =   315
-      Left            =   6000
-      TabIndex        =   3
-      Text            =   "testkorea"
-      Top             =   165
-      Width           =   1935
-   End
-   Begin VB.TextBox txtCorpNum 
-      Height          =   315
-      Left            =   2280
-      TabIndex        =   1
-      Text            =   "1234567890"
-      Top             =   180
-      Width           =   1935
-   End
    Begin VB.Label Label2 
       Caption         =   "팝빌회원 아이디 : "
       Height          =   180
@@ -1026,6 +1053,46 @@ Private Sub btnAccept_Click()
     memo = "발행예정 승인메모"
     
     Set Response = TaxinvoiceService.Accept(txtCorpNum.Text, KeyType, txtMgtKey.Text, memo)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+End Sub
+
+'=========================================================================
+' 팝빌 사이트에서 작성한 세금계산서에 파트너 문서관리번호를 할당합니다.
+' - 문서관리번호가 존재하지 않는 세금계산서만 할당이 가능 합니다.
+'=========================================================================
+
+Private Sub btnAssignmgtkey_Click(Index As Integer)
+    Dim Response As PBResponse
+    Dim KeyType As MgtKeyType
+    Dim Itemkey As String
+    Dim MgtKey As String
+    
+    Select Case cboMgtKeyType.Text
+        Case "SELL"
+            KeyType = SELL
+        Case "BUY"
+            KeyType = BUY
+        Case "TRUSTEE"
+            KeyType = TRUSTEE
+        Case Else
+            MsgBox "관리번호 형태를 선택해주세요."
+            Exit Sub
+    End Select
+    
+    '세금계산서 아이템키, 목록조회(Search) API의 반환항목중 ItemKey 참조
+    Itemkey = "018090515070600001"
+            
+    '할당할 문서관리번호, 숫자, 영문, '-', '_' 조합으로
+    '1~24자리까지 사업자번호별 중복없는 고유번호 할당
+    MgtKey = "20180911-001"
+        
+    Set Response = TaxinvoiceService.AssignMgtKey(txtCorpNum.Text, KeyType, Itemkey, MgtKey)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -1815,7 +1882,7 @@ Private Sub btnGetInfo_Click()
     
     Dim tmp As String
     
-    tmp = tmp + "itemKey (세금계산서 아이템키) : " + tiInfo.itemKey + vbCrLf
+    tmp = tmp + "itemKey (세금계산서 아이템키) : " + tiInfo.Itemkey + vbCrLf
     tmp = tmp + "stateCode (상태코드) : " + CStr(tiInfo.stateCode) + vbCrLf
     tmp = tmp + "taxType (과세형태) : " + tiInfo.taxType + vbCrLf
     tmp = tmp + "purposeType (영수/청구) : " + tiInfo.purposeType + vbCrLf
@@ -1898,7 +1965,7 @@ Private Sub btnGetInfos_Click()
     Dim info As PBTIInfo
     
     For Each info In resultList
-        tmp = tmp + info.itemKey + " | " + CStr(info.stateCode) + " | " + info.taxType + " | " + info.writeDate + " | " + info.regDT + " | "
+        tmp = tmp + info.Itemkey + " | " + CStr(info.stateCode) + " | " + info.taxType + " | " + info.writeDate + " | " + info.regDT + " | "
         tmp = tmp + CStr(info.invoicerPrintYN) + " | " + CStr(info.invoiceePrintYN) + " | " + CStr(info.closeDownState) + " | " + info.closeDownStateDate + " | " + CStr(info.interOPYN) + vbCrLf
     Next
     
@@ -3455,7 +3522,7 @@ Private Sub btnSearch_Click()
     Dim tiInfo As PBTIInfo
     
     For Each tiInfo In tiSearchList.list
-        tmp = tmp + "itemKey (세금계산서 아이템키) : " + tiInfo.itemKey + vbCrLf
+        tmp = tmp + "itemKey (세금계산서 아이템키) : " + tiInfo.Itemkey + vbCrLf
         tmp = tmp + "taxType (과세형태) : " + tiInfo.taxType + vbCrLf
         tmp = tmp + "writeDate (작성일자) : " + tiInfo.writeDate + vbCrLf
         tmp = tmp + "regDT (임시저장 일자) : " + tiInfo.regDT + vbCrLf
@@ -4322,6 +4389,7 @@ Private Sub btnUpdateCorpInfo_Click()
     
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
+
 
 
 Private Sub Form_Load()

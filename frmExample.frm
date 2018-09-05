@@ -2433,7 +2433,7 @@ Private Sub btnListContact_Click()
     
     For Each info In resultList
         tmp = tmp + info.id + " | " + info.email + " | " + info.hp + " | " + info.personName + " | " + CStr(info.searchAllAllowYN) _
-                + info.tel + " | " + info.fax + " | " + CStr(info.mgrYN) + " | " + info.regDT + vbCrLf
+                + info.tel + " | " + info.fax + " | " + CStr(info.mgrYN) + " | " + info.regDT + " | " + CStr(info.state) + vbCrLf
     Next
     
     MsgBox tmp
@@ -2446,9 +2446,10 @@ End Sub
     
 Private Sub btnPopbillURL_CERT_Click()
     Dim url As String
-    
+
     url = TaxinvoiceService.GetPopbillURL(txtCorpNum.Text, txtUserID.Text, "CERT")
-    
+
+
     If url = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
@@ -3421,7 +3422,7 @@ Private Sub btnSearch_Click()
     Dim DType As String
     Dim SDate As String
     Dim EDate As String
-    Dim State As New Collection
+    Dim state As New Collection
     Dim TType As New Collection
     Dim taxType As New Collection
     Dim issueType As New Collection
@@ -3458,8 +3459,8 @@ Private Sub btnSearch_Click()
     
     '전송상태값 배열, 미기재시 전체상태조회, 문서상태값 3자리숫자 작성
     '2,3번째 와일드카드 가능
-    State.Add "3**"
-    State.Add "6**"
+    state.Add "3**"
+    state.Add "6**"
     
     '문서유형 배열, N-일반 M-수정 중 선택, 미기재시 전체조회
     TType.Add "N"
@@ -3502,7 +3503,7 @@ Private Sub btnSearch_Click()
     '연동문서 여부, 공백-전체조회, 0-일반문서 조회, 1-연동문서 조회
     interOPYN = ""
     
-    Set tiSearchList = TaxinvoiceService.Search(txtCorpNum.Text, KeyType, DType, SDate, EDate, State, TType, _
+    Set tiSearchList = TaxinvoiceService.Search(txtCorpNum.Text, KeyType, DType, SDate, EDate, state, TType, _
                         taxType, LateOnly, Page, PerPage, Order, TaxRegIDType, TaxRegID, TaxRegIDYN, QString, _
                         txtUserID.Text, interOPYN, issueType)
      

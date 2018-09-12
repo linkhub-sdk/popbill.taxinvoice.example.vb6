@@ -1067,10 +1067,10 @@ End Sub
 ' - 문서관리번호가 존재하지 않는 세금계산서만 할당이 가능 합니다.
 '=========================================================================
 
-Private Sub btnAssignmgtkey_Click(Index As Integer)
+Private Sub btnAssignmgtkey_Click(index As Integer)
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
-    Dim Itemkey As String
+    Dim itemKey As String
     Dim MgtKey As String
     
     Select Case cboMgtKeyType.Text
@@ -1086,13 +1086,13 @@ Private Sub btnAssignmgtkey_Click(Index As Integer)
     End Select
     
     '세금계산서 아이템키, 목록조회(Search) API의 반환항목중 ItemKey 참조
-    Itemkey = "018090515070600001"
+    itemKey = "018090515070600001"
             
     '할당할 문서관리번호, 숫자, 영문, '-', '_' 조합으로
     '1~24자리까지 사업자번호별 중복없는 고유번호 할당
     MgtKey = "20180911-001"
         
-    Set Response = TaxinvoiceService.AssignMgtKey(txtCorpNum.Text, KeyType, Itemkey, MgtKey)
+    Set Response = TaxinvoiceService.AssignMgtKey(txtCorpNum.Text, KeyType, itemKey, MgtKey)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -1882,7 +1882,7 @@ Private Sub btnGetInfo_Click()
     
     Dim tmp As String
     
-    tmp = tmp + "itemKey (세금계산서 아이템키) : " + tiInfo.Itemkey + vbCrLf
+    tmp = tmp + "itemKey (세금계산서 아이템키) : " + tiInfo.itemKey + vbCrLf
     tmp = tmp + "stateCode (상태코드) : " + CStr(tiInfo.stateCode) + vbCrLf
     tmp = tmp + "taxType (과세형태) : " + tiInfo.taxType + vbCrLf
     tmp = tmp + "purposeType (영수/청구) : " + tiInfo.purposeType + vbCrLf
@@ -1965,7 +1965,7 @@ Private Sub btnGetInfos_Click()
     Dim info As PBTIInfo
     
     For Each info In resultList
-        tmp = tmp + info.Itemkey + " | " + CStr(info.stateCode) + " | " + info.taxType + " | " + info.writeDate + " | " + info.regDT + " | "
+        tmp = tmp + info.itemKey + " | " + CStr(info.stateCode) + " | " + info.taxType + " | " + info.writeDate + " | " + info.regDT + " | "
         tmp = tmp + CStr(info.invoicerPrintYN) + " | " + CStr(info.invoiceePrintYN) + " | " + CStr(info.closeDownState) + " | " + info.closeDownStateDate + " | " + CStr(info.interOPYN) + vbCrLf
     Next
     
@@ -2427,7 +2427,7 @@ Private Sub btnListContact_Click()
     
     Dim tmp As String
     
-    tmp = "id | email | hp | personName | searchAllAllowYN | tel | fax | mgrYN | regDT " + vbCrLf
+    tmp = "id | email | hp | personName | searchAllAllowYN | tel | fax | mgrYN | regDT | state " + vbCrLf
     
     Dim info As PBContactInfo
     
@@ -2440,6 +2440,188 @@ Private Sub btnListContact_Click()
 End Sub
 
 '=========================================================================
+' 전자세금계산서 관련 메일전송 항목에 대한 전송여부를 목록으로 반환합니다
+'=========================================================================
+Private Sub btnListemailconfig_Click(index As Integer)
+    Dim resultList As Collection
+    Dim i As Integer
+    
+    Set resultList = TaxinvoiceService.ListEmailConfig(txtCorpNum.Text, txtUserID.Text)
+    
+    If resultList Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+ 
+    Dim tmp As String
+    
+    tmp = "메일전송유형(EmailType) | 전송여부(SendYN) " + vbCrLf
+    
+    Dim info As PBEmailConfig
+    
+    For i = 1 To resultList.Count
+        If resultList(i).emailType = "TAX_ISSUE" Then
+            tmp = tmp + "공급받는자에게 전자세금계산서 발행 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+        
+        If resultList(i).emailType = "TAX_ISSUE_INVOICER" Then
+            tmp = tmp + "공급자에게 전자세금계산서 발행 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+        
+        If resultList(i).emailType = "TAX_CHECK" Then
+            tmp = tmp + "공급자에게 전자세금계산서 수신확인 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+        
+        If resultList(i).emailType = "TAX_CANCEL_ISSUE" Then
+            tmp = tmp + "공급받는자에게 전자세금계산서 발행취소 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+                    
+        If resultList(i).emailType = "TAX_SEND" Then
+            tmp = tmp + "공급받는자에게 [발행예정] 세금계산서 발송 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+        
+        If resultList(i).emailType = "TAX_ACCEPT" Then
+            tmp = tmp + "공급자에게 [발행예정] 세금계산서 승인 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+        
+            If resultList(i).emailType = "TAX_ACCEPT_ISSUE" Then
+            tmp = tmp + "공급자에게 [발행예정] 세금계산서 자동발행 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+        
+        If resultList(i).emailType = "TAX_DENY" Then
+            tmp = tmp + "공급자에게 [발행예정] 세금계산서 거부 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+
+        If resultList(i).emailType = "TAX_CANCEL_SEND" Then
+            tmp = tmp + "공급받는자에게 [발행예정] 세금계산서 취소 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+                    
+        If resultList(i).emailType = "TAX_REQUEST" Then
+            tmp = tmp + "공급자에게 세금계산서를 발행요청 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+        
+        If resultList(i).emailType = "TAX_CANCEL_REQUEST" Then
+            tmp = tmp + "공급받는자에게 세금계산서 취소 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+        
+            If resultList(i).emailType = "TAX_REFUSE" Then
+            tmp = tmp + "공급받는자에게 세금계산서 거부 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+        
+        If resultList(i).emailType = "TAX_TRUST_ISSUE" Then
+            tmp = tmp + "공급받는자에게 전자세금계산서 발행 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+        
+        If resultList(i).emailType = "TAX_TRUST_ISSUE_TRUSTEE" Then
+            tmp = tmp + "수탁자에게 전자세금계산서 발행 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+                    
+        If resultList(i).emailType = "TAX_TRUST_ISSUE_INVOICER" Then
+            tmp = tmp + "공급자에게 전자세금계산서 발행 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+        
+        If resultList(i).emailType = "TAX_TRUST_CANCEL_ISSUE" Then
+            tmp = tmp + "공급받는자에게 전자세금계산서 발행취소 알림 : " + resultList(i).emailType + " | "
+          tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+    
+        If resultList(i).emailType = "TAX_TRUST_SEND" Then
+            tmp = tmp + "공급자에게 전자세금계산서 발행취소 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+        
+        If resultList(i).emailType = "TAX_TRUST_CANCEL_ISSUE_INVOICER" Then
+            tmp = tmp + "공급받는자에게 [발행예정] 세금계산서 발송 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+        
+        If resultList(i).emailType = "TAX_TRUST_ACCEPT" Then
+            tmp = tmp + "수탁자에게 [발행예정] 세금계산서 승인 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+                    
+        If resultList(i).emailType = "TAX_TRUST_ACCEPT_ISSUE" Then
+            tmp = tmp + "수탁자에게 [발행예정] 세금계산서 자동발행 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+        
+        If resultList(i).emailType = "TAX_TRUST_DENY" Then
+            tmp = tmp + "수탁자에게 [발행예정] 세금계산서 거부 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+        
+            If resultList(i).emailType = "TAX_TRUST_CANCEL_SEND" Then
+            tmp = tmp + "공급받는자에게 [발행예정] 세금계산서 취소 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+        
+        If resultList(i).emailType = "TAX_CLOSEDOWN" Then
+            tmp = tmp + "거래처의 휴폐업 여부 확인 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+        
+        If resultList(i).emailType = "TAX_NTSFAIL_INVOICER" Then
+            tmp = tmp + "전자세금계산서 국세청 전송실패 안내) : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+                    
+        If resultList(i).emailType = "TAX_SEND_INFO" Then
+            tmp = tmp + "전월 귀속분 [매출 발행 대기] 세금계산서 발행 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+        
+        If resultList(i).emailType = "ETC_CERT_EXPIRATION" Then
+            tmp = tmp + "팝빌에서 이용중인 공인인증서의 갱신 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+        
+    Next
+    
+    
+    MsgBox tmp
+
+End Sub
+
+'=========================================================================
+' 전자세금계산서 관련 메일전송 항목에 대한 전송여부를 수정합니다.
+'=========================================================================
+Private Sub btnUpdateemailconfig_Click(index As Integer)
+    Dim Response As PBResponse
+    Dim emailType As String
+    Dim sendYN As Boolean
+    
+    '메일 전송 유형
+    emailType = "TAX_ISSUE"
+
+    '전송 여부 (True = 전송, False = 미전송)
+    sendYN = True
+    
+    Set Response = TaxinvoiceService.UpdateEmailConfig(txtCorpNum.Text, emailType, sendYN, txtUserID.Text)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+End Sub
+
+'=========================================================================
 ' 공인인증서 등록 URL을 반환합니다.
 ' - URL 보안정책에 따라 반환된 URL은 30초의 유효시간을 갖습니다.
 '=========================================================================
@@ -2448,13 +2630,38 @@ Private Sub btnPopbillURL_CERT_Click()
     Dim url As String
 
     url = TaxinvoiceService.GetPopbillURL(txtCorpNum.Text, txtUserID.Text, "CERT")
-
-
+    
     If url = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
+    
     MsgBox "URL : " + vbCrLf + url
+    
+    'Internet Explorer Browser 호출
+    Dim IE As Object
+   
+    Dim strResult As String
+    Dim strSiteName As String
+   
+    Set IE = CreateObject("InternetExplorer.Application")
+    strSiteName = url
+    IE.Navigate strSiteName
+    With IE
+        .Resizable = True
+        .MenuBar = True
+        .Toolbar = True
+        .AddressBar = True
+        .Visible = True
+        .StatusBar = True
+        .Left = 0
+        .Top = 0
+        .Height = 800
+        .Width = 800
+        .StatusText = "팝빌 공인인증서 등록 팝업 URL"
+    End With
+   
+    Set IE = Nothing
     
 End Sub
 
@@ -3075,7 +3282,7 @@ Private Sub btnRegistIssue_Click()
     Dim Taxinvoice As New PBTaxinvoice
         
    '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20161010
-    Taxinvoice.writeDate = "20170328"
+    Taxinvoice.writeDate = "20180911"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
     Taxinvoice.issueType = "정발행"
@@ -3149,7 +3356,7 @@ Private Sub btnRegistIssue_Click()
     Taxinvoice.invoiceeType = "사업자"
     
     '[필수] 공급받는자 사업자번호, '-' 제외 10자리
-    Taxinvoice.invoiceeCorpNum = "8888888888"
+    Taxinvoice.invoiceeCorpNum = "2258300280"
     
     '[필수] 공급받는자 종사업자 식별번호. 필요시 숫자 4자리 기재
     Taxinvoice.invoiceeTaxRegID = ""
@@ -3523,7 +3730,7 @@ Private Sub btnSearch_Click()
     Dim tiInfo As PBTIInfo
     
     For Each tiInfo In tiSearchList.list
-        tmp = tmp + "itemKey (세금계산서 아이템키) : " + tiInfo.Itemkey + vbCrLf
+        tmp = tmp + "itemKey (세금계산서 아이템키) : " + tiInfo.itemKey + vbCrLf
         tmp = tmp + "taxType (과세형태) : " + tiInfo.taxType + vbCrLf
         tmp = tmp + "writeDate (작성일자) : " + tiInfo.writeDate + vbCrLf
         tmp = tmp + "regDT (임시저장 일자) : " + tiInfo.regDT + vbCrLf
@@ -4393,6 +4600,8 @@ End Sub
 
 
 
+
+
 Private Sub Form_Load()
     ' 모듈 초기화
     TaxinvoiceService.Initialize LinkID, SecretKey
@@ -4405,3 +4614,6 @@ Private Sub Form_Load()
     cboMgtKeyType.AddItem "TRUSTEE"
 End Sub
 
+Private Sub txtMgtKey_Change()
+1
+End Sub

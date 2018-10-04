@@ -157,8 +157,16 @@ Begin VB.Form frmExample
          TabIndex        =   12
          Top             =   240
          Width           =   2175
+         Begin VB.CommandButton btnCheckCertValidation 
+            Caption         =   "인증서 유효성 확인"
+            Height          =   375
+            Left            =   120
+            TabIndex        =   94
+            Top             =   1320
+            Width           =   1935
+         End
          Begin VB.CommandButton btnPopbillURL_CERT 
-            Caption         =   " 공인인증서 등록 URL"
+            Caption         =   " 인증서 등록 URL"
             Height          =   410
             Left            =   120
             TabIndex        =   81
@@ -978,7 +986,7 @@ Attribute VB_Exposed = False
 ' 팝빌 전자세금계산서 API VB 6.0 SDK Example
 '
 ' - VB6 SDK 연동환경 설정방법 안내 : http://blog.linkhub.co.kr/569
-' - 업데이트 일자 : 2017-12-06
+' - 업데이트 일자 : 2018-10-04
 ' - 연동 기술지원 연락처 : 1600-9854 / 070-4304-2991
 ' - 연동 기술지원 이메일 : code@linkhub.co.kr
 '
@@ -1351,6 +1359,23 @@ Private Sub btnCertificateExpireDate_Click()
     
     MsgBox "인증서만료일 : " + expireDate
  
+End Sub
+
+'=========================================================================
+' 팝빌에 등록된 공인인증서의 유효성을 확인한다.
+'=========================================================================
+
+Private Sub btnCheckCertValidation_Click()
+    Dim Response As PBResponse
+    
+    Set Response = TaxinvoiceService.CheckCertValidation(txtCorpNum.Text)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
 
 '=========================================================================

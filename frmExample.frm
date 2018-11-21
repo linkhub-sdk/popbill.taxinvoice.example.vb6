@@ -10,6 +10,103 @@ Begin VB.Form frmExample
    ScaleHeight     =   12000
    ScaleWidth      =   19005
    StartUpPosition =   2  '화면 가운데
+   Begin VB.Frame Frame18 
+      Caption         =   " 역발행 즉시요청 프로세스 (권장)"
+      Height          =   3315
+      Left            =   9720
+      TabIndex        =   95
+      Top             =   3960
+      Width           =   3615
+      Begin VB.CommandButton btnRegistRequest 
+         BackColor       =   &H00FFFFC0&
+         Caption         =   "역)즉시요청"
+         Height          =   780
+         Left            =   480
+         Style           =   1  '그래픽
+         TabIndex        =   101
+         Top             =   480
+         Width           =   1215
+      End
+      Begin VB.CommandButton btnIssue_rev_sub 
+         BackColor       =   &H00C0C0FF&
+         Caption         =   "발행"
+         Height          =   480
+         Left            =   480
+         Style           =   1  '그래픽
+         TabIndex        =   100
+         Top             =   1680
+         Width           =   1080
+      End
+      Begin VB.CommandButton btnDelete_rev_sub 
+         Caption         =   "삭제"
+         Height          =   495
+         Left            =   2400
+         Style           =   1  '그래픽
+         TabIndex        =   99
+         Top             =   2400
+         Width           =   975
+      End
+      Begin VB.CommandButton btnCancelIssue_rev_sub 
+         BackColor       =   &H00C0C0FF&
+         Caption         =   "발행취소"
+         Height          =   495
+         Left            =   480
+         Style           =   1  '그래픽
+         TabIndex        =   98
+         Top             =   2400
+         Width           =   1095
+      End
+      Begin VB.CommandButton btnRequestCancel_sub 
+         BackColor       =   &H00FFFFC0&
+         Caption         =   "요청취소"
+         Height          =   375
+         Left            =   2400
+         Style           =   1  '그래픽
+         TabIndex        =   97
+         Top             =   360
+         Width           =   855
+      End
+      Begin VB.CommandButton btnRefuse_sub 
+         BackColor       =   &H00C0C0FF&
+         Caption         =   "거부"
+         Height          =   375
+         Left            =   2400
+         Style           =   1  '그래픽
+         TabIndex        =   96
+         Top             =   840
+         Width           =   855
+      End
+      Begin VB.Line Line24 
+         X1              =   2880
+         X2              =   2880
+         Y1              =   2340
+         Y2              =   480
+      End
+      Begin VB.Line Line23 
+         X1              =   1095
+         X2              =   1095
+         Y1              =   2685
+         Y2              =   840
+      End
+      Begin VB.Line Line22 
+         X1              =   1290
+         X2              =   2925
+         Y1              =   2760
+         Y2              =   2760
+      End
+      Begin VB.Line Line21 
+         X1              =   1440
+         X2              =   2880
+         Y1              =   600
+         Y2              =   600
+      End
+      Begin VB.Line Line20 
+         X1              =   1200
+         X2              =   2915
+         Y1              =   1020
+         Y2              =   1020
+      End
+   End
    Begin VB.CommandButton btnUpdateemailconfig 
       Caption         =   "알림메일 전송설정 수정"
       Height          =   390
@@ -290,10 +387,10 @@ Begin VB.Form frmExample
    Begin VB.Frame Frame7 
       Caption         =   " 세금계산서 관련 기능"
       Height          =   8025
-      Left            =   240
+      Left            =   360
       TabIndex        =   13
       Top             =   3120
-      Width           =   17535
+      Width           =   17655
       Begin VB.Frame Frame16 
          Caption         =   "정발행 (즉시발행) 프로세스"
          Height          =   3255
@@ -596,7 +693,7 @@ Begin VB.Form frmExample
       Begin VB.Frame Frame9 
          Caption         =   " 역발행 세금계산서 프로세스 "
          Height          =   3345
-         Left            =   9360
+         Left            =   13320
          TabIndex        =   21
          Top             =   840
          Width           =   3855
@@ -1304,6 +1401,42 @@ Private Sub btnCancelIssue_rev_Click()
     
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
+'=========================================================================
+'[발행완료] 상태의 세금계산서를 [발행취소] 처리합니다.
+' - [발행취소]는 국세청 전송전에만 가능합니다.
+' - 발행취소된 세금계산서는 국세청에 전송되지 않습니다.
+' - 발행취소 세금계산서에 기재된 문서관리번호를 재사용 하기 위해서는
+'   삭제(Delete API)를 호출하여 [삭제] 처리 하셔야 합니다.
+'=========================================================================
+Private Sub btnCancelIssue_rev_sub_Click()
+    Dim Response As PBResponse
+    Dim KeyType As MgtKeyType
+    Dim memo As String
+    
+    Select Case cboMgtKeyType.Text
+        Case "SELL"
+            KeyType = SELL
+        Case "BUY"
+            KeyType = BUY
+        Case "TRUSTEE"
+            KeyType = TRUSTEE
+        Case Else
+            MsgBox "관리번호 형태를 선택해주세요."
+            Exit Sub
+    End Select
+    
+    '메모
+    memo = "발행 취소 메모"
+    
+    Set Response = TaxinvoiceService.CancelIssue(txtCorpNum.Text, KeyType, txtMgtKey.Text, memo)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+End Sub
 
 '=========================================================================
 ' 발행예정 세금계산서를 [취소] 처리 합니다.
@@ -1519,6 +1652,38 @@ End Sub
 '=========================================================================
 
 Private Sub btnDelete_rev_Click()
+    Dim Response As PBResponse
+    Dim KeyType As MgtKeyType
+    
+    Select Case cboMgtKeyType.Text
+        Case "SELL"
+            KeyType = SELL
+        Case "BUY"
+            KeyType = BUY
+        Case "TRUSTEE"
+            KeyType = TRUSTEE
+        Case Else
+            MsgBox "관리번호 형태를 선택해주세요."
+            Exit Sub
+    End Select
+    
+    Set Response = TaxinvoiceService.Delete(txtCorpNum.Text, KeyType, txtMgtKey.Text)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+End Sub
+
+'=========================================================================
+' 1건의 전자세금계산서를 삭제합니다.
+' - 세금계산서를 삭제해야만 문서관리번호(mgtKey)를 재사용할 수 있습니다.
+' - 삭제가능한 문서 상태 : [임시저장], [발행취소], [발행예정 취소],
+'   [발행예정 거부]
+'=========================================================================
+Private Sub btnDelete_rev_sub_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     
@@ -2384,6 +2549,58 @@ Private Sub btnIssue_rev_Click()
 End Sub
 
 '=========================================================================
+' 역발행 요청받은 세금계산서를 [발행]처리 합니다.
+' - 발행(Issue API)를 호출하는 시점에서 포인트가 차감됩니다.
+' - [발행완료] 세금계산서는 연동회원의 국세청 전송설정에 따라
+'    익일/즉시전송 처리됩니다. 기본설정(익일전송)
+' - 국세청 전송설정은 "팝빌 로그인" > [전자세금계산서] > [환경설정] >
+'   [전자세금계산서 관리] > [국세청 전송 및 지연발행 설정] 탭에서
+'   확인할 수 있습니다.
+' - 국세청 전송정책에 대한 사항은 "[전자세금계산서 API 연동매뉴얼] >
+'   1.4. 국세청 전송 정책" 을 참조하시기 바랍니다
+'=========================================================================
+
+Private Sub btnIssue_rev_sub_Click()
+    Dim Response As PBResponse
+    Dim KeyType As MgtKeyType
+    Dim memo As String
+    Dim emailSubject As String
+    Dim forceIssue As Boolean
+    
+    Select Case cboMgtKeyType.Text
+        Case "SELL"
+            KeyType = SELL
+        Case "BUY"
+            KeyType = BUY
+        Case "TRUSTEE"
+            KeyType = TRUSTEE
+        Case Else
+            MsgBox "관리번호 형태를 선택해주세요."
+            Exit Sub
+    End Select
+    
+    '메모
+    memo = "메모"
+    
+    '공급받는자에게 전송되는 발행안내메일 제목, 미기재시 기본양식으로 전송
+    emailSubject = ""
+    
+    '지연발행 강제여부, 기본값 - False
+    '발행마감일이 지난 세금계산서를 발행하는 경우, 가산세가 부과될 수 있습니다.
+    '지연발행 세금계산서를 신고해야 하는 경우 forceIssue 값을 True로 선언하여 발행(Issue API)을 호출할 수 있습니다.
+    forceIssue = False
+    
+    Set Response = TaxinvoiceService.Issue(txtCorpNum.Text, KeyType, txtMgtKey.Text, memo, emailSubject, forceIssue)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+End Sub
+
+'=========================================================================
 ' 파트너의 연동회원으로 회원가입을 요청합니다.
 '=========================================================================
 
@@ -2628,6 +2845,326 @@ Private Sub btnListemailconfig_Click(index As Integer)
     
     MsgBox tmp
 
+End Sub
+
+'=========================================================================
+' 공급받는자에게 요청받은 역발행 세금계산서를 [거부]처리 합니다.
+' - 세금계산서의 문서관리번호를 재사용하기 위해서는 삭제 (Delete API) 를
+'   호출하여 [삭제] 처리해야 합니다.
+'=========================================================================
+Private Sub btnRefuse_sub_Click()
+
+    Dim Response As PBResponse
+    Dim KeyType As MgtKeyType
+    Dim memo As String
+    
+    Select Case cboMgtKeyType.Text
+        Case "SELL"
+            KeyType = SELL
+        Case "BUY"
+            KeyType = BUY
+        Case "TRUSTEE"
+            KeyType = TRUSTEE
+        Case Else
+            MsgBox "관리번호 형태를 선택해주세요."
+            Exit Sub
+    End Select
+    
+    '메모
+    memo = "역발행 요청 거부 메모"
+    
+    Set Response = TaxinvoiceService.Refuse(txtCorpNum.Text, KeyType, txtMgtKey.Text, memo)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+End Sub
+
+
+Private Sub btnRegistRequest_Click()
+ Dim Taxinvoice As New PBTaxinvoice
+    
+   '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20161010
+    Taxinvoice.writeDate = "20181121"
+    
+    '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
+    Taxinvoice.issueType = "역발행"
+    
+    '[필수] {정과금, 역과금} 중 기재, '역과금'은 역발행 프로세스에서만 이용가능
+    '- 정과금(공급자 과금), 역과금(공급받는자 과금)
+    Taxinvoice.chargeDirection = "정과금"
+    
+    '[필수] 영수/청구, [영수, 청구] 중 기재
+    Taxinvoice.purposeType = "영수"
+    
+    '[필수] 발행시점, [직접발행, 승인시자동발행] 중 기재
+    ' 발행예정(Send API) 프로세스를 구현하지 않는경우 '직접발행' 기재
+    Taxinvoice.issueTiming = "직접발행"
+    
+    '[필수] 과세형태, [과세, 영세, 면세] 중 기재
+    Taxinvoice.taxType = "과세"
+    
+    
+    '=========================================================================
+    '                              공급자 정보
+    '=========================================================================
+        
+    '[필수] 공급자 사업자번호, '-' 제외 10자리
+    Taxinvoice.invoicerCorpNum = "8888888888"
+    
+    '[필수] 공급자 종사업자 식별번호. 필요시 숫자 4자리 기재
+    Taxinvoice.invoicerTaxRegID = ""
+    
+    '[필수] 공급자 상호
+    Taxinvoice.invoicerCorpName = "공급자 상호"
+    
+    '공급자 문서관리번호, 1~24자리 (숫자, 영문, '-', '_') 조합으로
+    '사업자 별로 중복되지 않도록 구성
+    Taxinvoice.invoicerMgtKey = ""
+    
+    '[필수] 공급자 대표자 성명
+    Taxinvoice.invoicerCEOName = "공급자 대표자 성명"
+    
+    '공급자 주소
+    Taxinvoice.invoicerAddr = "공급자 주소"
+    
+    '공급자 업태
+    Taxinvoice.invoicerBizType = "공급자 업태,업태2"
+    
+    '공급자 종목
+    Taxinvoice.invoicerBizClass = "공급자 종목"
+    
+    '공급자 담당자명
+    Taxinvoice.invoicerContactName = "공급자 담당자명"
+    
+    '공급자 담당자 메일주소
+    Taxinvoice.invoicerEmail = "test@test.com"
+    
+    '공급자 담당자 연락처
+    Taxinvoice.invoicerTEL = "070-7070-0707"
+    
+    '공급자 담당자 휴대폰번호
+    Taxinvoice.invoicerHP = "010-000-2222"
+    
+    '정발행시 공급받는자에게 발행안내문자 전송여부
+    '- 안내문자 전송기능 이용시 포인트가 차감됩니다.
+    Taxinvoice.invoicerSMSSendYN = False
+    
+    
+    '=========================================================================
+    '                            공급받는자 정보
+    '=========================================================================
+        
+    '[필수] 공급받는자 구분, [사업자, 개인, 외국인] 중 기재
+    Taxinvoice.invoiceeType = "사업자"
+    
+    '[필수] 공급받는자 사업자번호, '-' 제외 10자리
+    Taxinvoice.invoiceeCorpNum = txtCorpNum.Text
+    
+    '[필수] 공급받는자 종사업자 식별번호. 필요시 숫자 4자리 기재
+    Taxinvoice.invoiceeTaxRegID = ""
+    
+    '[필수] 공급자받는자 상호
+    Taxinvoice.invoiceeCorpName = "공급받는자 상호"
+    
+    '[역발행시 필수] 공급받는자 문서관리번호(역발행시 필수)
+    Taxinvoice.invoiceeMgtKey = txtMgtKey.Text
+    
+    '[필수] 공급받는자 대표자 성명
+    Taxinvoice.invoiceeCEOName = "공급받는자 대표자 성명"
+    
+    '공급받는자 주소
+    Taxinvoice.invoiceeAddr = "공급받는자 주소"
+    
+    '공급받는자 종목
+    Taxinvoice.invoiceeBizClass = "공급받는자 업종"
+    
+    '공급받는자 업태
+    Taxinvoice.invoiceeBizType = "공급받는자 업태"
+    
+    '공급받는자 담당자명
+    Taxinvoice.invoiceeContactName1 = "공급받는자 담당자명"
+    
+    '공급받는자 담당자 메일주소
+    Taxinvoice.invoiceeEmail1 = "test@invoicee.com"
+    
+    '공급받는자 담당자 연락처
+    Taxinvoice.invoiceeTEL1 = "070-1234-1234"
+    
+    '공급받는자 담당자 휴대폰번호
+    Taxinvoice.invoiceeHP1 = "010-111-222"
+    
+    '역발행시 공급자에게 발행안내문자 전송여부
+    Taxinvoice.invoiceeSMSSendYN = False
+    
+    
+    '=========================================================================
+    '                            세금계산서 정보
+    '=========================================================================
+    
+    '[필수], 공급가액 합계
+    Taxinvoice.supplyCostTotal = "200000"
+    
+    '[필수] 세액 합계
+    Taxinvoice.taxTotal = "20000"
+    
+    '[필수] 합계금액, 공급가액 합계 + 세액합계
+    Taxinvoice.totalAmount = "220000"
+    
+    '기재 상 '일련번호' 항목
+    Taxinvoice.serialNum = "123"
+    
+    '기재 상 '권' 항목, 최대값 32767
+    Taxinvoice.kwon = "1"
+    
+    '기재 상 '호' 항목, 최대값 32767
+    Taxinvoice.ho = "1"
+    
+    '기재 상 '현금' 항목
+    Taxinvoice.cash = ""
+    
+    '기재 상 '수표' 항목
+    Taxinvoice.chkBill = ""
+    
+    '기재 상 '어음' 항목
+    Taxinvoice.note = ""
+    
+    '기재 상 '외상미수금' 항목
+    Taxinvoice.credit = ""
+    
+    '기재 상 '비고'항목
+    Taxinvoice.remark1 = "비고1"
+    Taxinvoice.remark2 = "비고2"
+    Taxinvoice.remark3 = "비고3"
+    
+    '사업자등록증 이미지 첨부여부
+    Taxinvoice.businessLicenseYN = False
+    
+    '통장사본 이미지 첨부여부
+    Taxinvoice.bankBookYN = False
+    
+
+    '=========================================================================
+    '         수정세금계산서 정보 (수정세금계산서 작성시에만 기재
+    ' - 수정세금계산서 관련 정보는 연동매뉴얼 또는 개발가이드 링크 참조
+    ' - [참고] 수정세금계산서 작성방법 안내 - http://blog.linkhub.co.kr/650
+    '========================================================================='
+    
+    ' 수정사유코드, 수정사유에 따라 1~6중 선택기재
+    Taxinvoice.modifyCode = ""
+    
+    ' 원본세금계산서의 ItemKey, 문서확인 (GetInfo API)의 응답결과(ItemKey 항목) 확인
+    Taxinvoice.originalTaxinvoiceKey = ""
+        
+    
+    '=========================================================================
+    '                            상세항목(품목) 정보
+    '=========================================================================
+    
+    Set Taxinvoice.detailList = New Collection
+    
+    Dim newDetail As New PBTIDetail
+    
+    newDetail.serialNum = 1             '일련번호 1부터 순차 기재
+    newDetail.purchaseDT = "20181120"   '거래일자  yyyyMMdd
+    newDetail.itemName = "품명"         '품목명
+    newDetail.spec = "규격"             '규격
+    newDetail.qty = "1"                 '수량
+    newDetail.unitCost = "100000"       '단가
+    newDetail.supplyCost = "100000"     '공급가액
+    newDetail.tax = "10000"             '세액
+    newDetail.remark = "비고"           '비고
+    
+    Taxinvoice.detailList.Add newDetail
+    
+    Dim newDetail2 As New PBTIDetail
+    newDetail2.serialNum = 2             '일련번호 1부터 순차 기재
+    newDetail2.purchaseDT = "20181120"   '거래일자  yyyyMMdd
+    newDetail2.itemName = "품명2"        '품목명
+    newDetail2.spec = "규격"             '규격
+    newDetail2.qty = "1"                 '수량
+    newDetail2.unitCost = "100000"       '단가
+    newDetail2.supplyCost = "100000"     '공급가액
+    newDetail2.tax = "10000"             '세액
+    newDetail2.remark = "비고"           '비고
+    
+    Taxinvoice.detailList.Add newDetail2
+    
+    
+    '=========================================================================
+    '                            추가담당자 정보
+    ' - 세금계산서 발행안내 메일을 수신받을 공급받는자 담당자가 다수인 경우
+    ' 담당자 정보를 추가하여 발행안내메일을 다수에게 전송할 수 있습니다.
+    '=========================================================================
+    
+    
+    Set Taxinvoice.addContactList = New Collection
+    Dim newContact As New PBTIContact
+    newContact.serialNum = 1                '일련번호, 1부터 순차기재
+    newContact.ContactName = "담당자 성명"  '담당자명
+    newContact.email = "test2@test.com"     '담당자 메일주소
+    Taxinvoice.addContactList.Add newContact
+    
+    Dim newContact2 As New PBTIContact
+    newContact2.serialNum = 2                '일련번호, 1부터 순차기재
+    newContact2.ContactName = "담당자 성명"  '담당자명
+    newContact2.email = "test2@test.com"     '담당자 메일주소
+    
+    Taxinvoice.addContactList.Add newContact2
+        
+    '메모
+    Taxinvoice.memo = "즉시요청 메모"
+    
+    
+    Dim Response As PBResponse
+    
+    Set Response = TaxinvoiceService.RegistRequest(txtCorpNum.Text, Taxinvoice)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+End Sub
+
+'=========================================================================
+' 역발행 세금계산서를 [취소] 처리합니다.
+' - [취소]한 세금계산서의 문서관리번호를 재사용하기 위해서는 삭제 (Delete API)
+'   를 호출해야 합니다.
+'=========================================================================
+Private Sub btnRequestCancel_sub_Click()
+
+    Dim Response As PBResponse
+    Dim KeyType As MgtKeyType
+    Dim memo As String
+    
+    Select Case cboMgtKeyType.Text
+        Case "SELL"
+            KeyType = SELL
+        Case "BUY"
+            KeyType = BUY
+        Case "TRUSTEE"
+            KeyType = TRUSTEE
+        Case Else
+            MsgBox "관리번호 형태를 선택해주세요."
+            Exit Sub
+    End Select
+    
+    '메모
+    memo = "역발행 요청 취소 메모"
+    
+    Set Response = TaxinvoiceService.CancelRequest(txtCorpNum.Text, KeyType, txtMgtKey.Text, memo)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
 
 '=========================================================================
@@ -4631,10 +5168,6 @@ Private Sub btnUpdateCorpInfo_Click()
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
 
-
-
-
-
 Private Sub Form_Load()
     ' 모듈 초기화
     TaxinvoiceService.Initialize LinkID, SecretKey
@@ -4646,4 +5179,5 @@ Private Sub Form_Load()
     cboMgtKeyType.AddItem "BUY"
     cboMgtKeyType.AddItem "TRUSTEE"
 End Sub
+
 

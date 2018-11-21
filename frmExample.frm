@@ -141,7 +141,7 @@ Begin VB.Form frmExample
             Top             =   360
             Width           =   1695
          End
-         Begin VB.CommandButton btnPopbillURL_CHRG 
+         Begin VB.CommandButton btnGetChargeURL 
             Caption         =   " 포인트 충전 URL"
             Height          =   410
             Left            =   120
@@ -165,7 +165,7 @@ Begin VB.Form frmExample
             Top             =   1320
             Width           =   1935
          End
-         Begin VB.CommandButton btnPopbillURL_CERT 
+         Begin VB.CommandButton btnGetTaxCertURL 
             Caption         =   " 인증서 등록 URL"
             Height          =   410
             Left            =   120
@@ -253,7 +253,7 @@ Begin VB.Form frmExample
          TabIndex        =   5
          Top             =   240
          Width           =   2655
-         Begin VB.CommandButton btnGetPopbillURL_SEAL 
+         Begin VB.CommandButton btnGetSealURL 
             Caption         =   "인감 및 첨부문서 등록 URL"
             Height          =   375
             Left            =   120
@@ -261,7 +261,7 @@ Begin VB.Form frmExample
             Top             =   840
             Width           =   2415
          End
-         Begin VB.CommandButton btnGetPopbillURL_LOGIN 
+         Begin VB.CommandButton btnGetAccessURL 
             Caption         =   " 팝빌 로그인 URL"
             Height          =   410
             Left            =   120
@@ -986,7 +986,7 @@ Attribute VB_Exposed = False
 ' 팝빌 전자세금계산서 API VB 6.0 SDK Example
 '
 ' - VB6 SDK 연동환경 설정방법 안내 : http://blog.linkhub.co.kr/569
-' - 업데이트 일자 : 2018-10-04
+' - 업데이트 일자 : 2018-11-21
 ' - 연동 기술지원 연락처 : 1600-9854 / 070-4304-2991
 ' - 연동 기술지원 이메일 : code@linkhub.co.kr
 '
@@ -1650,6 +1650,25 @@ Private Sub btnDetachStatement_Click()
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
 
+
+
+
+'=========================================================================
+' 팝빌(www.popbill.com)에 로그인된 팝빌 URL을 반환합니다.
+' - 보안정책에 따라 반환된 URL은 30초의 유효시간을 갖습니다.
+'=========================================================================
+Private Sub btnGetAccessURL_Click()
+    Dim url As String
+    
+    url = TaxinvoiceService.GetAccessURL(txtCorpNum.Text, txtUserID.Text)
+    
+    If url = "" Then
+         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    MsgBox "URL : " + vbCrLf + url
+End Sub
+
 '=========================================================================
 ' 연동회원의 잔여포인트를 확인합니다.
 ' - 과금방식이 파트너과금인 경우 파트너 잔여포인트(GetPartnerBalance API)
@@ -1691,6 +1710,8 @@ Private Sub btnGetChargeInfo_Click()
     
     MsgBox tmp
 End Sub
+
+
 
 '=========================================================================
 ' 연동회원의 회사정보를 확인합니다.
@@ -2123,40 +2144,7 @@ Private Sub btnGetPartnerURL_CHRG_Click()
     MsgBox "URL : " + vbCrLf + url
 End Sub
 
-'=========================================================================
-' 팝빌(www.popbill.com)에 로그인된 팝빌 URL을 반환합니다.
-' - 보안정책에 따라 반환된 URL은 30초의 유효시간을 갖습니다.
-'=========================================================================
 
-Private Sub btnGetPopbillURL_LOGIN_Click()
-    Dim url As String
-    
-    url = TaxinvoiceService.GetPopbillURL(txtCorpNum.Text, txtUserID.Text, "LOGIN")
-    
-    If url = "" Then
-         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
-        Exit Sub
-    End If
-    MsgBox "URL : " + vbCrLf + url
-End Sub
-
-'=========================================================================
-' 인감 및 첨부문서 등록 팝업 URL을 반환합니다.
-' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
-'=========================================================================
-
-Private Sub btnGetPopbillURL_SEAL_Click()
-    Dim url As String
-    
-    url = TaxinvoiceService.GetPopbillURL(txtCorpNum.Text, txtUserID.Text, "SEAL")
-    
-    If url = "" Then
-        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
-        Exit Sub
-    End If
-    MsgBox "URL : " + vbCrLf + url
-    
-End Sub
 
 '=========================================================================
 ' 1건의 전자세금계산서 보기 팝업 URL을 반환합니다.
@@ -2218,6 +2206,26 @@ Private Sub btnGetPrintURL_Click()
     End If
     MsgBox "URL : " + vbCrLf + url
 End Sub
+
+'=========================================================================
+' 인감 및 첨부문서 등록 팝업 URL을 반환합니다.
+' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
+'=========================================================================
+
+Private Sub btnGetSealURL_Click()
+    Dim url As String
+    
+    url = TaxinvoiceService.GetSealURL(txtCorpNum.Text, txtUserID.Text)
+    
+    If url = "" Then
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    MsgBox "URL : " + vbCrLf + url
+    
+End Sub
+
+
 
 '=========================================================================
 ' 팝빌 > 매출 문서함 팝업 URL을 반환합니다.
@@ -2650,11 +2658,11 @@ End Sub
 ' 공인인증서 등록 URL을 반환합니다.
 ' - URL 보안정책에 따라 반환된 URL은 30초의 유효시간을 갖습니다.
 '=========================================================================
-    
-Private Sub btnPopbillURL_CERT_Click()
+Private Sub btnGetTaxCertURL_Click()
+
     Dim url As String
 
-    url = TaxinvoiceService.GetPopbillURL(txtCorpNum.Text, txtUserID.Text, "CERT")
+    url = TaxinvoiceService.GetTaxCertURL(txtCorpNum.Text, txtUserID.Text)
     
     If url = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -2694,11 +2702,11 @@ End Sub
 ' 연동회원 포인트 충전 URL을 반환합니다.
 ' - URL 보안정책에 따라 반환된 URL은 30초의 유효시간을 갖습니다.
 '=========================================================================
+Private Sub btnGetChargeURL_Click()
 
-Private Sub btnPopbillURL_CHRG_Click()
     Dim url As String
     
-    url = TaxinvoiceService.GetPopbillURL(txtCorpNum.Text, txtUserID.Text, "CHRG")
+    url = TaxinvoiceService.GetPopbillURL(txtCorpNum.Text, txtUserID.Text)
     
     If url = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -4639,6 +4647,3 @@ Private Sub Form_Load()
     cboMgtKeyType.AddItem "TRUSTEE"
 End Sub
 
-Private Sub txtMgtKey_Change()
-1
-End Sub

@@ -10,103 +10,6 @@ Begin VB.Form frmExample
    ScaleHeight     =   12000
    ScaleWidth      =   19005
    StartUpPosition =   2  '화면 가운데
-   Begin VB.Frame Frame18 
-      Caption         =   " 역발행 즉시요청 프로세스 (권장)"
-      Height          =   3315
-      Left            =   9720
-      TabIndex        =   95
-      Top             =   3960
-      Width           =   3615
-      Begin VB.CommandButton btnRegistRequest 
-         BackColor       =   &H00FFFFC0&
-         Caption         =   "역)즉시요청"
-         Height          =   780
-         Left            =   480
-         Style           =   1  '그래픽
-         TabIndex        =   101
-         Top             =   480
-         Width           =   1215
-      End
-      Begin VB.CommandButton btnIssue_rev_sub 
-         BackColor       =   &H00C0C0FF&
-         Caption         =   "발행"
-         Height          =   480
-         Left            =   480
-         Style           =   1  '그래픽
-         TabIndex        =   100
-         Top             =   1680
-         Width           =   1080
-      End
-      Begin VB.CommandButton btnDelete_rev_sub 
-         Caption         =   "삭제"
-         Height          =   495
-         Left            =   2400
-         Style           =   1  '그래픽
-         TabIndex        =   99
-         Top             =   2400
-         Width           =   975
-      End
-      Begin VB.CommandButton btnCancelIssue_rev_sub 
-         BackColor       =   &H00C0C0FF&
-         Caption         =   "발행취소"
-         Height          =   495
-         Left            =   480
-         Style           =   1  '그래픽
-         TabIndex        =   98
-         Top             =   2400
-         Width           =   1095
-      End
-      Begin VB.CommandButton btnRequestCancel_sub 
-         BackColor       =   &H00FFFFC0&
-         Caption         =   "요청취소"
-         Height          =   375
-         Left            =   2400
-         Style           =   1  '그래픽
-         TabIndex        =   97
-         Top             =   360
-         Width           =   855
-      End
-      Begin VB.CommandButton btnRefuse_sub 
-         BackColor       =   &H00C0C0FF&
-         Caption         =   "거부"
-         Height          =   375
-         Left            =   2400
-         Style           =   1  '그래픽
-         TabIndex        =   96
-         Top             =   840
-         Width           =   855
-      End
-      Begin VB.Line Line24 
-         X1              =   2880
-         X2              =   2880
-         Y1              =   2340
-         Y2              =   480
-      End
-      Begin VB.Line Line23 
-         X1              =   1095
-         X2              =   1095
-         Y1              =   2685
-         Y2              =   840
-      End
-      Begin VB.Line Line22 
-         X1              =   1290
-         X2              =   2925
-         Y1              =   2760
-         Y2              =   2760
-      End
-      Begin VB.Line Line21 
-         X1              =   1440
-         X2              =   2880
-         Y1              =   600
-         Y2              =   600
-      End
-      Begin VB.Line Line20 
-         X1              =   1200
-         X2              =   2915
-         Y1              =   1020
-         Y2              =   1020
-      End
-   End
    Begin VB.CommandButton btnUpdateemailconfig 
       Caption         =   "알림메일 전송설정 수정"
       Height          =   390
@@ -384,19 +287,141 @@ Begin VB.Form frmExample
       Top             =   180
       Width           =   1935
    End
+   Begin VB.Frame Frame18 
+      Caption         =   " (권장) 즉시요청 프로세스"
+      Height          =   3315
+      Left            =   10080
+      TabIndex        =   95
+      Top             =   4080
+      Width           =   3615
+      Begin VB.CommandButton btnRegistRequest 
+         BackColor       =   &H00FFFFC0&
+         Caption         =   "즉시요청"
+         Height          =   420
+         Left            =   1560
+         Style           =   1  '그래픽
+         TabIndex        =   101
+         Top             =   480
+         Width           =   1455
+      End
+      Begin VB.CommandButton btnIssue_rev_sub 
+         BackColor       =   &H00C0C0FF&
+         Caption         =   "발행"
+         Height          =   480
+         Left            =   330
+         Style           =   1  '그래픽
+         TabIndex        =   100
+         Top             =   1560
+         Width           =   855
+      End
+      Begin VB.CommandButton btnDelete_rev_sub 
+         Caption         =   "삭제"
+         Height          =   495
+         Left            =   2400
+         Style           =   1  '그래픽
+         TabIndex        =   99
+         Top             =   2520
+         Width           =   975
+      End
+      Begin VB.CommandButton btnCancelIssue_rev_sub 
+         BackColor       =   &H00C0C0FF&
+         Caption         =   "발행취소"
+         Height          =   495
+         Left            =   240
+         Style           =   1  '그래픽
+         TabIndex        =   98
+         Top             =   2520
+         Width           =   1095
+      End
+      Begin VB.CommandButton btnRequestCancel_sub 
+         BackColor       =   &H00FFFFC0&
+         Caption         =   "요청취소"
+         Height          =   480
+         Left            =   2520
+         Style           =   1  '그래픽
+         TabIndex        =   97
+         Top             =   1560
+         Width           =   855
+      End
+      Begin VB.CommandButton btnRefuse_sub 
+         BackColor       =   &H00C0C0FF&
+         Caption         =   "거부"
+         Height          =   480
+         Left            =   1440
+         Style           =   1  '그래픽
+         TabIndex        =   96
+         Top             =   1560
+         Width           =   855
+      End
+      Begin VB.Line Line24 
+         X1              =   720
+         X2              =   1920
+         Y1              =   1200
+         Y2              =   1200
+      End
+      Begin VB.Line Line22 
+         X1              =   1905
+         X2              =   1905
+         Y1              =   1200
+         Y2              =   2760
+      End
+      Begin VB.Line Line20 
+         X1              =   1200
+         X2              =   2760
+         Y1              =   2760
+         Y2              =   2760
+      End
+      Begin VB.Line Line15 
+         X1              =   720
+         X2              =   720
+         Y1              =   1200
+         Y2              =   2760
+      End
+      Begin VB.Label Label6 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  '투명
+         Caption         =   "즉시요청"
+         Height          =   180
+         Left            =   480
+         TabIndex        =   103
+         Top             =   600
+         Width           =   720
+      End
+      Begin VB.Shape Shape6 
+         BackColor       =   &H00E0E0E0&
+         BackStyle       =   1  '투명하지 않음
+         FillColor       =   &H00E0E0E0&
+         Height          =   660
+         Left            =   120
+         Top             =   360
+         Width           =   3360
+      End
+      Begin VB.Line Line23 
+         X1              =   1320
+         X2              =   1320
+         Y1              =   960
+         Y2              =   1200
+      End
+      Begin VB.Line Line21 
+         X1              =   2880
+         X2              =   2880
+         Y1              =   960
+         Y2              =   2760
+      End
+   End
    Begin VB.Frame Frame7 
       Caption         =   " 세금계산서 관련 기능"
-      Height          =   8025
-      Left            =   360
+      Height          =   8625
+      Left            =   240
       TabIndex        =   13
-      Top             =   3120
-      Width           =   17655
+      Top             =   3000
+      Width           =   18375
       Begin VB.Frame Frame16 
-         Caption         =   "정발행 (즉시발행) 프로세스"
+         Caption         =   " (권장) 즉시발행 프로세스"
          Height          =   3255
          Left            =   240
          TabIndex        =   73
-         Top             =   840
+         Top             =   1080
          Width           =   3255
          Begin VB.CommandButton btnCancelIsse_2 
             BackColor       =   &H00C0C0FF&
@@ -452,14 +477,14 @@ Begin VB.Form frmExample
       Begin VB.CommandButton btnGetEmailPublicKeys 
          Caption         =   "유통메일목록"
          Height          =   390
-         Left            =   9960
+         Left            =   16200
          TabIndex        =   64
-         Top             =   255
+         Top             =   240
          Width           =   1725
       End
       Begin MSComDlg.CommonDialog CommonDialog1 
-         Left            =   150
-         Top             =   4245
+         Left            =   240
+         Top             =   4560
          _ExtentX        =   847
          _ExtentY        =   847
          _Version        =   393216
@@ -469,7 +494,7 @@ Begin VB.Form frmExample
          Height          =   2760
          Left            =   9720
          TabIndex        =   59
-         Top             =   5040
+         Top             =   5640
          Width           =   3210
          Begin VB.CommandButton btnGetEPrintUrl 
             Caption         =   "공급받는자 인쇄 팝업 URL"
@@ -517,7 +542,7 @@ Begin VB.Form frmExample
          Height          =   2295
          Left            =   13200
          TabIndex        =   54
-         Top             =   5040
+         Top             =   5640
          Width           =   2265
          Begin VB.CommandButton btnGetURL_TBOX 
             Caption         =   "임시 문서함"
@@ -557,7 +582,7 @@ Begin VB.Form frmExample
          Height          =   2775
          Left            =   5040
          TabIndex        =   52
-         Top             =   5040
+         Top             =   5640
          Width           =   4545
          Begin VB.CommandButton btnSendFAX 
             Caption         =   "팩스 전송"
@@ -605,7 +630,7 @@ Begin VB.Form frmExample
          Height          =   2775
          Left            =   2640
          TabIndex        =   47
-         Top             =   5040
+         Top             =   5640
          Width           =   2265
          Begin VB.CommandButton btnGetDetailInfo 
             Caption         =   "문서 상세 정보"
@@ -645,7 +670,7 @@ Begin VB.Form frmExample
          Height          =   2280
          Left            =   240
          TabIndex        =   42
-         Top             =   5055
+         Top             =   5655
          Width           =   2265
          Begin VB.CommandButton btnDeleteFile 
             Caption         =   "파일 삭제"
@@ -684,44 +709,44 @@ Begin VB.Form frmExample
          BackColor       =   &H00C0C0FF&
          Caption         =   "국세청 즉시 전송"
          Height          =   495
-         Left            =   4560
+         Left            =   2160
          Style           =   1  '그래픽
          TabIndex        =   41
-         Top             =   4320
+         Top             =   4560
          Width           =   4440
       End
       Begin VB.Frame Frame9 
-         Caption         =   " 역발행 세금계산서 프로세스 "
+         Caption         =   " 임시저장 역발행 프로세스 "
          Height          =   3345
-         Left            =   13320
+         Left            =   13680
          TabIndex        =   21
-         Top             =   840
-         Width           =   3855
+         Top             =   1080
+         Width           =   4095
          Begin VB.CommandButton btnRefuse 
             BackColor       =   &H00C0C0FF&
             Caption         =   "거부"
-            Height          =   375
-            Left            =   2160
+            Height          =   480
+            Left            =   1320
             Style           =   1  '그래픽
             TabIndex        =   40
-            Top             =   1530
-            Width           =   855
+            Top             =   1800
+            Width           =   755
          End
          Begin VB.CommandButton btnRequestCancel 
             BackColor       =   &H00FFFFC0&
             Caption         =   "요청취소"
-            Height          =   375
-            Left            =   2160
+            Height          =   495
+            Left            =   2800
             Style           =   1  '그래픽
             TabIndex        =   39
-            Top             =   1050
+            Top             =   1200
             Width           =   855
          End
          Begin VB.CommandButton btnCancelIssue_rev 
             BackColor       =   &H00C0C0FF&
             Caption         =   "발행취소"
             Height          =   495
-            Left            =   600
+            Left            =   240
             Style           =   1  '그래픽
             TabIndex        =   38
             Top             =   2520
@@ -740,21 +765,21 @@ Begin VB.Form frmExample
             BackColor       =   &H00C0C0FF&
             Caption         =   "발행"
             Height          =   480
-            Left            =   600
+            Left            =   360
             Style           =   1  '그래픽
             TabIndex        =   36
-            Top             =   1920
-            Width           =   1080
+            Top             =   1800
+            Width           =   755
          End
          Begin VB.CommandButton btnRequest 
             BackColor       =   &H00FFFFC0&
             Caption         =   "역)발행요청"
-            Height          =   660
-            Left            =   540
+            Height          =   420
+            Left            =   240
             Style           =   1  '그래픽
             TabIndex        =   35
-            Top             =   1155
-            Width           =   1110
+            Top             =   1200
+            Width           =   1815
          End
          Begin VB.CommandButton btnUpdate_rev 
             BackColor       =   &H00FFFFC0&
@@ -777,16 +802,10 @@ Begin VB.Form frmExample
             Width           =   855
          End
          Begin VB.Line Line16 
-            X1              =   1635
-            X2              =   3350
-            Y1              =   1740
-            Y2              =   1740
-         End
-         Begin VB.Line Line15 
-            X1              =   1650
-            X2              =   3365
-            Y1              =   1245
-            Y2              =   1260
+            X1              =   1680
+            X2              =   1680
+            Y1              =   1560
+            Y2              =   2760
          End
          Begin VB.Line Line14 
             X1              =   1290
@@ -814,24 +833,24 @@ Begin VB.Form frmExample
             Width           =   3360
          End
          Begin VB.Line Line13 
-            X1              =   1095
-            X2              =   1095
+            X1              =   750
+            X2              =   750
             Y1              =   2685
             Y2              =   840
          End
          Begin VB.Line Line17 
-            X1              =   3360
-            X2              =   3360
+            X1              =   3240
+            X2              =   3240
             Y1              =   2730
             Y2              =   870
          End
       End
       Begin VB.Frame Frame8 
-         Caption         =   "정발행 (임시저장 발행, 발행예정) 프로세스"
+         Caption         =   " 임시저장 발행, 발행예정 프로세스"
          Height          =   3345
          Left            =   3720
          TabIndex        =   20
-         Top             =   840
+         Top             =   1080
          Width           =   5415
          Begin VB.CommandButton btnCancelSend 
             BackColor       =   &H00C0C0FF&
@@ -921,6 +940,16 @@ Begin VB.Form frmExample
             TabIndex        =   22
             Top             =   1920
             Width           =   1020
+         End
+         Begin VB.Label Label8 
+            AutoSize        =   -1  'True
+            BackStyle       =   0  '투명
+            Caption         =   "발행예정"
+            Height          =   180
+            Left            =   4080
+            TabIndex        =   106
+            Top             =   1320
+            Width           =   720
          End
          Begin VB.Line Line12 
             X1              =   4080
@@ -1046,6 +1075,22 @@ Begin VB.Form frmExample
          Top             =   285
          Width           =   2775
       End
+      Begin VB.Frame Frame19 
+         Caption         =   " 정발행 프로세스"
+         Height          =   4575
+         Left            =   120
+         TabIndex        =   102
+         Top             =   720
+         Width           =   9255
+      End
+      Begin VB.Frame Frame20 
+         Caption         =   " 역발행 프로세스"
+         Height          =   4575
+         Left            =   9600
+         TabIndex        =   104
+         Top             =   720
+         Width           =   8535
+      End
       Begin VB.Label Label3 
          AutoSize        =   -1  'True
          Caption         =   "문서관리번호( MgtKey) : "
@@ -1055,6 +1100,25 @@ Begin VB.Form frmExample
          Top             =   360
          Width           =   2115
       End
+   End
+   Begin VB.Label Label7 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  '투명
+      Caption         =   "임시저장"
+      Height          =   180
+      Left            =   8040
+      TabIndex        =   105
+      Top             =   5400
+      Width           =   720
+   End
+   Begin VB.Shape Shape5 
+      BackColor       =   &H00E0E0E0&
+      BackStyle       =   1  '투명하지 않음
+      FillColor       =   &H00E0E0E0&
+      Height          =   660
+      Left            =   10200
+      Top             =   4440
+      Width           =   3360
    End
    Begin VB.Label Label2 
       Caption         =   "팝빌회원 아이디 : "
@@ -5186,5 +5250,3 @@ Private Sub Form_Load()
     cboMgtKeyType.AddItem "BUY"
     cboMgtKeyType.AddItem "TRUSTEE"
 End Sub
-
-

@@ -801,6 +801,12 @@ Begin VB.Form frmExample
             Top             =   465
             Width           =   855
          End
+         Begin VB.Line Line25 
+            X1              =   2040
+            X2              =   2880
+            Y1              =   1440
+            Y2              =   1440
+         End
          Begin VB.Line Line16 
             X1              =   1680
             X2              =   1680
@@ -841,8 +847,8 @@ Begin VB.Form frmExample
          Begin VB.Line Line17 
             X1              =   3240
             X2              =   3240
-            Y1              =   2730
-            Y2              =   870
+            Y1              =   2630
+            Y2              =   1500
          End
       End
       Begin VB.Frame Frame8 

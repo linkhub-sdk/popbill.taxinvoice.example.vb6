@@ -540,7 +540,7 @@ Begin VB.Form frmExample
       Begin VB.Frame Frame13 
          Caption         =   " 기타 URL "
          Height          =   2295
-         Left            =   13080
+         Left            =   12960
          TabIndex        =   54
          Top             =   6120
          Width           =   2265
@@ -579,7 +579,7 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame12 
          Caption         =   " 부가 서비스"
-         Height          =   2775
+         Height          =   2415
          Left            =   4920
          TabIndex        =   52
          Top             =   6120
@@ -590,7 +590,7 @@ Begin VB.Form frmExample
             Left            =   240
             TabIndex        =   93
             Top             =   1320
-            Width           =   1935
+            Width           =   1965
          End
          Begin VB.CommandButton btnSendSMS 
             Caption         =   "문자 전송"
@@ -598,7 +598,7 @@ Begin VB.Form frmExample
             Left            =   240
             TabIndex        =   92
             Top             =   840
-            Width           =   1935
+            Width           =   1965
          End
          Begin VB.CommandButton btnDetachStatement 
             Caption         =   "전자명세서 첨부해제"
@@ -951,15 +951,6 @@ Begin VB.Form frmExample
             AutoSize        =   -1  'True
             BackStyle       =   0  '투명
             Caption         =   "발행예정"
-            BeginProperty Font 
-               Name            =   "굴림"
-               Size            =   9
-               Charset         =   129
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
             Height          =   180
             Left            =   4080
             TabIndex        =   106

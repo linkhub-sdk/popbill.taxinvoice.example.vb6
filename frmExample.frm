@@ -1331,7 +1331,7 @@ End Sub
 ' 팝빌 사이트에서 작성한 세금계산서에 파트너 문서관리번호를 할당합니다.
 ' - 문서관리번호가 존재하지 않는 세금계산서만 할당이 가능 합니다.
 '=========================================================================
-Private Sub btnAssignmgtkey_Click()
+Private Sub btnAssignmgtkey_Click(index As Integer)
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     Dim itemKey As String

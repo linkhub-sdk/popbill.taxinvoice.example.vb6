@@ -419,7 +419,7 @@ Begin VB.Form frmExample
       Begin VB.Frame Frame16 
          Caption         =   " (권장) 즉시발행 프로세스"
          Height          =   3255
-         Left            =   480
+         Left            =   720
          TabIndex        =   69
          Top             =   1800
          Width           =   3255
@@ -854,7 +854,7 @@ Begin VB.Form frmExample
       Begin VB.Frame Frame8 
          Caption         =   " 임시저장 발행 프로세스"
          Height          =   3255
-         Left            =   3840
+         Left            =   4200
          TabIndex        =   20
          Top             =   1800
          Width           =   4695
@@ -953,7 +953,7 @@ Begin VB.Form frmExample
          Top             =   300
          Width           =   1335
       End
-      Begin VB.CommandButton btnCheckMgtKeyInUse 
+      Begin VB.CommandButton checkMgtKeyInUse 
          Caption         =   "관리번호 사용여부 확인"
          Height          =   375
          Left            =   6840
@@ -1657,7 +1657,7 @@ Private Sub checkMgtKeyInUse_Click()
             Exit Sub
     End Select
     
-    Set Response = TaxinvoiceService.CheckMgtKeyInUse(txtCorpNum.Text, KeyType, txtMgtKey.Text)
+    Set Response = TaxinvoiceService.checkMgtKeyInUse(txtCorpNum.Text, KeyType, txtMgtKey.Text)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -1709,7 +1709,7 @@ Private Sub btnRegistIssue_Click()
     Taxinvoice.writeDate = "20190207"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
-    Taxinvoice.IssueType = "정발행"
+    Taxinvoice.issueType = "정발행"
     
     '[필수] {정과금, 역과금} 중 기재, '역과금'은 역발행 프로세스에서만 이용가능
     '- 정과금(공급자 과금), 역과금(공급받는자 과금)
@@ -1928,7 +1928,6 @@ Private Sub btnRegistIssue_Click()
     newContact2.serialNum = 2                '일련번호, 1부터 순차기재
     newContact2.ContactName = "담당자 성명"  '담당자명
     newContact2.email = "test2@test.com"     '담당자 메일주소
-    
     Taxinvoice.addContactList.Add newContact2
         
     
@@ -1945,7 +1944,7 @@ Private Sub btnRegistIssue_Click()
     Taxinvoice.forceIssue = False
     
     '메모
-    Taxinvoice.Memo = ""
+    Taxinvoice.memo = ""
     
     '발행안내 메일제목, 공백처리시 기본제목으로 전송
     Taxinvoice.emailSubject = ""
@@ -1973,7 +1972,7 @@ End Sub
 Private Sub btnCancelIssue_sub_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
-    Dim Memo As String
+    Dim memo As String
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -1988,9 +1987,9 @@ Private Sub btnCancelIssue_sub_Click()
     End Select
     
     '메모
-    Memo = "발행 취소 메모"
+    memo = "발행 취소 메모"
     
-    Set Response = TaxinvoiceService.CancelIssue(txtCorpNum.Text, KeyType, txtMgtKey.Text, Memo)
+    Set Response = TaxinvoiceService.CancelIssue(txtCorpNum.Text, KeyType, txtMgtKey.Text, memo)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -2049,7 +2048,7 @@ Private Sub btnRegister_Click()
     Taxinvoice.writeDate = "20190207"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
-    Taxinvoice.IssueType = "정발행"
+    Taxinvoice.issueType = "정발행"
     
     '[필수] {정과금, 역과금} 중 기재, '역과금'은 역발행 프로세스에서만 이용가능
     '- 정과금(공급자 과금), 역과금(공급받는자 과금)
@@ -2267,7 +2266,6 @@ Private Sub btnRegister_Click()
     newContact2.serialNum = 2                '일련번호, 1부터 순차기재
     newContact2.ContactName = "담당자 성명"  '담당자명
     newContact2.email = "test2@test.com"     '담당자 메일주소
-    
     Taxinvoice.addContactList.Add newContact2
     
     '거래명세서 동시작성 여부
@@ -2312,7 +2310,7 @@ Private Sub btnUpdate_Click()
     Taxinvoice.writeDate = "20190207"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
-    Taxinvoice.IssueType = "정발행"
+    Taxinvoice.issueType = "정발행"
     
     '[필수] {정과금, 역과금} 중 기재, '역과금'은 역발행 프로세스에서만 이용가능
     '- 정과금(공급자 과금), 역과금(공급받는자 과금)
@@ -2547,8 +2545,6 @@ Private Sub btnUpdate_Click()
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
 
-
-
 '======================================================================================================================
 ' [임시저장] 상태의 세금계산서를 [발행]처리 합니다.
 ' - 발행(Issue API)를 호출하는 시점에서 포인트가 차감됩니다.
@@ -2560,7 +2556,7 @@ End Sub
 Private Sub btnIssue_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
-    Dim Memo As String
+    Dim memo As String
     Dim emailSubject As String
     Dim forceIssue As Boolean
     
@@ -2577,7 +2573,7 @@ Private Sub btnIssue_Click()
     End Select
     
     '메모
-    Memo = "메모"
+    memo = "메모"
     
     '공급받는자에게 전송되는 발행안내메일 제목, 미기재시 기본양식으로 전송
     emailSubject = ""
@@ -2588,7 +2584,7 @@ Private Sub btnIssue_Click()
     forceIssue = False
         
     
-    Set Response = TaxinvoiceService.Issue(txtCorpNum.Text, KeyType, txtMgtKey.Text, Memo, emailSubject, forceIssue)
+    Set Response = TaxinvoiceService.Issue(txtCorpNum.Text, KeyType, txtMgtKey.Text, memo, emailSubject, forceIssue)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -2608,7 +2604,7 @@ End Sub
 Private Sub btnCancelIssue_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
-    Dim Memo As String
+    Dim memo As String
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -2623,9 +2619,9 @@ Private Sub btnCancelIssue_Click()
     End Select
     
     '메모
-    Memo = "발행취소 메모"
+    memo = "발행취소 메모"
     
-    Set Response = TaxinvoiceService.CancelIssue(txtCorpNum.Text, KeyType, txtMgtKey.Text, Memo)
+    Set Response = TaxinvoiceService.CancelIssue(txtCorpNum.Text, KeyType, txtMgtKey.Text, memo)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -2714,7 +2710,7 @@ Private Sub btnRegistRequest_Click()
     Taxinvoice.writeDate = "20190207"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
-    Taxinvoice.IssueType = "역발행"
+    Taxinvoice.issueType = "역발행"
     
     '[필수] {정과금, 역과금} 중 기재, '역과금'은 역발행 프로세스에서만 이용가능
     '- 정과금(공급자 과금), 역과금(공급받는자 과금)
@@ -2914,7 +2910,7 @@ Private Sub btnRegistRequest_Click()
     Taxinvoice.detailList.Add newDetail2
         
     '메모
-    Taxinvoice.Memo = "즉시요청 메모"
+    Taxinvoice.memo = "즉시요청 메모"
     
     Dim Response As PBResponse
     
@@ -2939,7 +2935,7 @@ End Sub
 Private Sub btnIssue_rev_sub_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
-    Dim Memo As String
+    Dim memo As String
     Dim emailSubject As String
     Dim forceIssue As Boolean
     
@@ -2956,7 +2952,7 @@ Private Sub btnIssue_rev_sub_Click()
     End Select
     
     '메모
-    Memo = "메모"
+    memo = "메모"
     
     '공급받는자에게 전송되는 발행안내메일 제목, 미기재시 기본양식으로 전송
     emailSubject = ""
@@ -2966,7 +2962,7 @@ Private Sub btnIssue_rev_sub_Click()
     '지연발행 세금계산서를 신고해야 하는 경우 forceIssue 값을 True로 선언하여 발행(Issue API)을 호출할 수 있습니다.
     forceIssue = False
     
-    Set Response = TaxinvoiceService.Issue(txtCorpNum.Text, KeyType, txtMgtKey.Text, Memo, emailSubject, forceIssue)
+    Set Response = TaxinvoiceService.Issue(txtCorpNum.Text, KeyType, txtMgtKey.Text, memo, emailSubject, forceIssue)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -2984,7 +2980,7 @@ End Sub
 Private Sub btnRefuse_sub_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
-    Dim Memo As String
+    Dim memo As String
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -2999,9 +2995,9 @@ Private Sub btnRefuse_sub_Click()
     End Select
     
     '메모
-    Memo = "역)발행 요청 거부 메모"
+    memo = "역)발행 요청 거부 메모"
     
-    Set Response = TaxinvoiceService.Refuse(txtCorpNum.Text, KeyType, txtMgtKey.Text, Memo)
+    Set Response = TaxinvoiceService.Refuse(txtCorpNum.Text, KeyType, txtMgtKey.Text, memo)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -3021,7 +3017,7 @@ End Sub
 Private Sub btnCancelIssue_rev_sub_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
-    Dim Memo As String
+    Dim memo As String
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -3036,9 +3032,9 @@ Private Sub btnCancelIssue_rev_sub_Click()
     End Select
     
     '메모
-    Memo = "발행취소 메모"
+    memo = "발행취소 메모"
     
-    Set Response = TaxinvoiceService.CancelIssue(txtCorpNum.Text, KeyType, txtMgtKey.Text, Memo)
+    Set Response = TaxinvoiceService.CancelIssue(txtCorpNum.Text, KeyType, txtMgtKey.Text, memo)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -3055,7 +3051,7 @@ End Sub
 Private Sub btnRequestCancel_sub_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
-    Dim Memo As String
+    Dim memo As String
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -3070,9 +3066,9 @@ Private Sub btnRequestCancel_sub_Click()
     End Select
     
     '메모
-    Memo = "역)발행 요청 취소 메모"
+    memo = "역)발행 요청 취소 메모"
     
-    Set Response = TaxinvoiceService.CancelRequest(txtCorpNum.Text, KeyType, txtMgtKey.Text, Memo)
+    Set Response = TaxinvoiceService.CancelRequest(txtCorpNum.Text, KeyType, txtMgtKey.Text, memo)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -3125,7 +3121,7 @@ Private Sub btnRegister_rev_Click()
     Taxinvoice.writeDate = "20190207"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
-    Taxinvoice.IssueType = "역발행"
+    Taxinvoice.issueType = "역발행"
     
     '[필수] {정과금, 역과금} 중 기재, '역과금'은 역발행 프로세스에서만 이용가능
     '- 정과금(공급자 과금), 역과금(공급받는자 과금)
@@ -3357,7 +3353,7 @@ Private Sub btnUpdate_rev_Click()
     Taxinvoice.writeDate = "20190207"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
-    Taxinvoice.IssueType = "역발행"
+    Taxinvoice.issueType = "역발행"
     
     '[필수] {정과금, 역과금} 중 기재, '역과금'은 역발행 프로세스에서만 이용가능
     '- 정과금(공급자 과금), 역과금(공급받는자 과금)
@@ -3579,7 +3575,7 @@ End Sub
 Private Sub btnRequest_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
-    Dim Memo As String
+    Dim memo As String
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -3594,10 +3590,10 @@ Private Sub btnRequest_Click()
     End Select
     
     '메모
-    Memo = "역발행 요청 메모"
+    memo = "역발행 요청 메모"
     
     
-    Set Response = TaxinvoiceService.Request(txtCorpNum.Text, KeyType, txtMgtKey.Text, Memo)
+    Set Response = TaxinvoiceService.Request(txtCorpNum.Text, KeyType, txtMgtKey.Text, memo)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -3618,7 +3614,7 @@ End Sub
 Private Sub btnIssue_rev_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
-    Dim Memo As String
+    Dim memo As String
     Dim emailSubject As String
     Dim forceIssue As Boolean
     
@@ -3635,7 +3631,7 @@ Private Sub btnIssue_rev_Click()
     End Select
     
     '메모
-    Memo = "역발행 세금계산서 발행"
+    memo = "역발행 세금계산서 발행"
     
     '공급받는자에게 전송되는 발행안내메일 제목, 미기재시 기본양식으로 전송
     emailSubject = ""
@@ -3645,7 +3641,7 @@ Private Sub btnIssue_rev_Click()
     '지연발행 세금계산서를 신고해야 하는 경우 forceIssue 값을 True로 선언하여 발행(Issue API)을 호출할 수 있습니다.
     forceIssue = False
     
-    Set Response = TaxinvoiceService.Issue(txtCorpNum.Text, KeyType, txtMgtKey.Text, Memo, emailSubject, forceIssue)
+    Set Response = TaxinvoiceService.Issue(txtCorpNum.Text, KeyType, txtMgtKey.Text, memo, emailSubject, forceIssue)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -3663,7 +3659,7 @@ End Sub
 Private Sub btnRefuse_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
-    Dim Memo As String
+    Dim memo As String
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -3678,9 +3674,9 @@ Private Sub btnRefuse_Click()
     End Select
     
     '메모
-    Memo = "역발행 요청 거부 메모"
+    memo = "역발행 요청 거부 메모"
     
-    Set Response = TaxinvoiceService.Refuse(txtCorpNum.Text, KeyType, txtMgtKey.Text, Memo)
+    Set Response = TaxinvoiceService.Refuse(txtCorpNum.Text, KeyType, txtMgtKey.Text, memo)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -3700,7 +3696,7 @@ End Sub
 Private Sub btnCancelIssue_rev_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
-    Dim Memo As String
+    Dim memo As String
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -3715,9 +3711,9 @@ Private Sub btnCancelIssue_rev_Click()
     End Select
     
     '메모
-    Memo = "발행취소 메모"
+    memo = "발행취소 메모"
     
-    Set Response = TaxinvoiceService.CancelIssue(txtCorpNum.Text, KeyType, txtMgtKey.Text, Memo)
+    Set Response = TaxinvoiceService.CancelIssue(txtCorpNum.Text, KeyType, txtMgtKey.Text, memo)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -3735,7 +3731,7 @@ End Sub
 Private Sub btnRequestCancel_Click()
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
-    Dim Memo As String
+    Dim memo As String
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -3750,9 +3746,9 @@ Private Sub btnRequestCancel_Click()
     End Select
     
     '메모
-    Memo = "역)발행 요청 취소 메모"
+    memo = "역)발행 요청 취소 메모"
     
-    Set Response = TaxinvoiceService.CancelRequest(txtCorpNum.Text, KeyType, txtMgtKey.Text, Memo)
+    Set Response = TaxinvoiceService.CancelRequest(txtCorpNum.Text, KeyType, txtMgtKey.Text, memo)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -3927,7 +3923,7 @@ Private Sub btnGetInfo_Click()
     tmp = tmp + "taxType (과세형태) : " + tiInfo.taxType + vbCrLf
     tmp = tmp + "writeDate (작성일자) : " + tiInfo.writeDate + vbCrLf
     tmp = tmp + "regDT (임시저장 일자) : " + tiInfo.regDT + vbCrLf
-    tmp = tmp + "issueType (발행형태) : " + tiInfo.IssueType + vbCrLf
+    tmp = tmp + "issueType (발행형태) : " + tiInfo.issueType + vbCrLf
     tmp = tmp + "supplyCostTotal (공급가액 합계) : " + tiInfo.supplyCostTotal + vbCrLf
     tmp = tmp + "taxTotal (세액 합계) : " + tiInfo.taxTotal + vbCrLf
     tmp = tmp + "purposeType (영수/청구) : " + tiInfo.purposeType + vbCrLf
@@ -3944,7 +3940,7 @@ Private Sub btnGetInfo_Click()
     tmp = tmp + "ntsresultDT (국세청 결과 수신일시) : " + tiInfo.ntsresultDT + vbCrLf
     tmp = tmp + "ntssendErrCode (전송실패 사유코드) : " + tiInfo.ntssendErrCode + vbCrLf
     tmp = tmp + "modifyCode (수정 사유코드) : " + tiInfo.modifyCode + vbCrLf
-    tmp = tmp + "interOPYN (연동문서 여부) : " + CStr(tiInfo.InterOPYN) + vbCrLf
+    tmp = tmp + "interOPYN (연동문서 여부) : " + CStr(tiInfo.interOPYN) + vbCrLf
     tmp = tmp + "invoicerCorpName (공급자 상호) : " + tiInfo.invoicerCorpName + vbCrLf
     tmp = tmp + "invoicerCorpNum (공급자 사업자번호) : " + tiInfo.invoicerCorpNum + vbCrLf
     tmp = tmp + "invoicerMgtKey (공급자 문서관리번호) : " + tiInfo.invoicerMgtKey + vbCrLf
@@ -4012,11 +4008,11 @@ Private Sub btnGetInfos_Click()
     
     
     For Each info In resultList
-        tmp = tmp + info.itemKey + " | " + info.taxType + " | " + info.writeDate + " | " + info.regDT + " | " + info.IssueType + " | " + vbCrLf
+        tmp = tmp + info.itemKey + " | " + info.taxType + " | " + info.writeDate + " | " + info.regDT + " | " + info.issueType + " | " + vbCrLf
         tmp = tmp + info.supplyCostTotal + " | " + info.taxTotal + " | " + info.purposeType + " | " + info.issueDT + " | " + vbCrLf
         tmp = tmp + info.stateDT + " | " + CStr(info.lateIssueYN) + " | " + CStr(info.openYN) + " | " + info.openDT + " | " + vbCrLf
         tmp = tmp + CStr(info.stateCode) + " | " + info.stateMemo + " | " + info.ntsresult + " | " + info.ntsconfirmNum + " | " + vbCrLf
-        tmp = tmp + info.ntssendDT + " | " + info.ntsresultDT + " | " + info.ntssendErrCode + " | " + info.modifyCode + " | " + CStr(info.InterOPYN) + " | " + vbCrLf
+        tmp = tmp + info.ntssendDT + " | " + info.ntsresultDT + " | " + info.ntssendErrCode + " | " + info.modifyCode + " | " + CStr(info.interOPYN) + " | " + vbCrLf
         tmp = tmp + info.invoicerCorpName + " | " + info.invoicerCorpNum + " | " + info.invoicerMgtKey + " | " + CStr(info.invoicerPrintYN) + " | " + vbCrLf
         tmp = tmp + info.invoiceeCorpName + " | " + info.invoiceeCorpNum + " | " + info.invoiceeMgtKey + " | " + vbCrLf
         tmp = tmp + CStr(info.invoiceePrintYN) + " | " + CStr(info.closeDownState) + " | " + info.closeDownStateDate + " | " + vbCrLf
@@ -4059,7 +4055,7 @@ Private Sub btnGetDetailInfo_Click()
     End If
     
     tmp = tmp + "ntsconfirmnum (국세청 승인번호) : " + tiDetailInfo.ntsconfirmNum + vbCrLf
-    tmp = tmp + "issueType (발행형태) : " + tiDetailInfo.IssueType + vbCrLf
+    tmp = tmp + "issueType (발행형태) : " + tiDetailInfo.issueType + vbCrLf
     tmp = tmp + "taxtype (과세형태) : " + tiDetailInfo.taxType + vbCrLf
     tmp = tmp + "chargeDirection (과금방향) : " + tiDetailInfo.chargeDirection + vbCrLf
     tmp = tmp + "serialnum (일련번호) : " + tiDetailInfo.serialNum + vbCrLf
@@ -4151,7 +4147,7 @@ Private Sub btnSearch_Click()
     Dim state As New Collection
     Dim TType As New Collection
     Dim taxType As New Collection
-    Dim IssueType As New Collection
+    Dim issueType As New Collection
     Dim LateOnly As String
     Dim Page As Integer
     Dim PerPage As Integer
@@ -4161,7 +4157,7 @@ Private Sub btnSearch_Click()
     Dim TaxRegIDYN As String
     Dim QString As String
     Dim tmp As String
-    Dim InterOPYN As String
+    Dim interOPYN As String
         
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -4200,9 +4196,9 @@ Private Sub btnSearch_Click()
     taxType.Add "Z"
     
     '발행형태 배열, N-정발행, R-역발행 T-위수탁
-    IssueType.Add "N"
-    IssueType.Add "R"
-    IssueType.Add "T"
+    issueType.Add "N"
+    issueType.Add "R"
+    issueType.Add "T"
     
     '지연발행 여부, 0-정상발행 조회 1-지연발행 조회, 공백처리시 전체조회
     LateOnly = ""
@@ -4229,11 +4225,11 @@ Private Sub btnSearch_Click()
     QString = ""
     
     '연동문서 조회 여부, 공백-전체조회, 0-일반문서 조회, 1-연동문서 조회
-    InterOPYN = ""
+    interOPYN = ""
     
     Set tiSearchList = TaxinvoiceService.Search(txtCorpNum.Text, KeyType, DType, SDate, EDate, state, _
                     TType, taxType, LateOnly, Page, PerPage, Order, TaxRegIDType, TaxRegID, TaxRegIDYN, QString, _
-                    txtUserID.Text, InterOPYN, IssueType)
+                    txtUserID.Text, interOPYN, issueType)
      
     If tiSearchList Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -4263,7 +4259,7 @@ Private Sub btnSearch_Click()
         tmp = tmp + info.taxType + " | "
         tmp = tmp + info.writeDate + " | "
         tmp = tmp + info.regDT + " | "
-        tmp = tmp + info.IssueType + " | "
+        tmp = tmp + info.issueType + " | "
         tmp = tmp + info.supplyCostTotal + " | "
         tmp = tmp + info.taxTotal + " | "
         tmp = tmp + info.purposeType + " | "
@@ -4278,7 +4274,7 @@ Private Sub btnSearch_Click()
         tmp = tmp + info.ntsresultDT + " | "
         tmp = tmp + info.ntssendErrCode + " | "
         tmp = tmp + info.modifyCode + " | "
-        tmp = tmp + CStr(info.InterOPYN) + " | "
+        tmp = tmp + CStr(info.interOPYN) + " | "
         tmp = tmp + info.invoicerCorpName + " | "
         tmp = tmp + info.invoicerCorpNum + " | "
         tmp = tmp + info.invoicerMgtKey + " | "
@@ -4386,7 +4382,7 @@ Private Sub btnSendSMS_Click()
     Dim KeyType As MgtKeyType
     Dim sendNum As String
     Dim receiveNum As String
-    Dim contents As String
+    Dim Contents As String
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -4407,11 +4403,11 @@ Private Sub btnSendSMS_Click()
     receiveNum = "010-111-222"
     
     ' 메시지 내용, 최대 90Byte (한글 45자), 길이를 초과한 내용은 삭제되어 전송됩니다.
-    contents = "링크허브에서 세금계산서를 발행하였습니다. 메일확인 바랍니다."
+    Contents = "링크허브에서 세금계산서를 발행하였습니다. 메일확인 바랍니다."
         
     
     Set Response = TaxinvoiceService.SendSMS(txtCorpNum.Text, KeyType, txtMgtKey.Text, _
-                            sendNum, receiveNum, contents)
+                            sendNum, receiveNum, Contents)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)

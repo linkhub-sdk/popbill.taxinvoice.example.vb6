@@ -1878,7 +1878,7 @@ Private Sub btnRegistIssue_Click()
         
     
     '=========================================================================
-    '                            상세항목(품목) 정보
+    '             상세항목(품목) 정보 > 배열로 99 개까지 기재 가능
     '=========================================================================
     
     Set Taxinvoice.detailList = New Collection
@@ -1912,7 +1912,7 @@ Private Sub btnRegistIssue_Click()
     
     
     '=========================================================================
-    '                            추가담당자 정보
+    '             추가담당자 정보 > 배열로 99 개까지 기재 가능
     ' - 세금계산서 발행안내 메일을 수신받을 공급받는자 담당자가 다수인 경우
     ' 담당자 정보를 추가하여 발행안내메일을 다수에게 전송할 수 있습니다.
     '=========================================================================
@@ -2217,7 +2217,7 @@ Private Sub btnRegister_Click()
         
     
     '=========================================================================
-    '                            상세항목(품목) 정보
+    '             상세항목(품목) 정보 > 배열로 99 개까지 기재 가능
     '=========================================================================
     Set Taxinvoice.detailList = New Collection
     
@@ -2250,7 +2250,7 @@ Private Sub btnRegister_Click()
     
     
     '=========================================================================
-    '                            추가담당자 정보
+    '             추가담당자 정보 > 배열로 99 개까지 기재 가능
     ' - 세금계산서 발행안내 메일을 수신받을 공급받는자 담당자가 다수인 경우
     ' 담당자 정보를 추가하여 발행안내메일을 다수에게 전송할 수 있습니다.
     '=========================================================================
@@ -2478,7 +2478,7 @@ Private Sub btnUpdate_Click()
         
     
     '=========================================================================
-    '                            상세항목(품목) 정보
+    '             상세항목(품목) 정보 > 배열로 99 개까지 기재 가능
     '=========================================================================
     Set Taxinvoice.detailList = New Collection
     
@@ -2511,7 +2511,7 @@ Private Sub btnUpdate_Click()
     
     
     '=========================================================================
-    '                              추가담당자 정보
+    '             추가담당자 정보 > 배열로 99 개까지 기재 가능
     ' - 세금계산서 발행안내 메일을 수신받을 공급받는자 담당자가 다수인 경우
     ' 담당자 정보를 추가하여 발행안내메일을 다수에게 전송할 수 있습니다.
     '=========================================================================
@@ -2878,7 +2878,7 @@ Private Sub btnRegistRequest_Click()
         
     
     '=========================================================================
-    '                            상세항목(품목) 정보
+    '             상세항목(품목) 정보 > 배열로 99 개까지 기재 가능
     '=========================================================================
     Set Taxinvoice.detailList = New Collection
     
@@ -3294,7 +3294,7 @@ Private Sub btnRegister_rev_Click()
         
     
     '=========================================================================
-    '                            상세항목(품목) 정보
+    '             상세항목(품목) 정보 > 배열로 99 개까지 기재 가능
     '=========================================================================
     Set Taxinvoice.detailList = New Collection
     
@@ -3345,6 +3345,7 @@ End Sub
 Private Sub btnUpdate_rev_Click()
     Dim KeyType As MgtKeyType
     
+    '세금계산서 발행유형, SELL-매출, BUY-매입, TRUSTEE-위수탁
     KeyType = BUY
     
     Dim Taxinvoice As New PBTaxinvoice
@@ -3521,7 +3522,7 @@ Private Sub btnUpdate_rev_Click()
         
     
     '=========================================================================
-    '                            상세항목(품목) 정보
+    '             상세항목(품목) 정보 > 배열로 99 개까지 기재 가능
     '=========================================================================
     Set Taxinvoice.detailList = New Collection
     
@@ -4054,18 +4055,18 @@ Private Sub btnGetDetailInfo_Click()
         Exit Sub
     End If
     
-    tmp = tmp + "ntsconfirmnum (국세청 승인번호) : " + tiDetailInfo.ntsconfirmNum + vbCrLf
+    tmp = tmp + "ntsconfirmNum (국세청 승인번호) : " + tiDetailInfo.ntsconfirmNum + vbCrLf
     tmp = tmp + "issueType (발행형태) : " + tiDetailInfo.issueType + vbCrLf
-    tmp = tmp + "taxtype (과세형태) : " + tiDetailInfo.taxType + vbCrLf
+    tmp = tmp + "taxType (과세형태) : " + tiDetailInfo.taxType + vbCrLf
     tmp = tmp + "chargeDirection (과금방향) : " + tiDetailInfo.chargeDirection + vbCrLf
-    tmp = tmp + "serialnum (일련번호) : " + tiDetailInfo.serialNum + vbCrLf
+    tmp = tmp + "serialNum (일련번호) : " + tiDetailInfo.serialNum + vbCrLf
     tmp = tmp + "kwon (권) : " + tiDetailInfo.kwon + vbCrLf
     tmp = tmp + "ho (호) : " + tiDetailInfo.ho + vbCrLf
     tmp = tmp + "writeDate (작성일자) : " + tiDetailInfo.writeDate + vbCrLf
-    tmp = tmp + "purposetype (영수/청구) : " + tiDetailInfo.purposeType + vbCrLf
-    tmp = tmp + "supplycosttotal (공급가액 합계) : " + tiDetailInfo.supplyCostTotal + vbCrLf
+    tmp = tmp + "purposeType (영수/청구) : " + tiDetailInfo.purposeType + vbCrLf
+    tmp = tmp + "supplyCostTotal (공급가액 합계) : " + tiDetailInfo.supplyCostTotal + vbCrLf
     tmp = tmp + "taxtotal (세액 합계) : " + tiDetailInfo.taxTotal + vbCrLf
-    tmp = tmp + "totalamount (합계 금액) : " + tiDetailInfo.totalAmount + vbCrLf
+    tmp = tmp + "totalAmount (합계 금액) : " + tiDetailInfo.totalAmount + vbCrLf
     tmp = tmp + "cash (현금) : " + tiDetailInfo.cash + vbCrLf
     tmp = tmp + "chkbill (수표) : " + tiDetailInfo.chkBill + vbCrLf
     tmp = tmp + "credit (외상) : " + tiDetailInfo.credit + vbCrLf
@@ -4246,7 +4247,7 @@ Private Sub btnSearch_Click()
     tmp = tmp + "itemKey(팝빌 관리번호) |  taxType (과세형태) |  writeDate (작성일자) |  regDT (임시저장 일시) |  issueType (발행형태) |  supplyCostTotal (공급가액 합계) | " + _
          "taxTotal (세액 합계) |  purposeType (영수/청구) | issueDT (발행일시) | lateIssueYN (지연발행 여부) | openYN (개봉 여부) | openDT (개봉 일시) | " + _
          "stateMemo (상태메모) | stateCode (상태코드) | ntsconfirmNum (국세청승인번호) | ntsresult (국세청 전송결과) | ntssendDT (국세청 전송일시) | " + _
-         "ntsresultDT (국세청 결과 수신일시) | ntssendErrCode (실패사유 사유코드) | modifyCode (수정 사유코드) | interOPYN (연동문서 여부) | invoicerCorpName (공급자 상호) | " + _
+         "ntsresultDT (국세청 결과 수신일시) | ntssendErrCode (전송실패 사유코드) | modifyCode (수정 사유코드) | interOPYN (연동문서 여부) | invoicerCorpName (공급자 상호) | " + _
          "invoicerCorpNum (공급자 사업자번호) | invoicerMgtKey (공급자 문서관리번호) | invoicerPrintYN (공급자 인쇄여부) | invoiceeCorpName (공급받는자 상호) | " + _
          "invoiceeCorpNum (공급받는자 사업자번호) | invoiceeMgtKey(공급받는자 문서관리번호) | invoiceePrintYN(공급받는자 인쇄여부) | closeDownState(공급받는자 휴폐업상태) |" + _
          "closeDownStateDate(공급받는자 휴폐업일자) | trusteeCorpName (수탁자 상호) | trusteeCorpNum (수탁자 사업자번호) | trusteeMgtKey(수탁자 문서관리번호) | " + _
@@ -4554,10 +4555,10 @@ Private Sub btnDetachStatement_Click()
             Exit Sub
     End Select
     
-    '첨부할 전자명세서 종류코드, 121-거래명세서, 122-청구서, 123-견적서, 124-발주서, 125-입금표, 126-영수증
+    '첨부해제할 전자명세서 종류코드, 121-거래명세서, 122-청구서, 123-견적서, 124-발주서, 125-입금표, 126-영수증
     SubItemCode = 121
     
-    '첨부할 전자명세서 관리번호
+    '첨부해제할 전자명세서 관리번호
     SubMgtKey = "20190207-01"
 
     Set Response = TaxinvoiceService.DetachStatement(txtCorpNum.Text, KeyType, txtMgtKey.Text, SubItemCode, SubMgtKey)
@@ -4728,6 +4729,48 @@ End Sub
 
 '=========================================================================
 ' 전자세금계산서 관련 메일전송 항목에 대한 전송여부를 수정합니다.
+'
+' 메일전송유형
+' [정발행]
+' TAX_ISSUE : 공급받는자에게 전자세금계산서가 발행 되었음을 알려주는 메일입니다.
+' TAX_ISSUE_INVOICER : 공급자에게 전자세금계산서가 발행 되었음을 알려주는 메일입니다.
+' TAX_CHECK : 공급자에게 전자세금계산서가 수신확인 되었음을 알려주는 메일입니다.
+' TAX_CANCEL_ISSUE : 공급받는자에게 전자세금계산서가 발행취소 되었음을 알려주는 메일입니다.
+'
+' [발행예정]
+' TAX_SEND : 공급받는자에게 [발행예정] 세금계산서가 발송 되었음을 알려주는 메일입니다.
+' TAX_ACCEPT : 공급자에게 [발행예정] 세금계산서가 승인 되었음을 알려주는 메일입니다.
+' TAX_ACCEPT_ISSUE : 공급자에게 [발행예정] 세금계산서가 자동발행 되었음을 알려주는 메일입니다.
+' TAX_DENY : 공급자에게 [발행예정] 세금계산서가 거부 되었음을 알려주는 메일입니다.
+' TAX_CANCEL_SEND : 공급받는자에게 [발행예정] 세금계산서가 취소 되었음을 알려주는 메일입니다.
+'
+' [역발행]
+' TAX_REQUEST : 공급자에게 세금계산서를 전자서명 하여 발행을 요청하는 메일입니다.
+' TAX_CANCEL_REQUEST : 공급받는자에게 세금계산서가 취소 되었음을 알려주는 메일입니다.
+' TAX_REFUSE : 공급받는자에게 세금계산서가 거부 되었음을 알려주는 메일입니다.
+'
+' [위수탁발행]
+' TAX_TRUST_ISSUE : 공급받는자에게 전자세금계산서가 발행 되었음을 알려주는 메일입니다.
+' TAX_TRUST_ISSUE_TRUSTEE : 수탁자에게 전자세금계산서가 발행 되었음을 알려주는 메일입니다.
+' TAX_TRUST_ISSUE_INVOICER : 공급자에게 전자세금계산서가 발행 되었음을 알려주는 메일입니다.
+' TAX_TRUST_CANCEL_ISSUE : 공급받는자에게 전자세금계산서가 발행취소 되었음을 알려주는 메일입니다.
+' TAX_TRUST_CANCEL_ISSUE_INVOICER : 공급자에게 전자세금계산서가 발행취소 되었음을 알려주는 메일입니다.
+'
+' [위수탁 발행예정]
+' TAX_TRUST_SEND : 공급받는자에게 [발행예정] 세금계산서가 발송 되었음을 알려주는 메일입니다.
+' TAX_TRUST_ACCEPT : 수탁자에게 [발행예정] 세금계산서가 승인 되었음을 알려주는 메일입니다.
+' TAX_TRUST_ACCEPT_ISSUE : 수탁자에게 [발행예정] 세금계산서가 자동발행 되었음을 알려주는 메일입니다.
+' TAX_TRUST_DENY : 수탁자에게 [발행예정] 세금계산서가 거부 되었음을 알려주는 메일입니다.
+' TAX_TRUST_CANCEL_SEND : 공급받는자에게 [발행예정] 세금계산서가 취소 되었음을 알려주는 메일입니다.
+'
+' [처리결과]
+' TAX_CLOSEDOWN : 거래처의 휴폐업 여부를 확인하여 안내하는 메일입니다.
+' TAX_NTSFAIL_INVOICER : 전자세금계산서 국세청 전송실패를 안내하는 메일입니다.
+'
+' [정기발송]
+' TAX_SEND_INFO : 전월 귀속분 [매출 발행 대기] 세금계산서의 발행을 안내하는 메일입니다.
+' ETC_CERT_EXPIRATION : 팝빌에서 이용중인 공인인증서의 갱신을 안내하는 메일입니다.
+'
 '=========================================================================
 Private Sub btnUpdateemailconfig_Click(index As Integer)
     Dim Response As PBResponse

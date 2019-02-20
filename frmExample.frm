@@ -1732,7 +1732,7 @@ Private Sub btnRegistIssue_Click()
     '[필수] 공급자 사업자번호, '-' 제외 10자리
     Taxinvoice.invoicerCorpNum = txtCorpNum.Text
     
-    '[필수] 공급자 종사업자 식별번호. 필요시 숫자 4자리 기재
+    '[필수] 공급자 종사업장 식별번호. 필요시 숫자 4자리 기재
     Taxinvoice.invoicerTaxRegID = ""
     
     '[필수] 공급자 상호
@@ -1782,7 +1782,7 @@ Private Sub btnRegistIssue_Click()
     '[필수] 공급받는자 사업자번호, '-' 제외 10자리
     Taxinvoice.invoiceeCorpNum = "8888888888"
     
-    '[필수] 공급받는자 종사업자 식별번호. 필요시 숫자 4자리 기재
+    '[필수] 공급받는자 종사업장 식별번호. 필요시 숫자 4자리 기재
     Taxinvoice.invoiceeTaxRegID = ""
     
     '[필수] 공급자받는자 상호
@@ -2071,7 +2071,7 @@ Private Sub btnRegister_Click()
     '[필수] 공급자 사업자번호, '-' 제외 10자리
     Taxinvoice.invoicerCorpNum = txtCorpNum.Text
     
-    '[필수] 공급자 종사업자 식별번호. 필요시 숫자 4자리 기재
+    '[필수] 공급자 종사업장 식별번호. 필요시 숫자 4자리 기재
     Taxinvoice.invoicerTaxRegID = ""
     
     '[필수] 공급자 상호
@@ -2121,7 +2121,7 @@ Private Sub btnRegister_Click()
     '[필수] 공급받는자 사업자번호, '-' 제외 10자리
     Taxinvoice.invoiceeCorpNum = "8888888888"
     
-    '[필수] 공급받는자 종사업자 식별번호. 필요시 숫자 4자리 기재
+    '[필수] 공급받는자 종사업장 식별번호. 필요시 숫자 4자리 기재
     Taxinvoice.invoiceeTaxRegID = ""
     
     '[필수] 공급자받는자 상호
@@ -2333,7 +2333,7 @@ Private Sub btnUpdate_Click()
     '[필수] 공급자 사업자번호, '-' 제외 10자리
     Taxinvoice.invoicerCorpNum = txtCorpNum.Text
     
-    '[필수] 공급자 종사업자 식별번호. 필요시 숫자 4자리 기재
+    '[필수] 공급자 종사업장 식별번호. 필요시 숫자 4자리 기재
     Taxinvoice.invoicerTaxRegID = ""
     
     '[필수] 공급자 상호
@@ -2383,7 +2383,7 @@ Private Sub btnUpdate_Click()
     '[필수] 공급받는자 사업자번호, '-' 제외 10자리
     Taxinvoice.invoiceeCorpNum = "8888888888"
     
-    '[필수] 공급받는자 종사업자 식별번호. 필요시 숫자 4자리 기재
+    '[필수] 공급받는자 종사업장 식별번호. 필요시 숫자 4자리 기재
     Taxinvoice.invoiceeTaxRegID = ""
     
     '[필수] 공급자받는자 상호
@@ -2733,7 +2733,7 @@ Private Sub btnRegistRequest_Click()
     '[필수] 공급자 사업자번호, '-' 제외 10자리
     Taxinvoice.invoicerCorpNum = "8888888888"
     
-    '[필수] 공급자 종사업자 식별번호. 필요시 숫자 4자리 기재
+    '[필수] 공급자 종사업장 식별번호. 필요시 숫자 4자리 기재
     Taxinvoice.invoicerTaxRegID = ""
     
     '[필수] 공급자 상호
@@ -2778,7 +2778,7 @@ Private Sub btnRegistRequest_Click()
     '[필수] 공급받는자 사업자번호, '-' 제외 10자리
     Taxinvoice.invoiceeCorpNum = txtCorpNum.Text
     
-    '[필수] 공급받는자 종사업자 식별번호. 필요시 숫자 4자리 기재
+    '[필수] 공급받는자 종사업장 식별번호. 필요시 숫자 4자리 기재
     Taxinvoice.invoiceeTaxRegID = ""
     
     '[필수] 공급자받는자 상호
@@ -3144,7 +3144,7 @@ Private Sub btnRegister_rev_Click()
     '[필수] 공급자 사업자번호, '-' 제외 10자리
     Taxinvoice.invoicerCorpNum = "8888888888"
     
-    '[필수] 공급자 종사업자 식별번호. 필요시 숫자 4자리 기재
+    '[필수] 공급자 종사업장 식별번호. 필요시 숫자 4자리 기재
     Taxinvoice.invoicerTaxRegID = ""
     
     '[필수] 공급자 상호
@@ -3193,7 +3193,7 @@ Private Sub btnRegister_rev_Click()
     '[필수] 공급받는자 사업자번호, '-' 제외 10자리
     Taxinvoice.invoiceeCorpNum = txtCorpNum.Text
     
-    '[필수] 공급받는자 종사업자 식별번호. 필요시 숫자 4자리 기재
+    '[필수] 공급받는자 종사업장 식별번호. 필요시 숫자 4자리 기재
     Taxinvoice.invoiceeTaxRegID = ""
     
     '[필수] 공급자받는자 상호
@@ -3377,7 +3377,7 @@ Private Sub btnUpdate_rev_Click()
     '[필수] 공급자 사업자번호, '-' 제외 10자리
     Taxinvoice.invoicerCorpNum = "8888888888"
     
-    '[필수] 공급자 종사업자 식별번호. 필요시 숫자 4자리 기재
+    '[필수] 공급자 종사업장 식별번호. 필요시 숫자 4자리 기재
     Taxinvoice.invoicerTaxRegID = ""
     
     '[필수] 공급자 상호
@@ -3421,7 +3421,7 @@ Private Sub btnUpdate_rev_Click()
     '[필수] 공급받는자 사업자번호, '-' 제외 10자리
     Taxinvoice.invoiceeCorpNum = "1234567890"
     
-    '[필수] 공급받는자 종사업자 식별번호. 필요시 숫자 4자리 기재
+    '[필수] 공급받는자 종사업장 식별번호. 필요시 숫자 4자리 기재
     Taxinvoice.invoiceeTaxRegID = ""
     
     '[필수] 공급자받는자 상호

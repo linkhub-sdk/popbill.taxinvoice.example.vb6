@@ -2,12 +2,12 @@ VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Begin VB.Form frmExample 
    Caption         =   "팝빌 세금계산서 SDK 예제"
-   ClientHeight    =   12705
+   ClientHeight    =   12750
    ClientLeft      =   60
    ClientTop       =   450
    ClientWidth     =   19065
    LinkTopic       =   "Form1"
-   ScaleHeight     =   12705
+   ScaleHeight     =   12750
    ScaleWidth      =   19065
    StartUpPosition =   2  '화면 가운데
    Begin VB.CommandButton btnUpdateemailconfig 
@@ -411,7 +411,7 @@ Begin VB.Form frmExample
    End
    Begin VB.Frame Frame7 
       Caption         =   " 세금계산서 관련 기능"
-      Height          =   9225
+      Height          =   9465
       Left            =   240
       TabIndex        =   13
       Top             =   3120
@@ -491,21 +491,29 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame14 
          Caption         =   " 보기/인쇄"
-         Height          =   2760
+         Height          =   3120
          Left            =   9600
          TabIndex        =   55
          Top             =   6120
          Width           =   3210
+         Begin VB.CommandButton btnGetViewURL 
+            Caption         =   "세금계산서 팝업 URL (메뉴x)"
+            Height          =   390
+            Left            =   210
+            TabIndex        =   108
+            Top             =   840
+            Width           =   2745
+         End
          Begin VB.CommandButton btnGetEPrintUrl 
             Caption         =   "공급받는자 인쇄 팝업 URL"
             Height          =   390
             Left            =   210
             TabIndex        =   61
-            Top             =   1260
+            Top             =   1740
             Width           =   2745
          End
          Begin VB.CommandButton btnGetPopUpURL 
-            Caption         =   "세금계산서 보기 팝업 URL"
+            Caption         =   "세금계산서 팝업 URL"
             Height          =   390
             Left            =   210
             TabIndex        =   59
@@ -517,7 +525,7 @@ Begin VB.Form frmExample
             Height          =   390
             Left            =   210
             TabIndex        =   58
-            Top             =   825
+            Top             =   1305
             Width           =   2745
          End
          Begin VB.CommandButton btnGetMassPrintURL 
@@ -525,7 +533,7 @@ Begin VB.Form frmExample
             Height          =   390
             Left            =   210
             TabIndex        =   57
-            Top             =   1710
+            Top             =   2190
             Width           =   2745
          End
          Begin VB.CommandButton btnGetMailURL 
@@ -533,13 +541,13 @@ Begin VB.Form frmExample
             Height          =   390
             Left            =   210
             TabIndex        =   56
-            Top             =   2160
+            Top             =   2640
             Width           =   2745
          End
       End
       Begin VB.Frame Frame13 
          Caption         =   " 기타 URL "
-         Height          =   2295
+         Height          =   3135
          Left            =   12960
          TabIndex        =   50
          Top             =   6120
@@ -579,7 +587,7 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame12 
          Caption         =   " 부가 서비스"
-         Height          =   2415
+         Height          =   3135
          Left            =   4920
          TabIndex        =   48
          Top             =   6120
@@ -627,7 +635,7 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame11 
          Caption         =   " 정보 확인"
-         Height          =   2775
+         Height          =   3135
          Left            =   2520
          TabIndex        =   43
          Top             =   6120
@@ -667,7 +675,7 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame10 
          Caption         =   " 첨부파일 "
-         Height          =   2280
+         Height          =   3120
          Left            =   120
          TabIndex        =   38
          Top             =   6135
@@ -1196,6 +1204,39 @@ Private Sub btnCheckID_Click()
 End Sub
 
 '=========================================================================
+' 1건의 전자세금계산서 보기 팝업 URL을 반환합니다.(메뉴/버튼 출력되지 않음)
+' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
+'=========================================================================
+
+Private Sub btnGetViewURL_Click()
+    Dim url As String
+    Dim KeyType As MgtKeyType
+    
+    Select Case cboMgtKeyType.Text
+        Case "SELL"
+            KeyType = SELL
+        Case "BUY"
+            KeyType = BUY
+        Case "TRUSTEE"
+            KeyType = TRUSTEE
+        Case Else
+            MsgBox "관리번호 형태를 선택해주세요."
+            Exit Sub
+    End Select
+    
+    url = TaxinvoiceService.GetViewURL(txtCorpNum.Text, KeyType, txtMgtKey.Text)
+    
+    If url = "" Then
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox "URL : " + vbCrLf + url
+    txtUserID.Text = url
+    
+End Sub
+
+'=========================================================================
 ' 파트너의 연동회원으로 회원가입을 요청합니다.
 '=========================================================================
 Private Sub btnJoinMember_Click()
@@ -1706,7 +1747,7 @@ Private Sub btnRegistIssue_Click()
     Dim Taxinvoice As New PBTaxinvoice
     
     '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20190207
-    Taxinvoice.writeDate = "20190207"
+    Taxinvoice.writeDate = "20190307"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
     Taxinvoice.issueType = "정발행"
@@ -1959,7 +2000,7 @@ Private Sub btnRegistIssue_Click()
         Exit Sub
     End If
     
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청승인번호 : " + Response.ntsConfirmNum)
 End Sub
 
 '=========================================================================
@@ -2045,7 +2086,7 @@ Private Sub btnRegister_Click()
     Dim Taxinvoice As New PBTaxinvoice
     
     '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20190207
-    Taxinvoice.writeDate = "20190207"
+    Taxinvoice.writeDate = "20190307"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
     Taxinvoice.issueType = "정발행"
@@ -2591,7 +2632,7 @@ Private Sub btnIssue_Click()
         Exit Sub
     End If
     
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청승인번호 : " + Response.ntsConfirmNum)
 End Sub
 
 '=========================================================================
@@ -2969,7 +3010,7 @@ Private Sub btnIssue_rev_sub_Click()
         Exit Sub
     End If
     
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청승인번호 : " + Response.ntsConfirmNum)
 End Sub
 
 '=========================================================================
@@ -3649,7 +3690,7 @@ Private Sub btnIssue_rev_Click()
         Exit Sub
     End If
     
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청승인번호 : " + Response.ntsConfirmNum)
 End Sub
 
 '=========================================================================
@@ -3936,7 +3977,7 @@ Private Sub btnGetInfo_Click()
     tmp = tmp + "stateCode (상태코드) : " + CStr(tiInfo.stateCode) + vbCrLf
     tmp = tmp + "stateMemo (상태메모) : " + tiInfo.stateMemo + vbCrLf
     tmp = tmp + "ntsresult (국세청 전송결과) : " + tiInfo.ntsresult + vbCrLf
-    tmp = tmp + "ntsconfirmNum (국세청승인번호) : " + tiInfo.ntsconfirmNum + vbCrLf
+    tmp = tmp + "ntsconfirmNum (국세청승인번호) : " + tiInfo.ntsConfirmNum + vbCrLf
     tmp = tmp + "ntssendDT (국세청 전송일시) : " + tiInfo.ntssendDT + vbCrLf
     tmp = tmp + "ntsresultDT (국세청 결과 수신일시) : " + tiInfo.ntsresultDT + vbCrLf
     tmp = tmp + "ntssendErrCode (전송실패 사유코드) : " + tiInfo.ntssendErrCode + vbCrLf
@@ -4012,7 +4053,7 @@ Private Sub btnGetInfos_Click()
         tmp = tmp + info.itemKey + " | " + info.taxType + " | " + info.writeDate + " | " + info.regDT + " | " + info.issueType + " | " + vbCrLf
         tmp = tmp + info.supplyCostTotal + " | " + info.taxTotal + " | " + info.purposeType + " | " + info.issueDT + " | " + vbCrLf
         tmp = tmp + info.stateDT + " | " + CStr(info.lateIssueYN) + " | " + CStr(info.openYN) + " | " + info.openDT + " | " + vbCrLf
-        tmp = tmp + CStr(info.stateCode) + " | " + info.stateMemo + " | " + info.ntsresult + " | " + info.ntsconfirmNum + " | " + vbCrLf
+        tmp = tmp + CStr(info.stateCode) + " | " + info.stateMemo + " | " + info.ntsresult + " | " + info.ntsConfirmNum + " | " + vbCrLf
         tmp = tmp + info.ntssendDT + " | " + info.ntsresultDT + " | " + info.ntssendErrCode + " | " + info.modifyCode + " | " + CStr(info.interOPYN) + " | " + vbCrLf
         tmp = tmp + info.invoicerCorpName + " | " + info.invoicerCorpNum + " | " + info.invoicerMgtKey + " | " + CStr(info.invoicerPrintYN) + " | " + vbCrLf
         tmp = tmp + info.invoiceeCorpName + " | " + info.invoiceeCorpNum + " | " + info.invoiceeMgtKey + " | " + vbCrLf
@@ -4055,7 +4096,7 @@ Private Sub btnGetDetailInfo_Click()
         Exit Sub
     End If
     
-    tmp = tmp + "ntsconfirmNum (국세청 승인번호) : " + tiDetailInfo.ntsconfirmNum + vbCrLf
+    tmp = tmp + "ntsconfirmNum (국세청 승인번호) : " + tiDetailInfo.ntsConfirmNum + vbCrLf
     tmp = tmp + "issueType (발행형태) : " + tiDetailInfo.issueType + vbCrLf
     tmp = tmp + "taxType (과세형태) : " + tiDetailInfo.taxType + vbCrLf
     tmp = tmp + "chargeDirection (과금방향) : " + tiDetailInfo.chargeDirection + vbCrLf
@@ -4269,7 +4310,7 @@ Private Sub btnSearch_Click()
         tmp = tmp + info.openDT + " | "
         tmp = tmp + info.stateMemo + " | "
         tmp = tmp + CStr(info.stateCode) + " | "
-        tmp = tmp + info.ntsconfirmNum + " | "
+        tmp = tmp + info.ntsConfirmNum + " | "
         tmp = tmp + info.ntsresult + " | "
         tmp = tmp + info.ntssendDT + " | "
         tmp = tmp + info.ntsresultDT + " | "

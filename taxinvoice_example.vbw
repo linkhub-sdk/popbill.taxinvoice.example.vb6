@@ -1,9 +1,9 @@
-frmExample = 234, 26, 1327, 798, , 113, 50, 1552, 938, C
+frmExample = 234, 26, 1327, 798, , 22, 24, 1461, 912, C
 cStringBuilder = 88, 116, 1289, 768, C
-Linkhub = 44, 58, 1245, 703, C
+Linkhub = 44, 58, 1245, 703, 
 LinkhubToken = 66, 87, 1259, 827, C
 PBTIService = 35, 152, 1311, 1032, 
-PBTaxinvoice = 113, 193, 1306, 907, 
+PBTaxinvoice = 113, 193, 1306, 907, C
 PBTIDetail = 176, 232, 1369, 946, C
 PBTIContact = 198, 261, 1391, 975, C
 PBTIInfo = 179, 93, 1372, 807, C

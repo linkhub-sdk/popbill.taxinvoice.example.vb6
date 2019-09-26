@@ -1137,8 +1137,7 @@ Attribute VB_Exposed = False
 '
 ' 팝빌 전자세금계산서 API VB 6.0 SDK Example
 '
-' - VB6 SDK 연동환경 설정방법 안내 : http://blog.linkhub.co.kr/569
-' - 업데이트 일자 : 2019-02-12
+' - 업데이트 일자 : 2019-09-26
 ' - 연동 기술지원 연락처 : 1600-9854 / 070-4304-2991
 ' - 연동 기술지원 이메일 : code@linkhub.co.kr
 '
@@ -2000,7 +1999,7 @@ Private Sub btnRegistIssue_Click()
         Exit Sub
     End If
     
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청승인번호 : " + Response.ntsConfirmNum)
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청승인번호 : " + Response.ntsconfirmNum)
 End Sub
 
 '=========================================================================
@@ -2632,7 +2631,7 @@ Private Sub btnIssue_Click()
         Exit Sub
     End If
     
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청승인번호 : " + Response.ntsConfirmNum)
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청승인번호 : " + Response.ntsconfirmNum)
 End Sub
 
 '=========================================================================
@@ -3010,7 +3009,7 @@ Private Sub btnIssue_rev_sub_Click()
         Exit Sub
     End If
     
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청승인번호 : " + Response.ntsConfirmNum)
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청승인번호 : " + Response.ntsconfirmNum)
 End Sub
 
 '=========================================================================
@@ -3690,7 +3689,7 @@ Private Sub btnIssue_rev_Click()
         Exit Sub
     End If
     
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청승인번호 : " + Response.ntsConfirmNum)
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청승인번호 : " + Response.ntsconfirmNum)
 End Sub
 
 '=========================================================================
@@ -3977,7 +3976,7 @@ Private Sub btnGetInfo_Click()
     tmp = tmp + "stateCode (상태코드) : " + CStr(tiInfo.stateCode) + vbCrLf
     tmp = tmp + "stateMemo (상태메모) : " + tiInfo.stateMemo + vbCrLf
     tmp = tmp + "ntsresult (국세청 전송결과) : " + tiInfo.ntsresult + vbCrLf
-    tmp = tmp + "ntsconfirmNum (국세청승인번호) : " + tiInfo.ntsConfirmNum + vbCrLf
+    tmp = tmp + "ntsconfirmNum (국세청승인번호) : " + tiInfo.ntsconfirmNum + vbCrLf
     tmp = tmp + "ntssendDT (국세청 전송일시) : " + tiInfo.ntssendDT + vbCrLf
     tmp = tmp + "ntsresultDT (국세청 결과 수신일시) : " + tiInfo.ntsresultDT + vbCrLf
     tmp = tmp + "ntssendErrCode (전송실패 사유코드) : " + tiInfo.ntssendErrCode + vbCrLf
@@ -4053,7 +4052,7 @@ Private Sub btnGetInfos_Click()
         tmp = tmp + info.itemKey + " | " + info.taxType + " | " + info.writeDate + " | " + info.regDT + " | " + info.issueType + " | " + vbCrLf
         tmp = tmp + info.supplyCostTotal + " | " + info.taxTotal + " | " + info.purposeType + " | " + info.issueDT + " | " + vbCrLf
         tmp = tmp + info.stateDT + " | " + CStr(info.lateIssueYN) + " | " + CStr(info.openYN) + " | " + info.openDT + " | " + vbCrLf
-        tmp = tmp + CStr(info.stateCode) + " | " + info.stateMemo + " | " + info.ntsresult + " | " + info.ntsConfirmNum + " | " + vbCrLf
+        tmp = tmp + CStr(info.stateCode) + " | " + info.stateMemo + " | " + info.ntsresult + " | " + info.ntsconfirmNum + " | " + vbCrLf
         tmp = tmp + info.ntssendDT + " | " + info.ntsresultDT + " | " + info.ntssendErrCode + " | " + info.modifyCode + " | " + CStr(info.interOPYN) + " | " + vbCrLf
         tmp = tmp + info.invoicerCorpName + " | " + info.invoicerCorpNum + " | " + info.invoicerMgtKey + " | " + CStr(info.invoicerPrintYN) + " | " + vbCrLf
         tmp = tmp + info.invoiceeCorpName + " | " + info.invoiceeCorpNum + " | " + info.invoiceeMgtKey + " | " + vbCrLf
@@ -4096,7 +4095,7 @@ Private Sub btnGetDetailInfo_Click()
         Exit Sub
     End If
     
-    tmp = tmp + "ntsconfirmNum (국세청 승인번호) : " + tiDetailInfo.ntsConfirmNum + vbCrLf
+    tmp = tmp + "ntsconfirmNum (국세청 승인번호) : " + tiDetailInfo.ntsconfirmNum + vbCrLf
     tmp = tmp + "issueType (발행형태) : " + tiDetailInfo.issueType + vbCrLf
     tmp = tmp + "taxType (과세형태) : " + tiDetailInfo.taxType + vbCrLf
     tmp = tmp + "chargeDirection (과금방향) : " + tiDetailInfo.chargeDirection + vbCrLf
@@ -4310,7 +4309,7 @@ Private Sub btnSearch_Click()
         tmp = tmp + info.openDT + " | "
         tmp = tmp + info.stateMemo + " | "
         tmp = tmp + CStr(info.stateCode) + " | "
-        tmp = tmp + info.ntsConfirmNum + " | "
+        tmp = tmp + info.ntsconfirmNum + " | "
         tmp = tmp + info.ntsresult + " | "
         tmp = tmp + info.ntssendDT + " | "
         tmp = tmp + info.ntsresultDT + " | "
@@ -5067,6 +5066,9 @@ Private Sub Form_Load()
 
     ' 연동환경 설정값 True(개발용), False(상업용), 상업용 전환시 False로 변경.
     TaxinvoiceService.IsTest = True
+    
+    '인증토큰 IP제한기능 사용여부, True(권장)
+    TaxinvoiceService.IPRestrictOnOff = True
 
     cboMgtKeyType.AddItem "SELL"
     cboMgtKeyType.AddItem "BUY"

@@ -1137,7 +1137,7 @@ Attribute VB_Exposed = False
 '
 ' 팝빌 전자세금계산서 API VB 6.0 SDK Example
 '
-' - 업데이트 일자 : 2019-09-26
+' - 업데이트 일자 : 2019-12-02
 ' - 연동 기술지원 연락처 : 1600-9854 / 070-4304-2991
 ' - 연동 기술지원 이메일 : code@linkhub.co.kr
 '
@@ -1153,12 +1153,6 @@ Attribute VB_Exposed = False
 '=========================================================================
 
 Option Explicit
-
-'=========================================================================
-' - 인증정보(링크아이디, 비밀키)는 파트너의 연동회원을 식별하는
-'   인증에 사용되는 정보로 유출되지 않도록 주의하시기 바랍니다.
-' - 상업용 전환이후에도 인증정보(링크아이디, 비밀키)는 변경되지 않습니다.
-'=========================================================================
 
 '링크아이디
 Private Const LinkID = "TESTER"
@@ -1219,7 +1213,7 @@ Private Sub btnGetViewURL_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -1678,8 +1672,8 @@ Private Sub btnGetPartnerURL_CHRG_Click()
 End Sub
 
 '=========================================================================
-' 세금계산서 관리번호 중복여부를 확인합니다.
-' - 관리번호는 1~24자리로 숫자, 영문 '-', '_' 조합으로 구성할 수 있습니다.
+' 세금계산서 문서번호 중복여부를 확인합니다.
+' - 문서번호는 1~24자리로 숫자, 영문 '-', '_' 조합으로 구성할 수 있습니다.
 '=========================================================================
 Private Sub checkMgtKeyInUse_Click()
     Dim Response As PBResponse
@@ -1693,7 +1687,7 @@ Private Sub checkMgtKeyInUse_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -1746,7 +1740,7 @@ Private Sub btnRegistIssue_Click()
     Dim Taxinvoice As New PBTaxinvoice
     
     '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20190207
-    Taxinvoice.writeDate = "20190307"
+    Taxinvoice.writeDate = "20191202"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
     Taxinvoice.issueType = "정발행"
@@ -1778,7 +1772,7 @@ Private Sub btnRegistIssue_Click()
     '[필수] 공급자 상호
     Taxinvoice.invoicerCorpName = "공급자 상호"
     
-    '[필수] 공급자 문서관리번호, 1~24자리 (숫자, 영문, '-', '_') 조합으로
+    '[필수] 공급자 문서번호, 1~24자리 (숫자, 영문, '-', '_') 조합으로
     '사업자 별로 중복되지 않도록 구성
     Taxinvoice.invoicerMgtKey = txtMgtKey.Text
     
@@ -1828,7 +1822,7 @@ Private Sub btnRegistIssue_Click()
     '[필수] 공급자받는자 상호
     Taxinvoice.invoiceeCorpName = "공급받는자 상호"
     
-    '[역발행시 필수] 공급받는자 문서관리번호(역발행시 필수)
+    '[역발행시 필수] 공급받는자 문서번호(역발행시 필수)
     Taxinvoice.invoiceeMgtKey = ""
     
     '[필수] 공급받는자 대표자 성명
@@ -1847,6 +1841,8 @@ Private Sub btnRegistIssue_Click()
     Taxinvoice.invoiceeContactName1 = "공급받는자 담당자명"
     
     '공급받는자 담당자 메일주소
+    '팝빌 개발환경에서 테스트하는 경우에도 안내 메일이 전송되므로,
+    '실제 거래처의 메일주소가 기재되지 않도록 주의
     Taxinvoice.invoiceeEmail1 = "test@invoicee.com"
     
     '공급받는자 담당자 연락처
@@ -1907,14 +1903,14 @@ Private Sub btnRegistIssue_Click()
     '=========================================================================
     '         수정세금계산서 정보 (수정세금계산서 작성시에만 기재
     ' - 수정세금계산서 관련 정보는 연동매뉴얼 또는 개발가이드 링크 참조
-    ' - [참고] 수정세금계산서 작성방법 안내 - http://blog.linkhub.co.kr/650
+    ' - [참고] 수정세금계산서 작성방법 안내 - https://docs.popbill.com/taxinvoice/modify?lang=vb
     '========================================================================='
     
     ' 수정사유코드, 수정사유에 따라 1~6중 선택기재
     Taxinvoice.modifyCode = ""
     
-    ' 원본세금계산서의 ItemKey, 문서확인 (GetInfo API)의 응답결과(ItemKey 항목) 확인
-    Taxinvoice.originalTaxinvoiceKey = ""
+    ' 원본세금계산서 국세청승인번호 기재
+    Taxinvoice.orgNTSConfirmNum = ""
         
     
     '=========================================================================
@@ -1974,7 +1970,7 @@ Private Sub btnRegistIssue_Click()
     '거래명세서 동시작성 여부
     Taxinvoice.writeSpecification = False
     
-    '거래명세서 동시작성시 거래명세서 관리번호, 미기재시 세금계산서 관리번호로 자동작성
+    '거래명세서 동시작성시 거래명세서 문서번호, 미기재시 세금계산서 문서번호로 자동작성
     Taxinvoice.dealInvoiceMgtKey = ""
     
     '지연발행 강제여부(forceIssue)
@@ -2006,7 +2002,7 @@ End Sub
 '[발행완료] 상태의 세금계산서를 [발행취소] 처리합니다.
 ' - [발행취소]는 국세청 전송전에만 가능합니다.
 ' - 발행취소된 세금계산서는 국세청에 전송되지 않습니다.
-' - 발행취소 세금계산서에 기재된 문서관리번호를 재사용 하기 위해서는
+' - 발행취소 세금계산서에 기재된 문서번호를 재사용 하기 위해서는
 '   삭제(Delete API)를 호출하여 [삭제] 처리 하셔야 합니다.
 '=========================================================================
 Private Sub btnCancelIssue_sub_Click()
@@ -2022,7 +2018,7 @@ Private Sub btnCancelIssue_sub_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -2041,7 +2037,7 @@ End Sub
 
 '=========================================================================
 ' 1건의 전자세금계산서를 삭제합니다.
-' - 세금계산서를 삭제해야만 문서관리번호(mgtKey)를 재사용할 수 있습니다.
+' - 세금계산서를 삭제해야만 문서번호(mgtKey)를 재사용할 수 있습니다.
 ' - 삭제가능한 문서 상태 : 임시저장, 발행취소, 역)발행 거부/취소
 '=========================================================================
 Private Sub btnDelete_sub_Click()
@@ -2056,7 +2052,7 @@ Private Sub btnDelete_sub_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
         
@@ -2117,7 +2113,7 @@ Private Sub btnRegister_Click()
     '[필수] 공급자 상호
     Taxinvoice.invoicerCorpName = "공급자 상호"
     
-    '[필수] 공급자 문서관리번호, 1~24자리 (숫자, 영문, '-', '_') 조합으로
+    '[필수] 공급자 문서번호, 1~24자리 (숫자, 영문, '-', '_') 조합으로
     '사업자 별로 중복되지 않도록 구성
     Taxinvoice.invoicerMgtKey = txtMgtKey.Text
     
@@ -2167,7 +2163,7 @@ Private Sub btnRegister_Click()
     '[필수] 공급자받는자 상호
     Taxinvoice.invoiceeCorpName = "공급받는자 상호"
     
-    '[역발행시 필수] 공급받는자 문서관리번호(역발행시 필수)
+    '[역발행시 필수] 공급받는자 문서번호(역발행시 필수)
     Taxinvoice.invoiceeMgtKey = ""
     
     '[필수] 공급받는자 대표자 성명
@@ -2186,6 +2182,8 @@ Private Sub btnRegister_Click()
     Taxinvoice.invoiceeContactName1 = "공급받는자 담당자명"
     
     '공급받는자 담당자 메일주소
+    '팝빌 개발환경에서 테스트하는 경우에도 안내 메일이 전송되므로,
+    '실제 거래처의 메일주소가 기재되지 않도록 주의
     Taxinvoice.invoiceeEmail1 = "test@invoicee.com"
     
     '공급받는자 담당자 연락처
@@ -2246,14 +2244,14 @@ Private Sub btnRegister_Click()
     '=========================================================================
     '         수정세금계산서 정보 (수정세금계산서 작성시에만 기재)
     ' - 수정세금계산서 관련 정보는 연동매뉴얼 또는 개발가이드 링크 참조
-    ' - [참고] 수정세금계산서 작성방법 안내 - http://blog.linkhub.co.kr/650
+    ' - [참고] 수정세금계산서 작성방법 안내 - https://docs.popbill.com/taxinvoice/modify?lang=vb
     '========================================================================='
     
     ' 수정사유코드, 수정사유에 따라 1~6중 선택기재
     Taxinvoice.modifyCode = ""
     
-    ' 원본세금계산서의 ItemKey, 문서확인 (GetInfo API)의 응답결과(ItemKey 항목) 확인
-    Taxinvoice.originalTaxinvoiceKey = ""
+    ' 원본세금계산서 국세청승인번호 기재
+    Taxinvoice.orgNTSConfirmNum = ""
         
     
     '=========================================================================
@@ -2340,7 +2338,7 @@ Private Sub btnUpdate_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -2379,7 +2377,7 @@ Private Sub btnUpdate_Click()
     '[필수] 공급자 상호
     Taxinvoice.invoicerCorpName = "공급자 상호_수정"
     
-    '[필수] 공급자 문서관리번호, 1~24자리 (숫자, 영문, '-', '_') 조합으로
+    '[필수] 공급자 문서번호, 1~24자리 (숫자, 영문, '-', '_') 조합으로
     '사업자 별로 중복되지 않도록 구성
     Taxinvoice.invoicerMgtKey = txtMgtKey.Text
     
@@ -2429,7 +2427,7 @@ Private Sub btnUpdate_Click()
     '[필수] 공급자받는자 상호
     Taxinvoice.invoiceeCorpName = "공급받는자 상호"
     
-    '[역발행시 필수] 공급받는자 문서관리번호(역발행시 필수)
+    '[역발행시 필수] 공급받는자 문서번호(역발행시 필수)
     Taxinvoice.invoiceeMgtKey = ""
     
     '[필수] 공급받는자 대표자 성명
@@ -2448,6 +2446,8 @@ Private Sub btnUpdate_Click()
     Taxinvoice.invoiceeContactName1 = "공급받는자 담당자명"
     
     '공급받는자 담당자 메일주소
+    '팝빌 개발환경에서 테스트하는 경우에도 안내 메일이 전송되므로,
+    '실제 거래처의 메일주소가 기재되지 않도록 주의
     Taxinvoice.invoiceeEmail1 = "test@invoicee.com"
     
     '공급받는자 담당자 연락처
@@ -2507,14 +2507,14 @@ Private Sub btnUpdate_Click()
     '=========================================================================
     '         수정세금계산서 정보 (수정세금계산서 작성시에만 기재
     ' - 수정세금계산서 관련 정보는 연동매뉴얼 또는 개발가이드 링크 참조
-    ' - [참고] 수정세금계산서 작성방법 안내 - http://blog.linkhub.co.kr/650
+    ' - [참고] 수정세금계산서 작성방법 안내 - https://docs.popbill.com/taxinvoice/modify?lang=vb
     '========================================================================='
     
     ' 수정사유코드, 수정사유에 따라 1~6중 선택기재
     Taxinvoice.modifyCode = ""
     
-    ' 원본세금계산서의 ItemKey, 문서확인 (GetInfo API)의 응답결과(ItemKey 항목) 확인
-    Taxinvoice.originalTaxinvoiceKey = ""
+    ' 원본세금계산서 국세청승인번호 기재
+    Taxinvoice.orgNTSConfirmNum = ""
         
     
     '=========================================================================
@@ -2608,7 +2608,7 @@ Private Sub btnIssue_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -2638,7 +2638,7 @@ End Sub
 '[발행완료] 상태의 세금계산서를 [발행취소] 처리합니다.
 ' - [발행취소]는 국세청 전송전에만 가능합니다.
 ' - 발행취소된 세금계산서는 국세청에 전송되지 않습니다.
-' - 발행취소 세금계산서에 기재된 문서관리번호를 재사용 하기 위해서는
+' - 발행취소 세금계산서에 기재된 문서번호를 재사용 하기 위해서는
 '   삭제(Delete API)를 호출하여 [삭제] 처리 하셔야 합니다.
 '=========================================================================
 Private Sub btnCancelIssue_Click()
@@ -2654,7 +2654,7 @@ Private Sub btnCancelIssue_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -2673,7 +2673,7 @@ End Sub
 
 '=========================================================================
 ' 1건의 전자세금계산서를 삭제합니다.
-' - 세금계산서를 삭제해야만 문서관리번호(mgtKey)를 재사용할 수 있습니다.
+' - 세금계산서를 삭제해야만 문서번호(mgtKey)를 재사용할 수 있습니다.
 ' - 삭제가능한 문서 상태 : 임시저장, 발행취소, 역)발행 거부/취소
 '=========================================================================
 Private Sub btnDelete_Click()
@@ -2688,7 +2688,7 @@ Private Sub btnDelete_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -2722,7 +2722,7 @@ Private Sub btnSendToNTS_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -2779,7 +2779,7 @@ Private Sub btnRegistRequest_Click()
     '[필수] 공급자 상호
     Taxinvoice.invoicerCorpName = "공급자 상호"
     
-    '[정발행시 필수] 공급자 문서관리번호, 1~24자리 (숫자, 영문, '-', '_') 조합으로
+    '[정발행시 필수] 공급자 문서번호, 1~24자리 (숫자, 영문, '-', '_') 조합으로
     '사업자 별로 중복되지 않도록 구성
     Taxinvoice.invoicerMgtKey = ""
     
@@ -2824,7 +2824,7 @@ Private Sub btnRegistRequest_Click()
     '[필수] 공급자받는자 상호
     Taxinvoice.invoiceeCorpName = "공급받는자 상호"
     
-    '[역발행시 필수] 공급받는자 문서관리번호(역발행시 필수)
+    '[역발행시 필수] 공급받는자 문서번호(역발행시 필수)
     Taxinvoice.invoiceeMgtKey = txtMgtKey.Text
     
     '[필수] 공급받는자 대표자 성명
@@ -2843,6 +2843,8 @@ Private Sub btnRegistRequest_Click()
     Taxinvoice.invoiceeContactName1 = "공급받는자 담당자명"
     
     '공급받는자 담당자 메일주소
+    '팝빌 개발환경에서 테스트하는 경우에도 안내 메일이 전송되므로,
+    '실제 거래처의 메일주소가 기재되지 않도록 주의
     Taxinvoice.invoiceeEmail1 = "test@invoicee.com"
     
     '공급받는자 담당자 연락처
@@ -2907,14 +2909,14 @@ Private Sub btnRegistRequest_Click()
     '=========================================================================
     '         수정세금계산서 정보 (수정세금계산서 작성시에만 기재
     ' - 수정세금계산서 관련 정보는 연동매뉴얼 또는 개발가이드 링크 참조
-    ' - [참고] 수정세금계산서 작성방법 안내 - http://blog.linkhub.co.kr/650
+    ' - [참고] 수정세금계산서 작성방법 안내 - https://docs.popbill.com/taxinvoice/modify?lang=vb
     '========================================================================='
     
     ' 수정사유코드, 수정사유에 따라 1~6중 선택기재
     Taxinvoice.modifyCode = ""
     
-    ' 원본세금계산서의 ItemKey, 문서확인 (GetInfo API)의 응답결과(ItemKey 항목) 확인
-    Taxinvoice.originalTaxinvoiceKey = ""
+    ' 원본세금계산서 국세청승인번호 기재
+    Taxinvoice.orgNTSConfirmNum = ""
         
     
     '=========================================================================
@@ -2987,7 +2989,7 @@ Private Sub btnIssue_rev_sub_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -3014,7 +3016,7 @@ End Sub
 
 '=========================================================================
 ' 공급받는자에게 요청받은 역발행 세금계산서를 [거부]처리 합니다.
-' - 세금계산서의 문서관리번호를 재사용하기 위해서는 삭제 (Delete API) 를
+' - 세금계산서의 문서번호를 재사용하기 위해서는 삭제 (Delete API) 를
 '   호출하여 [삭제] 처리해야 합니다.
 '=========================================================================
 Private Sub btnRefuse_sub_Click()
@@ -3030,7 +3032,7 @@ Private Sub btnRefuse_sub_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -3051,7 +3053,7 @@ End Sub
 '[발행완료] 상태의 세금계산서를 [발행취소] 처리합니다.
 ' - [발행취소]는 국세청 전송전에만 가능합니다.
 ' - 발행취소된 세금계산서는 국세청에 전송되지 않습니다.
-' - 발행취소 세금계산서에 기재된 문서관리번호를 재사용 하기 위해서는
+' - 발행취소 세금계산서에 기재된 문서번호를 재사용 하기 위해서는
 '   삭제(Delete API)를 호출하여 [삭제] 처리 하셔야 합니다.
 '=========================================================================
 Private Sub btnCancelIssue_rev_sub_Click()
@@ -3067,7 +3069,7 @@ Private Sub btnCancelIssue_rev_sub_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -3086,7 +3088,7 @@ End Sub
 
 '=========================================================================
 ' 역발행 세금계산서를 [요청취소] 처리합니다.
-' - [취소]한 세금계산서의 문서관리번호를 재사용하기 위해서는 삭제 (Delete API) 를 호출해야 합니다.
+' - [취소]한 세금계산서의 문서번호를 재사용하기 위해서는 삭제 (Delete API) 를 호출해야 합니다.
 '=========================================================================
 Private Sub btnRequestCancel_sub_Click()
     Dim Response As PBResponse
@@ -3101,7 +3103,7 @@ Private Sub btnRequestCancel_sub_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -3120,7 +3122,7 @@ End Sub
 
 '=========================================================================
 ' 1건의 전자세금계산서를 삭제합니다.
-' - 세금계산서를 삭제해야만 문서관리번호(mgtKey)를 재사용할 수 있습니다.
+' - 세금계산서를 삭제해야만 문서번호(mgtKey)를 재사용할 수 있습니다.
 ' - 삭제가능한 문서 상태 : 임시저장, 발행취소, 역)발행 거부/취소
 '=========================================================================
 Private Sub btnDelete_rev_sub_Click()
@@ -3135,7 +3137,7 @@ Private Sub btnDelete_rev_sub_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
 
@@ -3190,7 +3192,7 @@ Private Sub btnRegister_rev_Click()
     '[필수] 공급자 상호
     Taxinvoice.invoicerCorpName = "공급자 상호"
     
-    '[필수] 공급자 문서관리번호, 1~24자리 (숫자, 영문, '-', '_') 조합으로
+    '[필수] 공급자 문서번호, 1~24자리 (숫자, 영문, '-', '_') 조합으로
     '사업자 별로 중복되지 않도록 구성
     Taxinvoice.invoicerMgtKey = ""
     
@@ -3239,7 +3241,7 @@ Private Sub btnRegister_rev_Click()
     '[필수] 공급자받는자 상호
     Taxinvoice.invoiceeCorpName = "공급받는자 상호"
     
-    '[역발행시 필수] 공급받는자 문서관리번호(역발행시 필수)
+    '[역발행시 필수] 공급받는자 문서번호(역발행시 필수)
     Taxinvoice.invoiceeMgtKey = txtMgtKey.Text
     
     '[필수] 공급받는자 대표자 성명
@@ -3258,6 +3260,8 @@ Private Sub btnRegister_rev_Click()
     Taxinvoice.invoiceeContactName1 = "공급받는자 담당자명"
     
     '공급받는자 담당자 메일주소
+    '팝빌 개발환경에서 테스트하는 경우에도 안내 메일이 전송되므로,
+    '실제 거래처의 메일주소가 기재되지 않도록 주의
     Taxinvoice.invoiceeEmail1 = "test@invoicee.com"
     
     '공급받는자 담당자 연락처
@@ -3323,14 +3327,14 @@ Private Sub btnRegister_rev_Click()
     '=========================================================================
     '         수정세금계산서 정보 (수정세금계산서 작성시에만 기재
     ' - 수정세금계산서 관련 정보는 연동매뉴얼 또는 개발가이드 링크 참조
-    ' - [참고] 수정세금계산서 작성방법 안내 - http://blog.linkhub.co.kr/650
+    ' - [참고] 수정세금계산서 작성방법 안내 - https://docs.popbill.com/taxinvoice/modify?lang=vb
     '========================================================================='
     
     ' 수정사유코드, 수정사유에 따라 1~6중 선택기재
     Taxinvoice.modifyCode = ""
     
-    ' 원본세금계산서의 ItemKey, 문서확인 (GetInfo API)의 응답결과(ItemKey 항목) 확인
-    Taxinvoice.originalTaxinvoiceKey = ""
+    ' 원본세금계산서 국세청승인번호 기재
+    Taxinvoice.orgNTSConfirmNum = ""
         
     
     '=========================================================================
@@ -3423,7 +3427,7 @@ Private Sub btnUpdate_rev_Click()
     '[필수] 공급자 상호
     Taxinvoice.invoicerCorpName = "공급자 상호_수정"
     
-    '[필수] 공급자 문서관리번호, 1~24자리 (숫자, 영문, '-', '_') 조합으로
+    '[필수] 공급자 문서번호, 1~24자리 (숫자, 영문, '-', '_') 조합으로
     '사업자 별로 중복되지 않도록 구성
     Taxinvoice.invoicerMgtKey = ""
     
@@ -3467,7 +3471,7 @@ Private Sub btnUpdate_rev_Click()
     '[필수] 공급자받는자 상호
     Taxinvoice.invoiceeCorpName = "공급받는자 상호"
     
-    '[역발행시 필수] 공급받는자 문서관리번호(역발행시 필수)
+    '[역발행시 필수] 공급받는자 문서번호(역발행시 필수)
     Taxinvoice.invoiceeMgtKey = txtMgtKey.Text
     
     '[필수] 공급받는자 대표자 성명
@@ -3486,6 +3490,8 @@ Private Sub btnUpdate_rev_Click()
     Taxinvoice.invoiceeContactName1 = "공급받는자 담당자명"
     
     '공급받는자 담당자 메일주소
+    '팝빌 개발환경에서 테스트하는 경우에도 안내 메일이 전송되므로,
+    '실제 거래처의 메일주소가 기재되지 않도록 주의
     Taxinvoice.invoiceeEmail1 = "test@invoicee.com"
     
     '공급받는자 담당자 연락처
@@ -3551,14 +3557,14 @@ Private Sub btnUpdate_rev_Click()
     '=========================================================================
     '         수정세금계산서 정보 (수정세금계산서 작성시에만 기재
     ' - 수정세금계산서 관련 정보는 연동매뉴얼 또는 개발가이드 링크 참조
-    ' - [참고] 수정세금계산서 작성방법 안내 - http://blog.linkhub.co.kr/650
+    ' - [참고] 수정세금계산서 작성방법 안내 - https://docs.popbill.com/taxinvoice/modify?lang=vb
     '========================================================================='
     
     ' 수정사유코드, 수정사유에 따라 1~6중 선택기재
     Taxinvoice.modifyCode = ""
     
-    ' 원본세금계산서의 ItemKey, 문서확인 (GetInfo API)의 응답결과(ItemKey 항목) 확인
-    Taxinvoice.originalTaxinvoiceKey = ""
+    ' 원본세금계산서 국세청승인번호 기재
+    Taxinvoice.orgNTSConfirmNum = ""
         
     
     '=========================================================================
@@ -3626,7 +3632,7 @@ Private Sub btnRequest_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -3667,7 +3673,7 @@ Private Sub btnIssue_rev_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -3694,7 +3700,7 @@ End Sub
 
 '=========================================================================
 ' 공급받는자에게 요청받은 역발행 세금계산서를 [거부]처리 합니다.
-' - 세금계산서의 문서관리번호를 재사용하기 위해서는 삭제 (Delete API) 를
+' - 세금계산서의 문서번호를 재사용하기 위해서는 삭제 (Delete API) 를
 '   호출하여 [삭제] 처리해야 합니다.
 '=========================================================================
 Private Sub btnRefuse_Click()
@@ -3710,7 +3716,7 @@ Private Sub btnRefuse_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -3731,7 +3737,7 @@ End Sub
 '[발행완료] 상태의 세금계산서를 [발행취소] 처리합니다.
 ' - [발행취소]는 국세청 전송전에만 가능합니다.
 ' - 발행취소된 세금계산서는 국세청에 전송되지 않습니다.
-' - 발행취소 세금계산서에 기재된 문서관리번호를 재사용 하기 위해서는
+' - 발행취소 세금계산서에 기재된 문서번호를 재사용 하기 위해서는
 '   삭제(Delete API)를 호출하여 [삭제] 처리 하셔야 합니다.
 '=========================================================================
 Private Sub btnCancelIssue_rev_Click()
@@ -3747,7 +3753,7 @@ Private Sub btnCancelIssue_rev_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -3766,7 +3772,7 @@ End Sub
 
 '=========================================================================
 ' 역발행 세금계산서를 [요청취소] 처리합니다.
-' - [취소]한 세금계산서의 문서관리번호를 재사용하기 위해서는 삭제 (Delete API)
+' - [취소]한 세금계산서의 문서번호를 재사용하기 위해서는 삭제 (Delete API)
 '   를 호출해야 합니다.
 '=========================================================================
 Private Sub btnRequestCancel_Click()
@@ -3782,7 +3788,7 @@ Private Sub btnRequestCancel_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -3801,7 +3807,7 @@ End Sub
 
 '=========================================================================
 ' 1건의 전자세금계산서를 삭제합니다.
-' - 세금계산서를 삭제해야만 문서관리번호(mgtKey)를 재사용할 수 있습니다.
+' - 세금계산서를 삭제해야만 문서번호(mgtKey)를 재사용할 수 있습니다.
 ' - 삭제가능한 문서 상태 : 임시저장, 발행취소, 역)발행 거부/취소
 '=========================================================================
 Private Sub btnDelete_rev_Click()
@@ -3816,7 +3822,7 @@ Private Sub btnDelete_rev_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
 
@@ -3856,7 +3862,7 @@ Private Sub btnAttachFile_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
 
@@ -3916,7 +3922,7 @@ Private Sub btnDeleteFile_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -3949,7 +3955,7 @@ Private Sub btnGetInfo_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -3960,7 +3966,7 @@ Private Sub btnGetInfo_Click()
         Exit Sub
     End If
     
-    tmp = tmp + "itemKey (팝빌 관리번호) : " + tiInfo.itemKey + vbCrLf
+    tmp = tmp + "itemKey (팝빌 문서번호) : " + tiInfo.itemKey + vbCrLf
     tmp = tmp + "taxType (과세형태) : " + tiInfo.taxType + vbCrLf
     tmp = tmp + "writeDate (작성일자) : " + tiInfo.writeDate + vbCrLf
     tmp = tmp + "regDT (임시저장 일자) : " + tiInfo.regDT + vbCrLf
@@ -3984,17 +3990,17 @@ Private Sub btnGetInfo_Click()
     tmp = tmp + "interOPYN (연동문서 여부) : " + CStr(tiInfo.interOPYN) + vbCrLf
     tmp = tmp + "invoicerCorpName (공급자 상호) : " + tiInfo.invoicerCorpName + vbCrLf
     tmp = tmp + "invoicerCorpNum (공급자 사업자번호) : " + tiInfo.invoicerCorpNum + vbCrLf
-    tmp = tmp + "invoicerMgtKey (공급자 문서관리번호) : " + tiInfo.invoicerMgtKey + vbCrLf
+    tmp = tmp + "invoicerMgtKey (공급자 문서번호) : " + tiInfo.invoicerMgtKey + vbCrLf
     tmp = tmp + "invoicerPrintYN (공급자 인쇄여부) : " + CStr(tiInfo.invoicerPrintYN) + vbCrLf
     tmp = tmp + "invoiceeCorpName (공급받는자 상호) : " + tiInfo.invoiceeCorpName + vbCrLf
     tmp = tmp + "invoiceeCorpNum (공급받는자 사업자번호) : " + tiInfo.invoiceeCorpNum + vbCrLf
-    tmp = tmp + "invoiceeMgtKey (공급받는자 문서관리번호) : " + tiInfo.invoiceeMgtKey + vbCrLf
+    tmp = tmp + "invoiceeMgtKey (공급받는자 문서번호) : " + tiInfo.invoiceeMgtKey + vbCrLf
     tmp = tmp + "invoiceePrintYN (공급받는자 인쇄여부) : " + CStr(tiInfo.invoiceePrintYN) + vbCrLf
     tmp = tmp + "closeDownState (공급받는자 휴폐업상태) : " + CStr(tiInfo.closeDownState) + vbCrLf
     tmp = tmp + "closeDownStateDate (공급받는자 휴폐업일자 : " + tiInfo.closeDownStateDate + vbCrLf
     tmp = tmp + "trusteeCorpName (수탁자 상호) : " + tiInfo.trusteeCorpName + vbCrLf
     tmp = tmp + "trusteeCorpNum (수탁자 사업자번호) : " + tiInfo.trusteeCorpNum + vbCrLf
-    tmp = tmp + "trusteeMgtKey (수탁자 문서관리번호) : " + tiInfo.trusteeMgtKey + vbCrLf
+    tmp = tmp + "trusteeMgtKey (수탁자 문서번호) : " + tiInfo.trusteeMgtKey + vbCrLf
     tmp = tmp + "trusteePrintYN (수탁자 인쇄여부) : " + CStr(tiInfo.trusteePrintYN) + vbCrLf
     
     MsgBox tmp
@@ -4021,11 +4027,11 @@ Private Sub btnGetInfos_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
-    '세금계산서 문서관리번호 배열, 최대 1000건
+    '세금계산서 문서번호 배열, 최대 1000건
     KeyList.Add "20190207-01"
     KeyList.Add "20190207-02"
     KeyList.Add "20190207-03"
@@ -4038,13 +4044,13 @@ Private Sub btnGetInfos_Click()
         Exit Sub
     End If
     
-    tmp = tmp + "itemKey(팝빌 관리번호) | taxType (과세형태) | writeDate (작성일자) | regDT (임시저장 일시) | issueType (발행형태) | supplyCostTotal (공급가액 합계) | " + vbCrLf
+    tmp = tmp + "itemKey(팝빌 문서번호) | taxType (과세형태) | writeDate (작성일자) | regDT (임시저장 일시) | issueType (발행형태) | supplyCostTotal (공급가액 합계) | " + vbCrLf
     tmp = tmp + "taxTotal (세액 합계) | purposeType (영수/청구) |issueDT (발행일시) | lateIssueYN (지연발행 여부) | openYN (개봉 여부) | openDT (개봉 일시) | " + vbCrLf
     tmp = tmp + "stateMemo (상태메모) | stateCode (상태코드) | ntsconfirmNum (국세청승인번호) | ntsresult (국세청 전송결과) | ntssendDT (국세청 전송일시) | " + vbCrLf
     tmp = tmp + "ntsresultDT (국세청 결과 수신일시) | ntssendErrCode (실패사유 사유코드) | modifyCode (수정 사유코드) | interOPYN (연동문서 여부) | invoicerCorpName (공급자 상호) | " + vbCrLf
-    tmp = tmp + "invoicerCorpNum (공급자 사업자번호) | invoicerMgtKey (공급자 문서관리번호) | invoicerPrintYN (공급자 인쇄여부) | invoiceeCorpName (공급받는자 상호) | " + vbCrLf
-    tmp = tmp + "invoiceeCorpNum (공급받는자 사업자번호) | invoiceeMgtKey(공급받는자 문서관리번호) | invoiceePrintYN(공급받는자 인쇄여부) | closeDownState(공급받는자 휴폐업상태) | " + vbCrLf
-    tmp = tmp + "closeDownStateDate(공급받는자 휴폐업일자) | trusteeCorpName (수탁자 상호) | trusteeCorpNum (수탁자 사업자번호) | trusteeMgtKey(수탁자 문서관리번호) | " + vbCrLf
+    tmp = tmp + "invoicerCorpNum (공급자 사업자번호) | invoicerMgtKey (공급자 문서번호) | invoicerPrintYN (공급자 인쇄여부) | invoiceeCorpName (공급받는자 상호) | " + vbCrLf
+    tmp = tmp + "invoiceeCorpNum (공급받는자 사업자번호) | invoiceeMgtKey(공급받는자 문서번호) | invoiceePrintYN(공급받는자 인쇄여부) | closeDownState(공급받는자 휴폐업상태) | " + vbCrLf
+    tmp = tmp + "closeDownStateDate(공급받는자 휴폐업일자) | trusteeCorpName (수탁자 상호) | trusteeCorpNum (수탁자 사업자번호) | trusteeMgtKey(수탁자 문서번호) | " + vbCrLf
     tmp = tmp + "trusteePrintYN(수탁자 인쇄여부) " + vbCrLf
     
     
@@ -4084,7 +4090,7 @@ Private Sub btnGetDetailInfo_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -4116,7 +4122,7 @@ Private Sub btnGetDetailInfo_Click()
     tmp = tmp + "remark3 (비고3) : " + tiDetailInfo.remark3 + vbCrLf
         
     tmp = tmp + "invoicerCorpNum (공급자 사업자번호) : " + tiDetailInfo.invoicerCorpNum + vbCrLf
-    tmp = tmp + "invoicerMgtKey (공급자 문서관리번호) : " + tiDetailInfo.invoicerMgtKey + vbCrLf
+    tmp = tmp + "invoicerMgtKey (공급자 문서번호) : " + tiDetailInfo.invoicerMgtKey + vbCrLf
     tmp = tmp + "invoicerTaxRegID (공급자 종사업장 식별번호) : " + tiDetailInfo.invoicerTaxRegID + vbCrLf
     tmp = tmp + "invoicerCorpName (공급자 상호) : " + tiDetailInfo.invoicerCorpName + vbCrLf
     tmp = tmp + "invoicerCEOName (공급자 대표자 성명) : " + tiDetailInfo.invoicerCEOName + vbCrLf
@@ -4131,7 +4137,7 @@ Private Sub btnGetDetailInfo_Click()
     
     tmp = tmp + "invoiceeCorpNum (공급받는자 사업자번호) : " + tiDetailInfo.invoiceeCorpNum + vbCrLf
     tmp = tmp + "invoiceeType (공급받는자 구분) : " + tiDetailInfo.invoiceeType + vbCrLf
-    tmp = tmp + "invoiceeMgtKey (공급받는자 문서관리번호) : " + tiDetailInfo.invoiceeMgtKey + vbCrLf
+    tmp = tmp + "invoiceeMgtKey (공급받는자 문서번호) : " + tiDetailInfo.invoiceeMgtKey + vbCrLf
     tmp = tmp + "invoiceeTaxRegID (공급받는자 종사업장 식별번호) : " + tiDetailInfo.invoiceeTaxRegID + vbCrLf
     tmp = tmp + "invoiceeCorpName (공급받는자 상호) : " + tiDetailInfo.invoiceeCorpName + vbCrLf
     tmp = tmp + "invoiceeCEOName (공급받는자 대표자 성명) : " + tiDetailInfo.invoiceeCEOName + vbCrLf
@@ -4147,7 +4153,7 @@ Private Sub btnGetDetailInfo_Click()
 
     tmp = tmp + "modifyCode(수정사유 코드) : " + tiDetailInfo.modifyCode + vbCrLf
     tmp = tmp + "orgNTSConfirmNum(원본 세금계산서 국세청승인번호) : " + tiDetailInfo.orgNTSConfirmNum + vbCrLf
-    tmp = tmp + "originalTaxinvoiceKey(원본 팝빌 관리번호) : " + tiDetailInfo.originalTaxinvoiceKey + vbCrLf
+    tmp = tmp + "originalTaxinvoiceKey(원본 팝빌 문서번호) : " + tiDetailInfo.originalTaxinvoiceKey + vbCrLf
    
     If (tiDetailInfo.detailList Is Nothing) = False Then
         For Each detail In tiDetailInfo.detailList
@@ -4208,7 +4214,7 @@ Private Sub btnSearch_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -4284,13 +4290,13 @@ Private Sub btnSearch_Click()
     tmp = tmp + "pageCount (페이지 개수) : " + CStr(tiSearchList.pageCount) + vbCrLf
     tmp = tmp + "message (응답메시지) : " + tiSearchList.message + vbCrLf + vbCrLf
     
-    tmp = tmp + "itemKey(팝빌 관리번호) |  taxType (과세형태) |  writeDate (작성일자) |  regDT (임시저장 일시) |  issueType (발행형태) |  supplyCostTotal (공급가액 합계) | " + _
+    tmp = tmp + "itemKey(팝빌 문서번호) |  taxType (과세형태) |  writeDate (작성일자) |  regDT (임시저장 일시) |  issueType (발행형태) |  supplyCostTotal (공급가액 합계) | " + _
          "taxTotal (세액 합계) |  purposeType (영수/청구) | issueDT (발행일시) | lateIssueYN (지연발행 여부) | openYN (개봉 여부) | openDT (개봉 일시) | " + _
          "stateMemo (상태메모) | stateCode (상태코드) | ntsconfirmNum (국세청승인번호) | ntsresult (국세청 전송결과) | ntssendDT (국세청 전송일시) | " + _
          "ntsresultDT (국세청 결과 수신일시) | ntssendErrCode (전송실패 사유코드) | modifyCode (수정 사유코드) | interOPYN (연동문서 여부) | invoicerCorpName (공급자 상호) | " + _
-         "invoicerCorpNum (공급자 사업자번호) | invoicerMgtKey (공급자 문서관리번호) | invoicerPrintYN (공급자 인쇄여부) | invoiceeCorpName (공급받는자 상호) | " + _
-         "invoiceeCorpNum (공급받는자 사업자번호) | invoiceeMgtKey(공급받는자 문서관리번호) | invoiceePrintYN(공급받는자 인쇄여부) | closeDownState(공급받는자 휴폐업상태) |" + _
-         "closeDownStateDate(공급받는자 휴폐업일자) | trusteeCorpName (수탁자 상호) | trusteeCorpNum (수탁자 사업자번호) | trusteeMgtKey(수탁자 문서관리번호) | " + _
+         "invoicerCorpNum (공급자 사업자번호) | invoicerMgtKey (공급자 문서번호) | invoicerPrintYN (공급자 인쇄여부) | invoiceeCorpName (공급받는자 상호) | " + _
+         "invoiceeCorpNum (공급받는자 사업자번호) | invoiceeMgtKey(공급받는자 문서번호) | invoiceePrintYN(공급받는자 인쇄여부) | closeDownState(공급받는자 휴폐업상태) |" + _
+         "closeDownStateDate(공급받는자 휴폐업일자) | trusteeCorpName (수탁자 상호) | trusteeCorpNum (수탁자 사업자번호) | trusteeMgtKey(수탁자 문서번호) | " + _
          "trusteePrintYN(수탁자 인쇄여부) " + vbCrLf + vbCrLf
             
     Dim info As PBTIInfo
@@ -4356,7 +4362,7 @@ Private Sub btnGetLogs_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -4395,7 +4401,7 @@ Private Sub btnSendEmail_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -4433,7 +4439,7 @@ Private Sub btnSendSMS_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -4478,7 +4484,7 @@ Private Sub btnSendFAX_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -4499,8 +4505,8 @@ Private Sub btnSendFAX_Click()
 End Sub
 
 '=========================================================================
-' 팝빌 사이트에서 작성한 세금계산서에 파트너 문서관리번호를 할당합니다.
-' - 문서관리번호가 존재하지 않는 세금계산서만 할당이 가능 합니다.
+' 팝빌 사이트에서 작성한 세금계산서에 파트너 문서번호를 할당합니다.
+' - 문서번호가 존재하지 않는 세금계산서만 할당이 가능 합니다.
 '=========================================================================
 Private Sub btnAssignmgtkey_Click(index As Integer)
     Dim Response As PBResponse
@@ -4516,14 +4522,14 @@ Private Sub btnAssignmgtkey_Click(index As Integer)
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
     '세금계산서 아이템키, 목록조회(Search) API의 반환항목중 ItemKey 참조
     itemKey = "018090515070600001"
             
-    '할당할 문서관리번호, 숫자, 영문, '-', '_' 조합으로
+    '할당할 문서번호, 숫자, 영문, '-', '_' 조합으로
     '1~24자리까지 사업자번호별 중복없는 고유번호 할당
     MgtKey = "20190201-001"
         
@@ -4554,14 +4560,14 @@ Private Sub btnAttachStatement_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
     '첨부할 전자명세서 종류코드, 121-거래명세서, 122-청구서, 123-견적서, 124-발주서, 125-입금표,126-영수증
     SubItemCode = 121
     
-    '첨부할 전자명세서 관리번호
+    '첨부할 전자명세서 문서번호
     SubMgtKey = "20190207-01"
         
     Set Response = TaxinvoiceService.AttachStatement(txtCorpNum.Text, KeyType, txtMgtKey.Text, SubItemCode, SubMgtKey)
@@ -4591,14 +4597,14 @@ Private Sub btnDetachStatement_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
     '첨부해제할 전자명세서 종류코드, 121-거래명세서, 122-청구서, 123-견적서, 124-발주서, 125-입금표, 126-영수증
     SubItemCode = 121
     
-    '첨부해제할 전자명세서 관리번호
+    '첨부해제할 전자명세서 문서번호
     SubMgtKey = "20190207-01"
 
     Set Response = TaxinvoiceService.DetachStatement(txtCorpNum.Text, KeyType, txtMgtKey.Text, SubItemCode, SubMgtKey)
@@ -4849,7 +4855,7 @@ Private Sub btnGetPopUpURL_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -4879,7 +4885,7 @@ Private Sub btnGetPrintURL_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -4909,7 +4915,7 @@ Private Sub btnGetEPrintUrl_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
@@ -4940,11 +4946,11 @@ Private Sub btnGetMassPrintURL_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     
-    ' 전자세금계산서 문서 관리번호 배열 (최대 100건)
+    ' 전자세금계산서 문서 문서번호 배열 (최대 100건)
     KeyList.Add "20190207-01"
     KeyList.Add "20190207-02"
     KeyList.Add "20190207-03"
@@ -4976,7 +4982,7 @@ Private Sub btnGetMailURL_Click()
         Case "TRUSTEE"
             KeyType = TRUSTEE
         Case Else
-            MsgBox "관리번호 형태를 선택해주세요."
+            MsgBox "문서번호 형태를 선택해주세요."
             Exit Sub
     End Select
     

@@ -4188,6 +4188,7 @@ Private Sub btnSearch_Click()
     Dim TType As New Collection
     Dim taxType As New Collection
     Dim issueType As New Collection
+    Dim regType As New Collection
     Dim LateOnly As String
     Dim Page As Integer
     Dim PerPage As Integer
@@ -4216,10 +4217,10 @@ Private Sub btnSearch_Click()
     DType = "W"
     
     '[필수] 시작일자, yyyyMMdd
-    SDate = "20190101"
+    SDate = "20200701"
     
     '[필수] 종료일자, yyyyMMdd
-    EDate = "20190201"
+    EDate = "20200731"
     
     '전송상태값 배열, 미기재시 전체상태조회, 문서상태값 3자리숫자 작성 2,3번째 와일드카드 가능
     '상태코드에 대한 자세한 사항은 "[전자세금계산서 API 연동매뉴얼] > 5.1 세금계산서 상태코드" 를 참조하시기 바랍니다.
@@ -4239,6 +4240,10 @@ Private Sub btnSearch_Click()
     issueType.Add "N"
     issueType.Add "R"
     issueType.Add "T"
+    
+    ' 등록형태 배열, P-팝빌, H-홈택스 또는 외부ASP
+    regType.Add "P"
+    regType.Add "H"
     
     '지연발행 여부, 0-정상발행 조회 1-지연발행 조회, 공백처리시 전체조회
     LateOnly = ""
@@ -4269,7 +4274,7 @@ Private Sub btnSearch_Click()
     
     Set tiSearchList = TaxinvoiceService.Search(txtCorpNum.Text, KeyType, DType, SDate, EDate, state, _
                     TType, taxType, LateOnly, Page, PerPage, Order, TaxRegIDType, TaxRegID, TaxRegIDYN, QString, _
-                    txtUserID.Text, interOPYN, issueType)
+                    txtUserID.Text, interOPYN, issueType, regType)
      
     If tiSearchList Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)

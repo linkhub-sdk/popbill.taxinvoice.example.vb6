@@ -1206,10 +1206,10 @@ Private Sub btnCheckID_Click()
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
 
-Private Sub btnGetPDF_Click()
-
-End Sub
-
+'=========================================================================
+' 1건의 전자세금계산서 PDF 다운로드 URL을 반환합니다.
+' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
+'=========================================================================
 Private Sub btnGetPDFURL_Click()
     Dim url As String
     Dim KeyType As MgtKeyType

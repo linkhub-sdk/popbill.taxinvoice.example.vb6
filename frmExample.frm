@@ -1754,7 +1754,7 @@ Private Sub btnRegistIssue_Click()
     Dim Taxinvoice As New PBTaxinvoice
     
     '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20190207
-    Taxinvoice.writeDate = "20191202"
+    Taxinvoice.writeDate = "20200720"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
     Taxinvoice.issueType = "정발행"
@@ -1765,10 +1765,7 @@ Private Sub btnRegistIssue_Click()
     
     '[필수] 영수/청구, [영수, 청구] 중 기재
     Taxinvoice.purposeType = "영수"
-    
-    '[필수] 발행시점
-    Taxinvoice.issueTiming = "직접발행"
-    
+        
     '[필수] 과세형태, [과세, 영세, 면세] 중 기재
     Taxinvoice.taxType = "과세"
     
@@ -2104,10 +2101,7 @@ Private Sub btnRegister_Click()
     
     '[필수] 영수/청구, [영수, 청구] 중 기재
     Taxinvoice.purposeType = "영수"
-    
-    '[필수] 발행시점
-    Taxinvoice.issueTiming = "직접발행"
-    
+        
     '[필수] 과세형태, [과세, 영세, 면세] 중 기재
     Taxinvoice.taxType = "과세"
     
@@ -2367,10 +2361,7 @@ Private Sub btnUpdate_Click()
     
     '[필수] 영수/청구, [영수, 청구] 중 기재
     Taxinvoice.purposeType = "영수"
-    
-    '[필수] 발행시점
-    Taxinvoice.issueTiming = "직접발행"
-    
+        
     '[필수] 과세형태, [과세, 영세, 면세] 중 기재
     Taxinvoice.taxType = "과세"
     
@@ -2762,10 +2753,7 @@ Private Sub btnRegistRequest_Click()
     
     '[필수] 영수/청구, [영수, 청구] 중 기재
     Taxinvoice.purposeType = "영수"
-    
-    '[필수] 발행시점
-    Taxinvoice.issueTiming = "직접발행"
-    
+        
     '[필수] 과세형태, [과세, 영세, 면세] 중 기재
     Taxinvoice.taxType = "과세"
     
@@ -3168,10 +3156,7 @@ Private Sub btnRegister_rev_Click()
     
     '[필수] 영수/청구, [영수, 청구] 중 기재
     Taxinvoice.purposeType = "영수"
-    
-    '[필수] 발행시점
-    Taxinvoice.issueTiming = "직접발행"
-    
+        
     '[필수] 과세형태, [과세, 영세, 면세] 중 기재
     Taxinvoice.taxType = "과세"
     
@@ -3402,10 +3387,7 @@ Private Sub btnUpdate_rev_Click()
     
     '[필수] 영수/청구, [영수, 청구] 중 기재
     Taxinvoice.purposeType = "영수"
-    
-    '[필수] 발행시점
-    Taxinvoice.issueTiming = "직접발행"
-    
+        
     '[필수] 과세형태, [과세, 영세, 면세] 중 기재
     Taxinvoice.taxType = "과세"
     

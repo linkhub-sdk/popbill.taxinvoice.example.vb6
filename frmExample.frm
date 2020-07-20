@@ -495,7 +495,15 @@ Begin VB.Form frmExample
          Left            =   9600
          TabIndex        =   55
          Top             =   6120
-         Width           =   3210
+         Width           =   5490
+         Begin VB.CommandButton btnGetPDFURL 
+            Caption         =   "PDF 다운로드 URL"
+            Height          =   375
+            Left            =   3120
+            TabIndex        =   109
+            Top             =   360
+            Width           =   2175
+         End
          Begin VB.CommandButton btnGetViewURL 
             Caption         =   "세금계산서 팝업 URL (메뉴x)"
             Height          =   390
@@ -548,7 +556,7 @@ Begin VB.Form frmExample
       Begin VB.Frame Frame13 
          Caption         =   " 기타 URL "
          Height          =   3135
-         Left            =   12960
+         Left            =   15360
          TabIndex        =   50
          Top             =   6120
          Width           =   2265
@@ -586,7 +594,7 @@ Begin VB.Form frmExample
          End
       End
       Begin VB.Frame Frame12 
-         Caption         =   " 부가 서비스"
+         Caption         =   " 부가 기능"
          Height          =   3135
          Left            =   4920
          TabIndex        =   48
@@ -1196,6 +1204,37 @@ Private Sub btnCheckID_Click()
     End If
     
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+End Sub
+
+Private Sub btnGetPDF_Click()
+
+End Sub
+
+Private Sub btnGetPDFURL_Click()
+    Dim url As String
+    Dim KeyType As MgtKeyType
+    
+    Select Case cboMgtKeyType.Text
+        Case "SELL"
+            KeyType = SELL
+        Case "BUY"
+            KeyType = BUY
+        Case "TRUSTEE"
+            KeyType = TRUSTEE
+        Case Else
+            MsgBox "문서번호 형태를 선택해주세요."
+            Exit Sub
+    End Select
+    
+    url = TaxinvoiceService.GetPDFURL(txtCorpNum.Text, KeyType, txtMgtKey.Text)
+    
+    If url = "" Then
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    txtUserID.Text = url
+    MsgBox "URL : " + vbCrLf + url
 End Sub
 
 '=========================================================================
@@ -4180,7 +4219,7 @@ Private Sub btnSearch_Click()
     Dim TaxRegID As String
     Dim TaxRegIDYN As String
     Dim QString As String
-    Dim MgtKey As String
+    Dim mgtKey As String
     Dim tmp As String
     Dim interOPYN As String
         
@@ -4240,7 +4279,7 @@ Private Sub btnSearch_Click()
     LateOnly = ""
     
     ' 전자세금계산서 문서번호 또는 국세청 승인번호 검색 조회, 공백처리시 전체조회
-    MgtKey = ""
+    mgtKey = ""
     
     '페이지번호, 기본값 ‘1
     Page = 1
@@ -4268,7 +4307,7 @@ Private Sub btnSearch_Click()
     
     Set tiSearchList = TaxinvoiceService.Search(txtCorpNum.Text, KeyType, DType, SDate, EDate, state, _
                     TType, taxType, LateOnly, Page, PerPage, Order, TaxRegIDType, TaxRegID, TaxRegIDYN, QString, _
-                    txtUserID.Text, interOPYN, issueType, regType, closeDownState, MgtKey)
+                    txtUserID.Text, interOPYN, issueType, regType, closeDownState, mgtKey)
      
     If tiSearchList Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -4506,7 +4545,7 @@ Private Sub btnAssignmgtkey_Click(index As Integer)
     Dim Response As PBResponse
     Dim KeyType As MgtKeyType
     Dim itemKey As String
-    Dim MgtKey As String
+    Dim mgtKey As String
     
     Select Case cboMgtKeyType.Text
         Case "SELL"
@@ -4525,9 +4564,9 @@ Private Sub btnAssignmgtkey_Click(index As Integer)
             
     '할당할 문서번호, 숫자, 영문, '-', '_' 조합으로
     '1~24자리까지 사업자번호별 중복없는 고유번호 할당
-    MgtKey = "20190201-001"
+    mgtKey = "20190201-001"
         
-    Set Response = TaxinvoiceService.AssignMgtKey(txtCorpNum.Text, KeyType, itemKey, MgtKey)
+    Set Response = TaxinvoiceService.AssignMgtKey(txtCorpNum.Text, KeyType, itemKey, mgtKey)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)

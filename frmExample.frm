@@ -1137,7 +1137,7 @@ Attribute VB_Exposed = False
 '
 ' 팝빌 전자세금계산서 API VB 6.0 SDK Example
 '
-' - 업데이트 일자 : 2020-07-17
+' - 업데이트 일자 : 2020-07-20
 ' - 연동 기술지원 연락처 : 1600-9854 / 070-4304-2991
 ' - 연동 기술지원 이메일 : code@linkhub.co.kr
 '
@@ -4171,6 +4171,7 @@ Private Sub btnSearch_Click()
     Dim taxType As New Collection
     Dim issueType As New Collection
     Dim regType As New Collection
+    Dim closeDownState As New Collection
     Dim LateOnly As String
     Dim Page As Integer
     Dim PerPage As Integer
@@ -4179,6 +4180,7 @@ Private Sub btnSearch_Click()
     Dim TaxRegID As String
     Dim TaxRegIDYN As String
     Dim QString As String
+    Dim MgtKey As String
     Dim tmp As String
     Dim interOPYN As String
         
@@ -4227,8 +4229,18 @@ Private Sub btnSearch_Click()
     regType.Add "P"
     regType.Add "H"
     
+    '휴폐업조회 상태 배열,  N-미확인 / 0-미등록 / 1-사업중 / 2-폐업 / 3-휴업
+    closeDownState.Add "N"
+    closeDownState.Add "0"
+    closeDownState.Add "1"
+    closeDownState.Add "2"
+    closeDownState.Add "3"
+    
     '지연발행 여부, 0-정상발행 조회 1-지연발행 조회, 공백처리시 전체조회
     LateOnly = ""
+    
+    ' 전자세금계산서 문서번호 또는 국세청 승인번호 검색 조회, 공백처리시 전체조회
+    MgtKey = ""
     
     '페이지번호, 기본값 ‘1
     Page = 1
@@ -4256,7 +4268,7 @@ Private Sub btnSearch_Click()
     
     Set tiSearchList = TaxinvoiceService.Search(txtCorpNum.Text, KeyType, DType, SDate, EDate, state, _
                     TType, taxType, LateOnly, Page, PerPage, Order, TaxRegIDType, TaxRegID, TaxRegIDYN, QString, _
-                    txtUserID.Text, interOPYN, issueType, regType)
+                    txtUserID.Text, interOPYN, issueType, regType, closeDownState, MgtKey)
      
     If tiSearchList Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)

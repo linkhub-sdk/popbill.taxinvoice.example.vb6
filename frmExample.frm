@@ -1172,8 +1172,8 @@ Private Const SecretKey = "SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I="
 Private TaxinvoiceService As New PBTIService
 
 '=========================================================================
-' 파트너의 연동회원으로 가입된 사업자번호인지 확인합니다.
-' - LinkID는 인증정보로 설정되어 있는 링크아이디 값입니다.
+' 파트너가 세금계산서 관리 목적으로 할당하는 문서번호의 사용여부를 확인합니다.
+' - 문서번호는 최대 24자리 영문 대소문자, 숫자, 특수문자('-','_')로 구성 합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#CheckIsMember
 '=========================================================================
 Private Sub btnCheckIsMember_Click()
@@ -1190,7 +1190,7 @@ Private Sub btnCheckIsMember_Click()
 End Sub
 
 '=========================================================================
-' 팝빌 회원아이디 중복여부를 확인합니다.
+' 사용하고자 하는 아이디의 중복여부를 확인합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#CheckID
 '=========================================================================
 Private Sub btnCheckID_Click()
@@ -1207,8 +1207,8 @@ Private Sub btnCheckID_Click()
 End Sub
 
 '=========================================================================
-' 1건의 전자세금계산서 PDF 다운로드 URL을 반환합니다.
-' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
+' 전자세금계산서 PDF 파일을 다운 받을 수 있는 URL을 반환합니다.
+' - 반환되는 URL은 보안정책상 30초의 유효시간을 갖으며, 유효시간 이후 호출시 정상적으로 페이지가 호출되지 않습니다.
 '=========================================================================
 Private Sub btnGetPDFURL_Click()
     Dim url As String
@@ -1238,8 +1238,8 @@ Private Sub btnGetPDFURL_Click()
 End Sub
 
 '=========================================================================
-' 1건의 전자세금계산서 보기 팝업 URL을 반환합니다.(메뉴/버튼 출력되지 않음)
-' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
+' 팝빌 사이트와 동일한 세금계산서 1건의 상세정보 페이지(사이트 상단, 좌측 메뉴 및 버튼 제외)의 팝업 URL을 반환합니다.
+' - 반환되는 URL은 보안정책상 30초의 유효시간을 갖으며, 유효시간 이후 호출시 정상적으로 페이지가 호출되지 않습니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetViewURL
 '=========================================================================
 
@@ -1272,7 +1272,7 @@ Private Sub btnGetViewURL_Click()
 End Sub
 
 '=========================================================================
-' 파트너의 연동회원으로 회원가입을 요청합니다.
+' 사용자를 연동회원으로 가입처리합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#JoinMember
 '=========================================================================
 Private Sub btnJoinMember_Click()
@@ -1350,7 +1350,7 @@ Private Sub btnUnitCost_Click()
 End Sub
 
 '=========================================================================
-' 연동회원의 전자세금계산서 API 서비스 과금정보를 확인합니다.
+' 팝빌 전자세금계산서 API 서비스 과금정보를 확인합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetChargeInfo
 '=========================================================================
 Private Sub btnGetChargeInfo_Click()
@@ -1372,9 +1372,7 @@ Private Sub btnGetChargeInfo_Click()
 End Sub
 
 '=========================================================================
-' 팝빌에 등록되어 있는 공인인증서의 만료일자를 확인합니다.
-' - 공인인증서가 갱신/재발급/비밀번호 변경이 되는 경우 해당 인증서를
-'   재등록 하셔야 정상적으로 API를 이용하실 수 있습니다.
+' 팝빌 인증서버에 등록된 인증서의 만료일을 확인합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetCertificateExpireDate
 '=========================================================================
 Private Sub btnCertificateExpireDate_Click()
@@ -1391,8 +1389,9 @@ Private Sub btnCertificateExpireDate_Click()
 End Sub
 
 '=========================================================================
-' 공인인증서 등록 URL을 반환합니다.
-' - URL 보안정책에 따라 반환된 URL은 30초의 유효시간을 갖습니다.
+' 전자세금계산서 발행에 필요한 인증서를 팝빌 인증서버에 등록하기 위한 페이지의 팝업 URL을 반환합니다.
+' - 반환되는 URL은 보안정책상 30초의 유효시간을 갖으며, 유효시간 이후 호출시 정상적으로 페이지가 호출되지 않습니다.
+' - 인증서 갱신/재발급/비밀번호 변경한 경우, 변경된 인증서를 팝빌 인증서버에 재등록 해야합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetTaxCertURL
 '=========================================================================
 Private Sub btnGetTaxCertURL_Click()
@@ -1433,7 +1432,7 @@ Private Sub btnGetTaxCertURL_Click()
 End Sub
 
 '=========================================================================
-' 팝빌에 등록된 공인인증서의 유효성을 확인한다.
+' 팝빌 인증서버에 등록된 인증서의 유효성을 확인합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#CheckCertValidation
 '=========================================================================
 Private Sub btnCheckCertValidation_Click()
@@ -1450,8 +1449,8 @@ Private Sub btnCheckCertValidation_Click()
 End Sub
 
 '=========================================================================
-' 팝빌(www.popbill.com)에 로그인된 팝빌 URL을 반환합니다.
-' - 반환된 URL은 보안정책에 따라 30초의 유효시간을 갖습니다.
+' 팝빌 사이트에 로그인 상태로 접근할 수 있는 페이지의 팝업 URL을 반환합니다.
+' - 반환되는 URL은 보안정책상 30초의 유효시간을 갖으며, 유효시간 이후 호출시 정상적으로 페이지가 호출되지 않습니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetAccessURL
 '=========================================================================
 Private Sub btnGetAccessURL_Click()
@@ -1468,8 +1467,8 @@ Private Sub btnGetAccessURL_Click()
 End Sub
 
 '=========================================================================
-' 인감 및 첨부문서 등록 팝업 URL을 반환합니다.
-' - 반환된 URL은 보안정책으로 인해 30초의 유효시간을 갖습니다.
+' 세금계산서에 첨부할 인감, 사업자등록증, 통장사본을 등록하는 페이지의 팝업 URL을 반환합니다.
+' - 반환되는 URL은 보안정책상 30초의 유효시간을 갖으며, 유효시간 이후 호출시 정상적으로 페이지가 호출되지 않습니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetSealURL
 '=========================================================================
 Private Sub btnGetSealURL_Click()
@@ -1486,7 +1485,7 @@ Private Sub btnGetSealURL_Click()
 End Sub
 
 '=========================================================================
-' 연동회원의 담당자를 신규로 등록합니다.
+' 연동회원 사업자번호에 담당자(팝빌 로그인 계정)를 추가합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#RegistContact
 '=========================================================================
 Private Sub btnRegistContact_Click()
@@ -1531,7 +1530,7 @@ Private Sub btnRegistContact_Click()
 End Sub
 
 '=========================================================================
-' 연동회원의 담당자 목록을 확인합니다.
+'  연동회원 사업자번호에 등록된 담당자(팝빌 로그인 계정) 목록을 확인합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#ListContact
 '=========================================================================
 Private Sub btnListContact_Click()
@@ -1558,7 +1557,7 @@ Private Sub btnListContact_Click()
 End Sub
 
 '=========================================================================
-' 연동회원의 담당자 정보를 수정합니다.
+' 연동회원 사업자번호에 등록된 담당자(팝빌 로그인 계정) 정보를 수정합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#UpdateContact
 '=========================================================================
 Private Sub btnUpdateContact_Click()
@@ -1658,8 +1657,7 @@ End Sub
 
 '=========================================================================
 ' 연동회원의 잔여포인트를 확인합니다.
-' - 과금방식이 파트너과금인 경우 파트너 잔여포인트(GetPartnerBalance API)
-'   를 통해 확인하시기 바랍니다.
+' - 과금방식이 파트너과금인 경우 파트너 잔여포인트(GetPartnerBalance API)를 통해 확인하시기 바랍니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetBalance
 '=========================================================================
 Private Sub btnGetBalance_Click()
@@ -1676,8 +1674,8 @@ Private Sub btnGetBalance_Click()
 End Sub
 
 '=========================================================================
-' 연동회원 포인트 충전 URL을 반환합니다.
-' - URL 보안정책에 따라 반환된 URL은 30초의 유효시간을 갖습니다.
+' 연동회원 포인트 충전을 위한 페이지의 팝업 URL을 반환합니다.
+' - 반환되는 URL은 보안정책상 30초의 유효시간을 갖으며, 유효시간 이후 호출시 정상적으로 페이지가 호출되지 않습니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetChargeURL
 '=========================================================================
 Private Sub btnGetChargeURL_Click()
@@ -1694,9 +1692,8 @@ Private Sub btnGetChargeURL_Click()
 End Sub
 
 '=========================================================================
-' 파트너 잔여포인트를 확인합니다.
-' - 과금방식이 연동과금인 경우 연동회원 잔여포인트(GetBalance API)
-'   를 통해 확인하시기 바랍니다.
+' 파트너의 잔여포인트를 확인합니다.
+' - 과금방식이 연동과금인 경우 연동회원 잔여포인트(GetBalance API)를 이용하시기 바랍니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetPartnerBalance
 '=========================================================================
 Private Sub btnGetPartnerBalance_Click()
@@ -1713,8 +1710,8 @@ Private Sub btnGetPartnerBalance_Click()
 End Sub
 
 '=========================================================================
-' 파트너 포인트 충전 URL을 반환합니다.
-' - URL 보안정책에 따라 반환된 URL은 30초의 유효시간을 갖습니다.
+' 파트너 포인트 충전을 위한 페이지의 팝업 URL을 반환합니다.
+' - 반환되는 URL은 보안정책상 30초의 유효시간을 갖으며, 유효시간 이후 호출시 정상적으로 페이지가 호출되지 않습니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetPartnerURL
 '=========================================================================
 Private Sub btnGetPartnerURL_CHRG_Click()
@@ -1731,8 +1728,8 @@ Private Sub btnGetPartnerURL_CHRG_Click()
 End Sub
 
 '=========================================================================
-' 세금계산서 문서번호 중복여부를 확인합니다.
-' - 문서번호는 1~24자리로 숫자, 영문 '-', '_' 조합으로 구성할 수 있습니다.
+' 파트너가 세금계산서 관리 목적으로 할당하는 문서번호의 사용여부를 확인합니다.
+' - 문서번호는 최대 24자리 영문 대소문자, 숫자, 특수문자('-','_')로 구성 합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#CheckMgtKeyInUse
 '=========================================================================
 Private Sub checkMgtKeyInUse_Click()
@@ -1786,14 +1783,15 @@ Private Sub btnGetEmailPublicKeys_Click()
 End Sub
 
 '=========================================================================
-' 1건의 세금계산서를 즉시발행 처리합니다.
+' 작성된 세금계산서 데이터를 팝빌에 저장과 동시에 발행(전자서명)하여 "발행완료" 상태로 처리합니다.
+' - 세금계산서 국세청 전송 정책 : https://docs.popbill.com/taxinvoice/ntsSendPolicy?lang=vb
 ' - https://docs.popbill.com/taxinvoice/vb/api#RegistIssue
 '=========================================================================
 Private Sub btnRegistIssue_Click()
     Dim Taxinvoice As New PBTaxinvoice
     
-    '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20190207
-    Taxinvoice.writeDate = "20200720"
+    '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20210801
+    Taxinvoice.writeDate = "20210901"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
     Taxinvoice.issueType = "정발행"
@@ -1972,7 +1970,7 @@ Private Sub btnRegistIssue_Click()
     Dim newDetail As New PBTIDetail
     
     newDetail.serialNum = 1             '일련번호 1부터 순차 기재
-    newDetail.purchaseDT = "20190207"   '거래일자  yyyyMMdd
+    newDetail.purchaseDT = "20210901"   '거래일자  yyyyMMdd
     newDetail.itemName = "품명"         '품목명
     newDetail.spec = "규격"             '규격
     newDetail.qty = "1"                 '수량
@@ -1985,7 +1983,7 @@ Private Sub btnRegistIssue_Click()
     
     Dim newDetail2 As New PBTIDetail
     newDetail2.serialNum = 2             '일련번호 1부터 순차 기재
-    newDetail2.purchaseDT = "20190207"   '거래일자  yyyyMMdd
+    newDetail2.purchaseDT = "20210901"   '거래일자  yyyyMMdd
     newDetail2.itemName = "품명2"        '품목명
     newDetail2.spec = "규격"             '규격
     newDetail2.qty = "1"                 '수량
@@ -2049,11 +2047,8 @@ Private Sub btnRegistIssue_Click()
 End Sub
 
 '=========================================================================
-'[발행완료] 상태의 세금계산서를 [발행취소] 처리합니다.
-' - [발행취소]는 국세청 전송전에만 가능합니다.
-' - 발행취소된 세금계산서는 국세청에 전송되지 않습니다.
-' - 발행취소 세금계산서에 기재된 문서번호를 재사용 하기 위해서는
-'   삭제(Delete API)를 호출하여 [삭제] 처리 하셔야 합니다.
+' 국세청 전송 이전 "발행완료" 상태의 전자세금계산서를 "발행취소"하고 국세청 신고대상에서 제외합니다.
+' - Delete(삭제)함수를 호출하여 "발행취소" 상태의 전자세금계산서를 삭제하면, 문서번호 재사용이 가능합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#CancelIssue
 '=========================================================================
 Private Sub btnCancelIssue_sub_Click()
@@ -2087,7 +2082,8 @@ Private Sub btnCancelIssue_sub_Click()
 End Sub
 
 '=========================================================================
-' 1건의 전자세금계산서를 삭제합니다.
+' 삭제 가능한 상태의 세금계산서를 삭제합니다.
+' - 삭제 가능한 상태: "임시저장", "발행취소", "역발행거부", "역발행취소", "전송실패"
 ' - 세금계산서를 삭제해야만 문서번호(mgtKey)를 재사용할 수 있습니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#Delete
 '=========================================================================
@@ -2118,9 +2114,10 @@ Private Sub btnDelete_sub_Click()
 End Sub
 
 '=========================================================================
-' 1건의 세금계산서를 임시저장 합니다.
-' - 세금계산서 임시저장(Register API) 호출후에는 발행(Issue API)을 호출해야만
-'   국세청으로 전송됩니다.
+' 작성된 세금계산서 데이터를 팝빌에 저장합니다.
+' - "임시저장" 상태의 세금계산서는 발행(Issue)함수를 호출하여 "발행완료" 처리한 경우에만 국세청으로 전송됩니다.
+' - 정발행시 임시저장(Register)과 발행(Issue)을 한번의 호출로 처리하는 즉시발행(RegistIssue API) 프로세스 연동을 권장합니다.
+' - 역발행시 임시저장(Register)과 역발행요청(Request)을 한번의 호출로 처리하는 즉시요청(RegistRequest API) 프로세스 연동을 권장합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#Register
 '=========================================================================
 
@@ -2128,8 +2125,8 @@ Private Sub btnRegister_Click()
     Dim writeSpecification As Boolean
     Dim Taxinvoice As New PBTaxinvoice
     
-    '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20190207
-    Taxinvoice.writeDate = "20190307"
+    '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20210801
+    Taxinvoice.writeDate = "20210901"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
     Taxinvoice.issueType = "정발행"
@@ -2307,7 +2304,7 @@ Private Sub btnRegister_Click()
     Dim newDetail As New PBTIDetail
     
     newDetail.serialNum = 1             '일련번호 1부터 순차 기재
-    newDetail.purchaseDT = "20190207"   '거래일자  yyyyMMdd
+    newDetail.purchaseDT = "20210901"   '거래일자  yyyyMMdd
     newDetail.itemName = "품명"         '품목명
     newDetail.spec = "규격"             '규격
     newDetail.qty = "1"                 '수량
@@ -2320,7 +2317,7 @@ Private Sub btnRegister_Click()
     
     Dim newDetail2 As New PBTIDetail
     newDetail2.serialNum = 2             '일련번호 1부터 순차 기재
-    newDetail2.purchaseDT = "20190207"   '거래일자  yyyyMMdd
+    newDetail2.purchaseDT = "20210901"   '거래일자  yyyyMMdd
     newDetail2.itemName = "품명2"        '품목명
     newDetail2.spec = "규격"             '규격
     newDetail2.qty = "1"                 '수량
@@ -2367,7 +2364,7 @@ Private Sub btnRegister_Click()
 End Sub
 
 '=========================================================================
-' [임시저장] 상태의 세금계산서의 항목을 수정합니다.
+' "임시저장" 상태의 세금계산서를 수정합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#Update
 '=========================================================================
 Private Sub btnUpdate_Click()
@@ -2388,8 +2385,8 @@ Private Sub btnUpdate_Click()
     
     Dim Taxinvoice As New PBTaxinvoice
     
-    '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20190207
-    Taxinvoice.writeDate = "20190207"
+    '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20210801
+    Taxinvoice.writeDate = "20210901"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
     Taxinvoice.issueType = "정발행"
@@ -2566,7 +2563,7 @@ Private Sub btnUpdate_Click()
     Dim newDetail As New PBTIDetail
     
     newDetail.serialNum = 1             '일련번호 1부터 순차 기재
-    newDetail.purchaseDT = "20190207"   '거래일자  yyyyMMdd
+    newDetail.purchaseDT = "20210901"   '거래일자  yyyyMMdd
     newDetail.itemName = "품명"         '품목명
     newDetail.spec = "규격"             '규격
     newDetail.qty = "1"                 '수량
@@ -2579,7 +2576,7 @@ Private Sub btnUpdate_Click()
     
     Dim newDetail2 As New PBTIDetail
     newDetail2.serialNum = 2             '일련번호 1부터 순차 기재
-    newDetail2.purchaseDT = "20190207"   '거래일자  yyyyMMdd
+    newDetail2.purchaseDT = "20210901"   '거래일자  yyyyMMdd
     newDetail2.itemName = "품명2"        '품목명
     newDetail2.spec = "규격"             '규격
     newDetail2.qty = "1"                 '수량
@@ -2627,7 +2624,8 @@ Private Sub btnUpdate_Click()
 End Sub
 
 '======================================================================================================================
-' [임시저장] 상태의 세금계산서를 [발행]처리 합니다.
+' "임시저장" 상태의 세금계산서를 발행(전자서명)하며, "발행완료" 상태로 처리합니다.
+' - 세금계산서 국세청 전송정책 : https://docs.popbill.com/taxinvoice/ntsSendPolicy?lang=vb
 ' - https://docs.popbill.com/taxinvoice/vb/api#TIIssue
 '======================================================================================================================
 Private Sub btnIssue_Click()
@@ -2672,11 +2670,8 @@ Private Sub btnIssue_Click()
 End Sub
 
 '=========================================================================
-'[발행완료] 상태의 세금계산서를 [발행취소] 처리합니다.
-' - [발행취소]는 국세청 전송전에만 가능합니다.
-' - 발행취소된 세금계산서는 국세청에 전송되지 않습니다.
-' - 발행취소 세금계산서에 기재된 문서번호를 재사용 하기 위해서는
-'   삭제(Delete API)를 호출하여 [삭제] 처리 하셔야 합니다.
+' 국세청 전송 이전 "발행완료" 상태의 전자세금계산서를 "발행취소"하고 국세청 신고대상에서 제외합니다.
+' - Delete(삭제)함수를 호출하여 "발행취소" 상태의 전자세금계산서를 삭제하면, 문서번호 재사용이 가능합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#CancelIssue
 '=========================================================================
 Private Sub btnCancelIssue_Click()
@@ -2710,8 +2705,8 @@ Private Sub btnCancelIssue_Click()
 End Sub
 
 '=========================================================================
-' 1건의 전자세금계산서를 삭제합니다.
-' - 세금계산서를 삭제해야만 문서번호(mgtKey)를 재사용할 수 있습니다.
+' 삭제 가능한 상태의 세금계산서를 삭제합니다.
+' - 삭제 가능한 상태: "임시저장", "발행취소", "역발행거부", "역발행취소", "전송실패"
 ' - https://docs.popbill.com/taxinvoice/vb/api#Delete
 '=========================================================================
 Private Sub btnDelete_Click()
@@ -2741,7 +2736,9 @@ Private Sub btnDelete_Click()
 End Sub
 
 '=========================================================================
-' [발행완료] 상태의 세금계산서를 국세청으로 즉시전송합니다.
+' 공급자가 "발행완료" 상태의 전자세금계산서를 국세청에 즉시 전송하며, 함수 호출 후 최대 30분 이내에 전송 처리가 완료됩니다.
+' - 국세청 즉시전송을 호출하지 않은 세금계산서는 발행일 기준 익일 오후 3시에 팝빌 시스템에서 일괄적으로 국세청으로 전송합니다.
+' - 익일전송시 전송일이 법정공휴일인 경우 다음 영업일에 전송됩니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#SendToNTS
 '=========================================================================
 Private Sub btnSendToNTS_Click()
@@ -2771,17 +2768,16 @@ Private Sub btnSendToNTS_Click()
 End Sub
 
 '=========================================================================================================================================
-'[공급받는자]가 공급자에게 1건의 역발행 세금계산서를 [즉시 요청]합니다.
-' - 역발행 세금계산서 프로세스를 구현하기 위해서는 공급자/공급받는자가 모두 팝빌에 회원이여야 합니다.
-' - 역발행 즉시요청후 공급자가 [발행] 처리시 포인트가 차감되며 역발행 세금계산서 항목중 과금방향(ChargeDirection)에 기재한 값에 따라
-'   정과금(공급자과금) 또는 역과금(공급받는자과금) 처리됩니다.
+' 공급받는자가 작성한 세금계산서 데이터를 팝빌에 저장하고 공급자에게 송부하여 발행을 요청합니다.
+' - 역발행 세금계산서 프로세스를 구현하기위해서는 공급자/공급받는자가 모두 팝빌에 회원이여야 합니다.
+' - 역발행 즉시요청후 공급자가 [발행] 처리시 포인트가 차감되며 역발행 세금계산서 항목중 과금방향(ChargeDirection)에 기재한 값에 따라 정과금(공급자과금) 또는 역과금(공급받는자과금) 처리됩니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#RegistRequest
 '=========================================================================================================================================
 Private Sub btnRegistRequest_Click()
     Dim Taxinvoice As New PBTaxinvoice
     
-    '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20190207
-    Taxinvoice.writeDate = "20190207"
+    '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20210801
+    Taxinvoice.writeDate = "20210901"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
     Taxinvoice.issueType = "역발행"
@@ -2958,7 +2954,7 @@ Private Sub btnRegistRequest_Click()
     Dim newDetail As New PBTIDetail
     
     newDetail.serialNum = 1             '일련번호 1부터 순차 기재
-    newDetail.purchaseDT = "20190207"   '거래일자  yyyyMMdd
+    newDetail.purchaseDT = "20210901"   '거래일자  yyyyMMdd
     newDetail.itemName = "품명"         '품목명
     newDetail.spec = "규격"             '규격
     newDetail.qty = "1"                 '수량
@@ -2971,7 +2967,7 @@ Private Sub btnRegistRequest_Click()
     
     Dim newDetail2 As New PBTIDetail
     newDetail2.serialNum = 2             '일련번호 1부터 순차 기재
-    newDetail2.purchaseDT = "20190207"   '거래일자  yyyyMMdd
+    newDetail2.purchaseDT = "20210901"   '거래일자  yyyyMMdd
     newDetail2.itemName = "품명2"        '품목명
     newDetail2.spec = "규격"             '규격
     newDetail2.qty = "1"                 '수량
@@ -2998,7 +2994,8 @@ Private Sub btnRegistRequest_Click()
 End Sub
 
 '======================================================================================================================
-' [역발행대기] 상태의 세금계산서를 [발행]처리 합니다.
+' "역발행대기" 상태의 세금계산서를 발행(전자서명)하며, "발행완료" 상태로 처리합니다.
+' - 세금계산서 국세청 전송정책 : https://docs.popbill.com/taxinvoice/ntsSendPolicy?lang=vb
 ' - https://docs.popbill.com/taxinvoice/vb/api#TIIssue
 '======================================================================================================================
 Private Sub btnIssue_rev_sub_Click()
@@ -3042,7 +3039,8 @@ Private Sub btnIssue_rev_sub_Click()
 End Sub
 
 '=========================================================================
-' 공급받는자에게 요청받은 역발행 세금계산서를 [거부]처리 합니다.
+' 공급자가 공급받는자에게 역발행 요청 받은 세금계산서의 발행을 거부합니다.
+' - 세금계산서의 문서번호를 재사용하기 위해서는 삭제 (Delete API)를 호출하여 [삭제] 처리해야 합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#Refuse
 '=========================================================================
 Private Sub btnRefuse_sub_Click()
@@ -3076,8 +3074,8 @@ Private Sub btnRefuse_sub_Click()
 End Sub
 
 '=========================================================================
-'[발행완료] 상태의 세금계산서를 [발행취소] 처리합니다.
-' - [발행취소]는 국세청 전송전에만 가능합니다.
+' 국세청 전송 이전 "발행완료" 상태의 전자세금계산서를 "발행취소"하고 국세청 신고대상에서 제외합니다.
+' - Delete(삭제)함수를 호출하여 "발행취소" 상태의 전자세금계산서를 삭제하면, 문서번호 재사용이 가능합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#CancelIssue
 '=========================================================================
 Private Sub btnCancelIssue_rev_sub_Click()
@@ -3111,8 +3109,8 @@ Private Sub btnCancelIssue_rev_sub_Click()
 End Sub
 
 '=========================================================================
-' 역발행 세금계산서를 [요청취소] 처리합니다.
-' - [취소]한 세금계산서의 문서번호를 재사용하기 위해서는 삭제 (Delete API) 를 호출해야 합니다.
+' 공급자가 요청받은 역발행 세금계산서를 발행하기 전, 공급받는자가 역발행요청을 취소합니다.
+' - [취소]한 세금계산서의 문서번호를 재사용하기 위해서는 삭제 (Delete API)를 호출해야 합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#CancelRequest
 '=========================================================================
 Private Sub btnRequestCancel_sub_Click()
@@ -3146,7 +3144,8 @@ Private Sub btnRequestCancel_sub_Click()
 End Sub
 
 '=========================================================================
-' 1건의 전자세금계산서를 삭제합니다.
+' 삭제 가능한 상태의 세금계산서를 삭제합니다.
+' - 삭제 가능한 상태: "임시저장", "발행취소", "역발행거부", "역발행취소", "전송실패"
 ' - 세금계산서를 삭제해야만 문서번호(mgtKey)를 재사용할 수 있습니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#Delete
 '=========================================================================
@@ -3177,14 +3176,15 @@ Private Sub btnDelete_rev_sub_Click()
 End Sub
 
 '=========================================================================
-' 1건의 역발행 세금계산서를 [임시저장] 합니다.
+' 작성된 1건의 역발행 세금계산서 데이터를 팝빌에 저장합니다.
+' - 역발행시 임시저장(Register)과 역발행요청(Request)을 한번의 호출로 처리하는 즉시요청(RegistRequest API) 프로세스 연동을 권장합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#Register
 '=========================================================================
 Private Sub btnRegister_rev_Click()
     Dim Taxinvoice As New PBTaxinvoice
     
-    '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20190207
-    Taxinvoice.writeDate = "20190207"
+    '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20210801
+    Taxinvoice.writeDate = "20210901"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
     Taxinvoice.issueType = "역발행"
@@ -3366,7 +3366,7 @@ Private Sub btnRegister_rev_Click()
     Dim newDetail As New PBTIDetail
     
     newDetail.serialNum = 1             '일련번호 1부터 순차 기재
-    newDetail.purchaseDT = "20190207"   '거래일자  yyyyMMdd
+    newDetail.purchaseDT = "20210901"   '거래일자  yyyyMMdd
     newDetail.itemName = "품명"         '품목명
     newDetail.spec = "규격"             '규격
     newDetail.qty = "1"                 '수량
@@ -3379,7 +3379,7 @@ Private Sub btnRegister_rev_Click()
     
     Dim newDetail2 As New PBTIDetail
     newDetail2.serialNum = 2             '일련번호 1부터 순차 기재
-    newDetail2.purchaseDT = "20190207"   '거래일자  yyyyMMdd
+    newDetail2.purchaseDT = "20210901"   '거래일자  yyyyMMdd
     newDetail2.itemName = "품명2"        '품목명
     newDetail2.spec = "규격"             '규격
     newDetail2.qty = "1"                 '수량
@@ -3403,7 +3403,7 @@ Private Sub btnRegister_rev_Click()
 End Sub
 
 '=========================================================================
-' [임시저장] 상태의  역)발행 세금계산서의 항목을 수정합니다.
+' "임시저장" 상태의 역발행 세금계산서를 수정합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#Update
 '=========================================================================
 Private Sub btnUpdate_rev_Click()
@@ -3414,8 +3414,8 @@ Private Sub btnUpdate_rev_Click()
     
     Dim Taxinvoice As New PBTaxinvoice
     
-    '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20190207
-    Taxinvoice.writeDate = "20190207"
+    '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20210801
+    Taxinvoice.writeDate = "20210901"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
     Taxinvoice.issueType = "역발행"
@@ -3592,7 +3592,7 @@ Private Sub btnUpdate_rev_Click()
     Dim newDetail As New PBTIDetail
     
     newDetail.serialNum = 1             '일련번호 1부터 순차 기재
-    newDetail.purchaseDT = "20190207"   '거래일자  yyyyMMdd
+    newDetail.purchaseDT = "20210901"   '거래일자  yyyyMMdd
     newDetail.itemName = "품명"         '품목명
     newDetail.spec = "규격"             '규격
     newDetail.qty = "1"                 '수량
@@ -3605,7 +3605,7 @@ Private Sub btnUpdate_rev_Click()
     
     Dim newDetail2 As New PBTIDetail
     newDetail2.serialNum = 2             '일련번호 1부터 순차 기재
-    newDetail2.purchaseDT = "20190207"   '거래일자  yyyyMMdd
+    newDetail2.purchaseDT = "20210901"   '거래일자  yyyyMMdd
     newDetail2.itemName = "품명2"        '품목명
     newDetail2.spec = "규격"             '규격
     newDetail2.qty = "1"                 '수량
@@ -3629,12 +3629,9 @@ Private Sub btnUpdate_rev_Click()
 End Sub
 
 '=========================================================================
-' 공급받는자가 공급자에게 1건의 역발행 세금계산서를 발행요청 합니다.
-' - 역발행 세금계산서 프로세스를 구현하기 위해서는 공급자/공급받는자가 모두
-'   팝빌에 회원이여야 합니다.
-' - 역발행 요청후 공급자가 [발행] 처리시 포인트가 차감되며 역발행
-'   세금계산서 항목중 과금방향(ChargeDirection) 에 기재한 값에 따라
-'   정과금(공급자과금) 또는 역과금(공급받는자과금) 처리됩니다.
+' 공급받는자가 저장된 역발행 세금계산서를 공급자에게 송부하여 발행 요청합니다.
+' - 역발행 세금계산서 프로세스를 구현하기 위해서는 공급자/공급받는자가 모두 팝빌에 회원이여야 합니다.
+' - 역발행 요청후 공급자가 [발행] 처리시 포인트가 차감되며 역발행 세금계산서 항목중 과금방향(ChargeDirection)에 기재한 값에 따라 정과금(공급자과금) 또는 역과금(공급받는자과금) 처리됩니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#Request
 '=========================================================================
 Private Sub btnRequest_Click()
@@ -3669,7 +3666,7 @@ Private Sub btnRequest_Click()
 End Sub
 
 '======================================================================================================================
-' [역발행대기] 상태의 세금계산서를 [발행]처리 합니다.
+' "역발행대기" 상태의 세금계산서를 발행(전자서명)하며, "발행완료" 상태로 처리합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#TIIssue
 '======================================================================================================================
 Private Sub btnIssue_rev_Click()
@@ -3713,9 +3710,8 @@ Private Sub btnIssue_rev_Click()
 End Sub
 
 '=========================================================================
-' 공급받는자에게 요청받은 역발행 세금계산서를 [거부]처리 합니다.
-' - 세금계산서의 문서번호를 재사용하기 위해서는 삭제 (Delete API) 를
-'   호출하여 [삭제] 처리해야 합니다.
+' 공급자가 공급받는자에게 역발행 요청 받은 세금계산서의 발행을 거부합니다.
+' - 세금계산서의 문서번호를 재사용하기 위해서는 삭제 (Delete API)를 호출하여 [삭제] 처리해야 합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#Refuse
 '=========================================================================
 Private Sub btnRefuse_Click()
@@ -3749,11 +3745,8 @@ Private Sub btnRefuse_Click()
 End Sub
 
 '=========================================================================
-'[발행완료] 상태의 세금계산서를 [발행취소] 처리합니다.
-' - [발행취소]는 국세청 전송전에만 가능합니다.
-' - 발행취소된 세금계산서는 국세청에 전송되지 않습니다.
-' - 발행취소 세금계산서에 기재된 문서번호를 재사용 하기 위해서는
-'   삭제(Delete API)를 호출하여 [삭제] 처리 하셔야 합니다.
+' 국세청 전송 이전 "발행완료" 상태의 전자세금계산서를 "발행취소"하고 국세청 신고대상에서 제외합니다.
+' - Delete(삭제)함수를 호출하여 "발행취소" 상태의 전자세금계산서를 삭제하면, 문서번호 재사용이 가능합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#CancelIssue
 '=========================================================================
 Private Sub btnCancelIssue_rev_Click()
@@ -3787,9 +3780,8 @@ Private Sub btnCancelIssue_rev_Click()
 End Sub
 
 '=========================================================================
-' 역발행 세금계산서를 [요청취소] 처리합니다.
-' - [취소]한 세금계산서의 문서번호를 재사용하기 위해서는 삭제 (Delete API)
-'   를 호출해야 합니다.
+' 공급자가 요청받은 역발행 세금계산서를 발행하기 전, 공급받는자가 역발행요청을 취소합니다.
+' - [취소]한 세금계산서의 문서번호를 재사용하기 위해서는 삭제 (Delete API)를 호출해야 합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#CancelRequest
 '=========================================================================
 Private Sub btnRequestCancel_Click()
@@ -3823,7 +3815,8 @@ Private Sub btnRequestCancel_Click()
 End Sub
 
 '=========================================================================
-' 1건의 전자세금계산서를 삭제합니다.
+' 삭제 가능한 상태의 세금계산서를 삭제합니다.
+' - 삭제 가능한 상태: "임시저장", "발행취소", "역발행거부", "역발행취소", "전송실패"
 ' - 세금계산서를 삭제해야만 문서번호(mgtKey)를 재사용할 수 있습니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#Delete
 '=========================================================================
@@ -3854,9 +3847,7 @@ Private Sub btnDelete_rev_Click()
 End Sub
 
 '=========================================================================
-' 세금계산서에 첨부파일을 등록합니다.
-' - [임시저장] 상태의 세금계산서만 파일을 첨부할수 있습니다.
-' - 첨부파일은 최대 5개까지 등록할 수 있습니다.
+' "임시저장" 상태의 세금계산서에 1개의 파일을 첨부합니다. (최대 5개)
 ' - https://docs.popbill.com/taxinvoice/vb/api#AttachFile
 '=========================================================================
 Private Sub btnAttachFile_Click()
@@ -3895,9 +3886,8 @@ Private Sub btnAttachFile_Click()
 End Sub
 
 '=========================================================================
-' 세금계산서에 첨부된 파일의 목록을 확인합니다.
-' - 응답항목 중 파일아이디(AttachedFile) 항목은 파일삭제(DeleteFile API)
-'   호출시 이용할 수 있습니다.
+' 세금계산서에 첨부된 파일목록을 확인합니다.
+' - 응답항목 중 파일아이디(AttachedFile) 항목은 파일삭제(DeleteFile API) 호출시 이용할 수 있습니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetFiles
 '=========================================================================
 Private Sub btnGetFiles_Click()
@@ -3925,9 +3915,8 @@ Private Sub btnGetFiles_Click()
 End Sub
 
 '=========================================================================
-' 세금계산서에 첨부된 파일을 삭제합니다.
-' - 파일을 식별하는 파일아이디는 첨부파일 목록(GetFileList API) 의 응답항목
-'   중 파일아이디(AttachedFile) 값을 통해 확인할 수 있습니다.
+' "임시저장" 상태의 세금계산서에 첨부된 1개의 파일을 삭제합니다.
+' - 파일을 식별하는 파일아이디는 첨부파일 목록(GetFiles API) 의 응답항목 중 파일아이디(AttachedFile) 값을 통해 확인할 수 있습니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#DeleteFile
 '=========================================================================
 Private Sub btnDeleteFile_Click()
@@ -3957,7 +3946,7 @@ Private Sub btnDeleteFile_Click()
 End Sub
 
 '=========================================================================
-'1건의 세금계산서 상태/요약 정보를 확인합니다.
+' 세금계산서 1건의 상태 및 요약정보를 확인합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetInfo
 '=========================================================================
 Private Sub btnGetInfo_Click()
@@ -4025,7 +4014,7 @@ Private Sub btnGetInfo_Click()
 End Sub
 
 '=========================================================================
-' 대량의 세금계산서 상태/요약 정보를 확인합니다. (최대 1000건)
+' 다수건의 세금계산서 상태 및 요약 정보를 확인합니다. (1회 호출 시 최대 1,000건 확인 가능)
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetInfos
 '=========================================================================
 Private Sub btnGetInfos_Click()
@@ -4048,10 +4037,10 @@ Private Sub btnGetInfos_Click()
     End Select
     
     '세금계산서 문서번호 배열, 최대 1000건
-    KeyList.Add "20190207-01"
-    KeyList.Add "20190207-02"
-    KeyList.Add "20190207-03"
-    KeyList.Add "20190207-04"
+    KeyList.Add "20210901-01"
+    KeyList.Add "20210901-02"
+    KeyList.Add "20210901-03"
+    KeyList.Add "20210901-04"
     
     Set resultList = TaxinvoiceService.GetInfos(txtCorpNum.Text, KeyType, KeyList)
      
@@ -4086,7 +4075,7 @@ Private Sub btnGetInfos_Click()
 End Sub
 
 '=========================================================================
-' 1건의 세금계산서 상세항목을 확인합니다.
+' 세금계산서 1건의 상세정보를 확인합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetDetailInfo
 '=========================================================================
 Private Sub btnGetDetailInfo_Click()
@@ -4196,7 +4185,7 @@ Private Sub btnGetDetailInfo_Click()
 End Sub
 
 '=========================================================================
-' 검색조건을 사용하여 세금계산서 목록을 조회합니다.
+' 검색조건에 해당하는 세금계산서를 조회합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#Search
 '=========================================================================
 Private Sub btnSearch_Click()
@@ -4240,10 +4229,10 @@ Private Sub btnSearch_Click()
     DType = "W"
     
     '[필수] 시작일자, yyyyMMdd
-    SDate = "20200701"
+    SDate = "20210901"
     
     '[필수] 종료일자, yyyyMMdd
-    EDate = "20200731"
+    EDate = "20210910"
     
     '전송상태값 배열, 미기재시 전체상태조회, 문서상태값 3자리숫자 작성 2,3번째 와일드카드 가능
     '상태코드에 대한 자세한 사항은 "[전자세금계산서 API 연동매뉴얼] > 5.1 세금계산서 상태코드" 를 참조하시기 바랍니다.
@@ -4374,7 +4363,7 @@ Private Sub btnSearch_Click()
 End Sub
 
 '=========================================================================
-' 세금계산서 상태 변경이력을 확인합니다.
+' 세금계산서의 상태에 대한 변경이력을 확인합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetLogs
 '=========================================================================
 Private Sub btnGetLogs_Click()
@@ -4415,7 +4404,7 @@ Private Sub btnGetLogs_Click()
 End Sub
 
 '=========================================================================
-' 발행 안내메일을 재전송합니다.
+' 세금계산서와 관련된 안내 메일을 재전송 합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#SendEmail
 '=========================================================================
 Private Sub btnSendEmail_Click()
@@ -4449,10 +4438,9 @@ Private Sub btnSendEmail_Click()
 End Sub
 
 '=========================================================================
-' 알림문자를 전송합니다. (단문/SMS- 한글 최대 45자)
-' - 알림문자 전송시 포인트가 차감됩니다. (전송실패시 환불처리)
-' - 전송내역 확인은 "팝빌 로그인" > [문자 팩스] > [문자] > [전송내역] 탭에서
-'   전송결과를 확인할 수 있습니다.
+' 세금계산서와 관련된 안내 SMS(단문) 문자를 재전송하는 함수로, 팝빌 사이트 [문자·팩스] > [문자] > [전송내역] 메뉴에서 전송결과를 확인 할 수 있습니다.
+' - 메시지는 최대 90byte까지 입력 가능하고, 초과한 내용은 자동으로 삭제되어 전송합니다. (한글 최대 45자)
+' - 함수 호출시 포인트가 과금됩니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#SendSMS
 '=========================================================================
 Private Sub btnSendSMS_Click()
@@ -4496,10 +4484,8 @@ Private Sub btnSendSMS_Click()
 End Sub
 
 '=========================================================================
-' 전자세금계산서를 팩스전송합니다.
-' - 팩스 전송 요청시 포인트가 차감됩니다. (전송실패시 환불처리)
-' - 전송내역 확인은 "팝빌 로그인" > [문자 팩스] > [팩스] > [전송내역]
-'   메뉴에서 전송결과를 확인할 수 있습니다.
+' 세금계산서를 팩스로 전송하는 함수로, 팝빌 사이트 [문자·팩스] > [팩스] > [전송내역] 메뉴에서 전송결과를 확인 할 수 있습니다.
+' - 함수 호출시 포인트가 과금됩니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#SendFAX
 '=========================================================================
 Private Sub btnSendFAX_Click()
@@ -4537,8 +4523,7 @@ Private Sub btnSendFAX_Click()
 End Sub
 
 '=========================================================================
-' 팝빌 사이트에서 작성한 세금계산서에 파트너 문서번호를 할당합니다.
-' - 문서번호가 존재하지 않는 세금계산서만 할당이 가능 합니다.
+' 팝빌 사이트를 통해 발행하여 문서번호가 부여되지 않은 세금계산서에 문서번호를 할당합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#AssignMgtKey
 '=========================================================================
 Private Sub btnAssignmgtkey_Click(index As Integer)
@@ -4560,11 +4545,11 @@ Private Sub btnAssignmgtkey_Click(index As Integer)
     End Select
     
     '세금계산서 아이템키, 목록조회(Search) API의 반환항목중 ItemKey 참조
-    itemKey = "018090515070600001"
+    itemKey = "021090515070600001"
             
     '할당할 문서번호, 숫자, 영문, '-', '_' 조합으로
     '1~24자리까지 사업자번호별 중복없는 고유번호 할당
-    mgtKey = "20190201-001"
+    mgtKey = "20210901-001"
         
     Set Response = TaxinvoiceService.AssignMgtKey(txtCorpNum.Text, KeyType, itemKey, mgtKey)
     
@@ -4577,7 +4562,7 @@ Private Sub btnAssignmgtkey_Click(index As Integer)
 End Sub
 
 '=========================================================================
-' 전자세금계산서에 1건의 전자명세서를 첨부합니다.
+' 팝빌 전자명세서 API를 통해 발행한 전자명세서를 세금계산서에 첨부합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#AttachStatement
 '=========================================================================
 Private Sub btnAttachStatement_Click()
@@ -4602,7 +4587,7 @@ Private Sub btnAttachStatement_Click()
     SubItemCode = 121
     
     '첨부할 전자명세서 문서번호
-    SubMgtKey = "20190207-01"
+    SubMgtKey = "20210901-01"
         
     Set Response = TaxinvoiceService.AttachStatement(txtCorpNum.Text, KeyType, txtMgtKey.Text, SubItemCode, SubMgtKey)
     
@@ -4615,7 +4600,7 @@ Private Sub btnAttachStatement_Click()
 End Sub
 
 '=========================================================================
-' 세금계산서에 첨부된 전자명세서 1건을 첨부해제합니다.
+' 세금계산서에 첨부된 전자명세서를 해제합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#DetachStatement
 '=========================================================================
 Private Sub btnDetachStatement_Click()
@@ -4640,7 +4625,7 @@ Private Sub btnDetachStatement_Click()
     SubItemCode = 121
     
     '첨부해제할 전자명세서 문서번호
-    SubMgtKey = "20190207-01"
+    SubMgtKey = "20210901-01"
 
     Set Response = TaxinvoiceService.DetachStatement(txtCorpNum.Text, KeyType, txtMgtKey.Text, SubItemCode, SubMgtKey)
     
@@ -4653,7 +4638,7 @@ Private Sub btnDetachStatement_Click()
 End Sub
 
 '=========================================================================
-' 전자세금계산서 관련 메일전송 항목에 대한 전송여부를 목록으로 반환합니다
+' 세금계산서 관련 메일 항목에 대한 발송설정을 확인합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#ListEmailConfig
 '=========================================================================
 Private Sub btnListemailconfig_Click(index As Integer)
@@ -4810,7 +4795,7 @@ Private Sub btnListemailconfig_Click(index As Integer)
 End Sub
 
 '=========================================================================
-' 전자세금계산서 관련 메일전송 항목에 대한 전송여부를 수정합니다.
+' 세금계산서 관련 메일 항목에 대한 발송설정을 수정합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#UpdateEmailConfig
 '
 ' 메일전송유형
@@ -4877,8 +4862,8 @@ Private Sub btnUpdateemailconfig_Click(index As Integer)
 End Sub
 
 '=========================================================================
-' 1건의 전자세금계산서 보기 팝업 URL을 반환합니다.
-' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
+' 팝빌 사이트와 동일한 세금계산서 1건의 상세 정보 페이지의 팝업 URL을 반환합니다.
+' - 반환되는 URL은 보안정책상 30초의 유효시간을 갖으며, 유효시간 이후 호출시 정상적으로 페이지가 호출되지 않습니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetPopUpURL
 '=========================================================================
 Private Sub btnGetPopUpURL_Click()
@@ -4908,8 +4893,8 @@ Private Sub btnGetPopUpURL_Click()
 End Sub
 
 '=========================================================================
-' 1건의 전자세금계산서 인쇄팝업 URL을 반환합니다.
-' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
+' 세금계산서 1건을 인쇄하기 위한 페이지의 팝업 URL을 반환하며, 페이지내에서 인쇄 설정값을 "공급자" / "공급받는자" / "공급자+공급받는자"용 중 하나로 지정할 수 있습니다.
+' - 반환되는 URL은 보안정책상 30초의 유효시간을 갖으며, 유효시간 이후 호출시 정상적으로 페이지가 호출되지 않습니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetPrintURL
 '=========================================================================
 Private Sub btnGetPrintURL_Click()
@@ -4939,8 +4924,8 @@ Private Sub btnGetPrintURL_Click()
 End Sub
 
 '=========================================================================
-' 1건의 전자세금계산서 인쇄(공급받는자) URL을 반환합니다.
-' - URL 보안정책에 따라 반환된 URL은 30초의 유효시간을 갖습니다.
+' "공급받는자" 용 세금계산서 1건을 인쇄하기 위한 페이지의 팝업 URL을 반환합니다.
+' - 반환되는 URL은 보안정책상 30초의 유효시간을 갖으며, 유효시간 이후 호출시 정상적으로 페이지가 호출되지 않습니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetEPrintURL
 '=========================================================================
 Private Sub btnGetEPrintUrl_Click()
@@ -4970,8 +4955,8 @@ Private Sub btnGetEPrintUrl_Click()
 End Sub
 
 '=========================================================================
-' 대량의 전자세금계산서 인쇄팝업 URL을 반환합니다. (최대 100건)
-' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
+' 다수건의 세금계산서를 인쇄하기 위한 페이지의 팝업 URL을 반환합니다. (최대 100건)
+' - 반환되는 URL은 보안정책상 30초의 유효시간을 갖으며, 유효시간 이후 호출시 정상적으로 페이지가 호출되지 않습니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetMassPrintURL
 '=========================================================================
 Private Sub btnGetMassPrintURL_Click()
@@ -4992,10 +4977,10 @@ Private Sub btnGetMassPrintURL_Click()
     End Select
     
     ' 전자세금계산서 문서 문서번호 배열 (최대 100건)
-    KeyList.Add "20190207-01"
-    KeyList.Add "20190207-02"
-    KeyList.Add "20190207-03"
-    KeyList.Add "20190207-04"
+    KeyList.Add "20210901-01"
+    KeyList.Add "20210901-02"
+    KeyList.Add "20210901-03"
+    KeyList.Add "20210901-04"
     
     url = TaxinvoiceService.GetMassPrintURL(txtCorpNum.Text, KeyType, KeyList)
      
@@ -5008,8 +4993,8 @@ Private Sub btnGetMassPrintURL_Click()
 End Sub
 
 '=========================================================================
-' 공급받는자 수신메일 링크주소를 반환합니다.
-' - 메일링크 URL은 유효시간이 존재하지 않습니다.
+' 안내메일과 관련된 전자세금계산서를 확인 할 수 있는 상세 페이지의 팝업 URL을 반환하며, 해당 URL은 메일 하단의 "전자세금계산서 보기" 버튼의 링크와 같습니다.
+' - 함수 호출로 반환 받은 URL에는 유효시간이 없습니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetMailURL
 '=========================================================================
 Private Sub btnGetMailURL_Click()
@@ -5039,8 +5024,8 @@ Private Sub btnGetMailURL_Click()
 End Sub
 
 '=========================================================================
-' 팝빌 > 전자세금계산서 > 임시(연동)문서함 팝업 URL을 반환합니다.
-' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
+' 로그인 상태로 팝빌 사이트의 전자세금계산서 임시문서함 메뉴에 접근할 수 있는 페이지의 팝업 URL을 반환합니다.
+' - 반환되는 URL은 보안정책상 30초의 유효시간을 갖으며, 유효시간 이후 호출시 정상적으로 페이지가 호출되지 않습니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetURL
 '=========================================================================
 Private Sub btnGetURL_TBOX_Click()
@@ -5057,8 +5042,8 @@ Private Sub btnGetURL_TBOX_Click()
 End Sub
 
 '=========================================================================
-' 팝빌 > 전자세금계산서 > 매출 문서함 팝업 URL을 반환합니다.
-' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
+' 로그인 상태로 팝빌 사이트의 전자세금계산서 매출서함 메뉴에 접근할 수 있는 페이지의 팝업 URL을 반환합니다.
+' - 반환되는 URL은 보안정책상 30초의 유효시간을 갖으며, 유효시간 이후 호출시 정상적으로 페이지가 호출되지 않습니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetURL
 '=========================================================================
 Private Sub btnGetURL_SBOX_Click()
@@ -5076,8 +5061,8 @@ Private Sub btnGetURL_SBOX_Click()
 End Sub
 
 '=========================================================================
-' 팝빌 > 전자세금계산서 > 매입 문서함 팝업 URL을 반환합니다.
-' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
+' 로그인 상태로 팝빌 사이트의 전자세금계산서 매입문서함 메뉴에 접근할 수 있는 페이지의 팝업 URL을 반환합니다.
+' - 반환되는 URL은 보안정책상 30초의 유효시간을 갖으며, 유효시간 이후 호출시 정상적으로 페이지가 호출되지 않습니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetURL
 '=========================================================================
 Private Sub btnGetURL_PBOX_Click()
@@ -5094,8 +5079,8 @@ Private Sub btnGetURL_PBOX_Click()
 End Sub
 
 '=========================================================================
-' 팝빌 > 전자세금계산서 > 매출 문서작성 팝업 URL을 반환합니다.
-' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
+' 로그인 상태로 팝빌 사이트의 전자세금계산서 매출문서작성 메뉴에 접근할 수 있는 페이지의 팝업 URL을 반환합니다.
+' - 반환되는 URL은 보안정책상 30초의 유효시간을 갖으며, 유효시간 이후 호출시 정상적으로 페이지가 호출되지 않습니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetURL
 '=========================================================================
 Private Sub btnGetURL_WRITE_Click()

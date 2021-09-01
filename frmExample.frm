@@ -29,7 +29,7 @@ Begin VB.Form frmExample
       Width           =   2085
    End
    Begin VB.CommandButton btnAssignmgtkey 
-      Caption         =   "관리번호 할당"
+      Caption         =   "문서번호 할당"
       Height          =   390
       Index           =   1
       Left            =   5400
@@ -970,7 +970,7 @@ Begin VB.Form frmExample
          Width           =   1335
       End
       Begin VB.CommandButton checkMgtKeyInUse 
-         Caption         =   "관리번호 사용여부 확인"
+         Caption         =   "문서번호 사용여부 확인"
          Height          =   375
          Left            =   6840
          TabIndex        =   18
@@ -1092,7 +1092,7 @@ Begin VB.Form frmExample
       End
       Begin VB.Label Label3 
          AutoSize        =   -1  'True
-         Caption         =   "문서관리번호( MgtKey) : "
+         Caption         =   "문서번호( MgtKey) : "
          Height          =   180
          Left            =   360
          TabIndex        =   16
@@ -1820,8 +1820,7 @@ Private Sub btnRegistIssue_Click()
     '[필수] 공급자 상호
     Taxinvoice.invoicerCorpName = "공급자 상호"
     
-    '[필수] 공급자 문서번호, 1~24자리 (숫자, 영문, '-', '_') 조합으로
-    '사업자 별로 중복되지 않도록 구성
+    '[필수] 공급자 문서번호, 최대 24자리, 영문, 숫자 '-', '_'를 조합하여 사업자별로 중복되지 않도록 구성
     Taxinvoice.invoicerMgtKey = txtMgtKey.Text
     
     '[필수] 공급자 대표자 성명
@@ -1870,7 +1869,7 @@ Private Sub btnRegistIssue_Click()
     '[필수] 공급자받는자 상호
     Taxinvoice.invoiceeCorpName = "공급받는자 상호"
     
-    '[역발행시 필수] 공급받는자 문서번호(역발행시 필수)
+    '[역발행시 필수] 공급받는자 문서번호,  최대 24자리, 영문, 숫자 '-', '_'를 조합하여 사업자별로 중복되지 않도록 구성
     Taxinvoice.invoiceeMgtKey = ""
     
     '[필수] 공급받는자 대표자 성명
@@ -2155,8 +2154,7 @@ Private Sub btnRegister_Click()
     '[필수] 공급자 상호
     Taxinvoice.invoicerCorpName = "공급자 상호"
     
-    '[필수] 공급자 문서번호, 1~24자리 (숫자, 영문, '-', '_') 조합으로
-    '사업자 별로 중복되지 않도록 구성
+    '[필수] 공급자 문서번호, 최대 24자리, 영문, 숫자 '-', '_'를 조합하여 사업자별로 중복되지 않도록 구성
     Taxinvoice.invoicerMgtKey = txtMgtKey.Text
     
     '[필수] 공급자 대표자 성명
@@ -2205,7 +2203,7 @@ Private Sub btnRegister_Click()
     '[필수] 공급자받는자 상호
     Taxinvoice.invoiceeCorpName = "공급받는자 상호"
     
-    '[역발행시 필수] 공급받는자 문서번호(역발행시 필수)
+    '[역발행시 필수] 공급받는자 문서번호, 최대 24자리, 영문, 숫자 '-', '_'를 조합하여 사업자별로 중복되지 않도록 구성
     Taxinvoice.invoiceeMgtKey = ""
     
     '[필수] 공급받는자 대표자 성명
@@ -2415,8 +2413,7 @@ Private Sub btnUpdate_Click()
     '[필수] 공급자 상호
     Taxinvoice.invoicerCorpName = "공급자 상호_수정"
     
-    '[필수] 공급자 문서번호, 1~24자리 (숫자, 영문, '-', '_') 조합으로
-    '사업자 별로 중복되지 않도록 구성
+    '[필수] 공급자 문서번호, 최대 24자리, 영문, 숫자 '-', '_'를 조합하여 사업자별로 중복되지 않도록 구성
     Taxinvoice.invoicerMgtKey = txtMgtKey.Text
     
     '[필수] 공급자 대표자 성명
@@ -2465,7 +2462,7 @@ Private Sub btnUpdate_Click()
     '[필수] 공급자받는자 상호
     Taxinvoice.invoiceeCorpName = "공급받는자 상호"
     
-    '[역발행시 필수] 공급받는자 문서번호(역발행시 필수)
+    '[역발행시 필수] 공급받는자 문서번호, 최대 24자리, 영문, 숫자 '-', '_'를 조합하여 사업자별로 중복되지 않도록 구성
     Taxinvoice.invoiceeMgtKey = ""
     
     '[필수] 공급받는자 대표자 성명
@@ -2806,8 +2803,7 @@ Private Sub btnRegistRequest_Click()
     '[필수] 공급자 상호
     Taxinvoice.invoicerCorpName = "공급자 상호"
     
-    '[정발행시 필수] 공급자 문서번호, 1~24자리 (숫자, 영문, '-', '_') 조합으로
-    '사업자 별로 중복되지 않도록 구성
+    '[정발행시 필수] 공급자 문서번호, 최대 24자리, 영문, 숫자 '-', '_'를 조합하여 사업자별로 중복되지 않도록 구성
     Taxinvoice.invoicerMgtKey = ""
     
     '[필수] 공급자 대표자 성명
@@ -2851,7 +2847,7 @@ Private Sub btnRegistRequest_Click()
     '[필수] 공급자받는자 상호
     Taxinvoice.invoiceeCorpName = "공급받는자 상호"
     
-    '[역발행시 필수] 공급받는자 문서번호(역발행시 필수)
+    '[역발행시 필수] 공급받는자 문서번호, 최대 24자리, 영문, 숫자 '-', '_'를 조합하여 사업자별로 중복되지 않도록 구성
     Taxinvoice.invoiceeMgtKey = txtMgtKey.Text
     
     '[필수] 공급받는자 대표자 성명
@@ -3213,8 +3209,7 @@ Private Sub btnRegister_rev_Click()
     '[필수] 공급자 상호
     Taxinvoice.invoicerCorpName = "공급자 상호"
     
-    '[필수] 공급자 문서번호, 1~24자리 (숫자, 영문, '-', '_') 조합으로
-    '사업자 별로 중복되지 않도록 구성
+    '[필수] 공급자 문서번호, 최대 24자리, 영문, 숫자 '-', '_'를 조합하여 사업자별로 중복되지 않도록 구성
     Taxinvoice.invoicerMgtKey = ""
     
     '[필수] 공급자 대표자 성명
@@ -3262,7 +3257,7 @@ Private Sub btnRegister_rev_Click()
     '[필수] 공급자받는자 상호
     Taxinvoice.invoiceeCorpName = "공급받는자 상호"
     
-    '[역발행시 필수] 공급받는자 문서번호(역발행시 필수)
+    '[역발행시 필수] 공급받는자 문서번호, 최대 24자리, 영문, 숫자 '-', '_'를 조합하여 사업자별로 중복되지 않도록 구성
     Taxinvoice.invoiceeMgtKey = txtMgtKey.Text
     
     '[필수] 공급받는자 대표자 성명
@@ -3444,8 +3439,7 @@ Private Sub btnUpdate_rev_Click()
     '[필수] 공급자 상호
     Taxinvoice.invoicerCorpName = "공급자 상호_수정"
     
-    '[필수] 공급자 문서번호, 1~24자리 (숫자, 영문, '-', '_') 조합으로
-    '사업자 별로 중복되지 않도록 구성
+    '[필수] 공급자 문서번호, 최대 24자리, 영문, 숫자 '-', '_'를 조합하여 사업자별로 중복되지 않도록 구성
     Taxinvoice.invoicerMgtKey = ""
     
     '[필수] 공급자 대표자 성명
@@ -3488,7 +3482,7 @@ Private Sub btnUpdate_rev_Click()
     '[필수] 공급자받는자 상호
     Taxinvoice.invoiceeCorpName = "공급받는자 상호"
     
-    '[역발행시 필수] 공급받는자 문서번호(역발행시 필수)
+    '[역발행시 필수] 공급받는자 문서번호, 최대 24자리, 영문, 숫자 '-', '_'를 조합하여 사업자별로 중복되지 않도록 구성
     Taxinvoice.invoiceeMgtKey = txtMgtKey.Text
     
     '[필수] 공급받는자 대표자 성명
@@ -4547,8 +4541,7 @@ Private Sub btnAssignmgtkey_Click(index As Integer)
     '세금계산서 아이템키, 목록조회(Search) API의 반환항목중 ItemKey 참조
     itemKey = "021090515070600001"
             
-    '할당할 문서번호, 숫자, 영문, '-', '_' 조합으로
-    '1~24자리까지 사업자번호별 중복없는 고유번호 할당
+    '할당할 문서번호, 최대 24자리, 영문, 숫자 '-', '_'를 조합하여 사업자별로 중복되지 않도록 구성
     mgtKey = "20210901-001"
         
     Set Response = TaxinvoiceService.AssignMgtKey(txtCorpNum.Text, KeyType, itemKey, mgtKey)

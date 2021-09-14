@@ -2,13 +2,13 @@ VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Begin VB.Form frmExample 
    Caption         =   "팝빌 세금계산서 SDK 예제"
-   ClientHeight    =   12750
+   ClientHeight    =   12915
    ClientLeft      =   60
    ClientTop       =   450
-   ClientWidth     =   19065
+   ClientWidth     =   19275
    LinkTopic       =   "Form1"
-   ScaleHeight     =   12750
-   ScaleWidth      =   19065
+   ScaleHeight     =   12915
+   ScaleWidth      =   19275
    StartUpPosition =   2  '화면 가운데
    Begin VB.CommandButton btnUpdateemailconfig 
       Caption         =   "알림메일 전송설정 수정"
@@ -411,7 +411,7 @@ Begin VB.Form frmExample
    End
    Begin VB.Frame Frame7 
       Caption         =   " 세금계산서 관련 기능"
-      Height          =   9465
+      Height          =   9705
       Left            =   240
       TabIndex        =   13
       Top             =   3120
@@ -491,11 +491,19 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame14 
          Caption         =   " 보기/인쇄"
-         Height          =   3120
+         Height          =   3480
          Left            =   9600
          TabIndex        =   55
          Top             =   6120
          Width           =   5490
+         Begin VB.CommandButton btnGetOldPrintURL 
+            Caption         =   "(구)인쇄 팝업 URL"
+            Height          =   375
+            Left            =   210
+            TabIndex        =   110
+            Top             =   1800
+            Width           =   2745
+         End
          Begin VB.CommandButton btnGetPDFURL 
             Caption         =   "PDF 다운로드 URL"
             Height          =   375
@@ -517,7 +525,7 @@ Begin VB.Form frmExample
             Height          =   390
             Left            =   210
             TabIndex        =   61
-            Top             =   1740
+            Top             =   2280
             Width           =   2745
          End
          Begin VB.CommandButton btnGetPopUpURL 
@@ -529,7 +537,7 @@ Begin VB.Form frmExample
             Width           =   2745
          End
          Begin VB.CommandButton btnGetPrintURL 
-            Caption         =   "공급자 인쇄 팝업 URL"
+            Caption         =   "인쇄 팝업 URL"
             Height          =   390
             Left            =   210
             TabIndex        =   58
@@ -539,23 +547,23 @@ Begin VB.Form frmExample
          Begin VB.CommandButton btnGetMassPrintURL 
             Caption         =   "대량 인쇄 팝업 URL"
             Height          =   390
-            Left            =   210
+            Left            =   3120
             TabIndex        =   57
-            Top             =   2190
-            Width           =   2745
+            Top             =   840
+            Width           =   2175
          End
          Begin VB.CommandButton btnGetMailURL 
             Caption         =   "세금계산서 메일링크 URL"
             Height          =   390
             Left            =   210
             TabIndex        =   56
-            Top             =   2640
+            Top             =   2760
             Width           =   2745
          End
       End
       Begin VB.Frame Frame13 
          Caption         =   " 기타 URL "
-         Height          =   3135
+         Height          =   3495
          Left            =   15360
          TabIndex        =   50
          Top             =   6120
@@ -595,7 +603,7 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame12 
          Caption         =   " 부가 기능"
-         Height          =   3135
+         Height          =   3495
          Left            =   4920
          TabIndex        =   48
          Top             =   6120
@@ -643,7 +651,7 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame11 
          Caption         =   " 정보 확인"
-         Height          =   3135
+         Height          =   3495
          Left            =   2520
          TabIndex        =   43
          Top             =   6120
@@ -683,7 +691,7 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame10 
          Caption         =   " 첨부파일 "
-         Height          =   3120
+         Height          =   3480
          Left            =   120
          TabIndex        =   38
          Top             =   6135
@@ -1205,6 +1213,7 @@ Private Sub btnCheckID_Click()
     
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
+
 
 '=========================================================================
 ' 전자세금계산서 PDF 파일을 다운 받을 수 있는 URL을 반환합니다.
@@ -4917,6 +4926,36 @@ Private Sub btnGetPrintURL_Click()
 End Sub
 
 '=========================================================================
+' 세금계산서 1건을 구버전 양식으로 인쇄하기 위한 페이지의 팝업 URL을 반환하며, 페이지내에서 인쇄 설정값을 "공급자" / "공급받는자" / "공급자+공급받는자"용 중 하나로 지정할 수 있습니다.
+' - 반환되는 URL은 보안정책상 30초의 유효시간을 갖으며, 유효시간 이후 호출시 정상적으로 페이지가 호출되지 않습니다.
+' - https://docs.popbill.com/taxinvoice/vb/api#GetOldPrintURL
+'=========================================================================
+Private Sub btnGetOldPrintURL_Click()
+Dim url As String
+    Dim KeyType As MgtKeyType
+    
+    Select Case cboMgtKeyType.Text
+        Case "SELL"
+            KeyType = SELL
+        Case "BUY"
+            KeyType = BUY
+        Case "TRUSTEE"
+            KeyType = TRUSTEE
+        Case Else
+            MsgBox "문서번호 형태를 선택해주세요."
+            Exit Sub
+    End Select
+    
+    url = TaxinvoiceService.GetOldPrintURL(txtCorpNum.Text, KeyType, txtMgtKey.Text)
+    
+    If url = "" Then
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox "URL : " + vbCrLf + url
+End Sub
+'=========================================================================
 ' "공급받는자" 용 세금계산서 1건을 인쇄하기 위한 페이지의 팝업 URL을 반환합니다.
 ' - 반환되는 URL은 보안정책상 30초의 유효시간을 갖으며, 유효시간 이후 호출시 정상적으로 페이지가 호출되지 않습니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetEPrintURL
@@ -5100,6 +5139,8 @@ Private Sub Form_Load()
     
     ' 인증토큰 IP제한기능 사용여부, True(권장)
     TaxinvoiceService.IPRestrictOnOff = True
+    
+    TaxinvoiceService.UseGAIP = True
 
     cboMgtKeyType.AddItem "SELL"
     cboMgtKeyType.AddItem "BUY"

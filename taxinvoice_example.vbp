@@ -23,6 +23,7 @@ Class=PBTIBulkResponse; PopbillTaxinvoice\PBTIBulkResponse.cls
 Class=PBTIBulkSubmit; PopbillTaxinvoice\PBTIBulkSubmit.cls
 Class=PBTIBulkTaxinvoiceResult; PopbillTaxinvoice\PBTITaxinvoiceResult.cls
 Class=PBTIBulkTaxinvoiceIssueResult; PopbillTaxinvoice\PBTIBulkTaxinvoiceIssueResult.cls
+Class=PBSendToNTSConfig; PopbillTaxinvoice\PBSendToNTSConfig.cls
 IconForm="frmExample"
 Startup="frmExample"
 ExeName32="taxinvoice_example.exe"

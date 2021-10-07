@@ -608,6 +608,14 @@ Begin VB.Form frmExample
          TabIndex        =   48
          Top             =   6120
          Width           =   4545
+         Begin VB.CommandButton btnGetSendToNTSConfig 
+            Caption         =   "국세청 전송 설정 확인"
+            Height          =   390
+            Left            =   2280
+            TabIndex        =   113
+            Top             =   2280
+            Width           =   2085
+         End
          Begin VB.CommandButton btnSendFAX 
             Caption         =   "팩스 전송"
             Height          =   375
@@ -1243,6 +1251,8 @@ Private Sub btnGetPDFURL_Click()
     txtUserID.Text = url
     MsgBox "URL : " + vbCrLf + url
 End Sub
+
+
 
 '=========================================================================
 ' 팝빌 사이트와 동일한 세금계산서 1건의 상세정보 페이지(사이트 상단, 좌측 메뉴 및 버튼 제외)의 팝업 URL을 반환합니다.
@@ -3048,7 +3058,7 @@ Private Sub btnSendToNTS_Click()
             Exit Sub
     End Select
     
-    Set Response = TaxinvoiceService.SendToNTS(txtCorpNum.Text, KeyType, txtMgtKey.Text)
+    Set Response = TaxinvoiceService.sendToNTS(txtCorpNum.Text, KeyType, txtMgtKey.Text)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -5146,6 +5156,25 @@ Private Sub btnUpdateemailconfig_Click(index As Integer)
     End If
     
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+End Sub
+
+'=========================================================================
+' 연동회원의 국세청 전송 옵션 설정 상태를 확인합니다.
+' - 국세청 전송 옵션 설정은 팝빌 사이트 [전자세금계산서] > [환경설정] > [세금계산서 관리] 메뉴에서 설정할 수 있으며, API로 설정은 불가능 합니다.
+' - https://docs.popbill.com/taxinvoice/vb/api#GetSendToNTSConfig
+'=========================================================================
+Private Sub btnGetSendToNTSConfig_Click()
+    Dim sendToNTSConfig As PBSendToNTSConfig
+    
+    Set sendToNTSConfig = TaxinvoiceService.GetSendToNTSConfig(txtCorpNum.Text)
+    
+    If sendToNTSConfig Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox "국세청 전송 설정 : " + CStr(sendToNTSConfig.sendToNTS) + vbCrLf + "True(발행 즉시 전송) False(익일 자동 전송)"
+    
 End Sub
 
 '=========================================================================

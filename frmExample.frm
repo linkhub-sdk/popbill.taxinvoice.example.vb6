@@ -14,7 +14,7 @@ Begin VB.Form frmExample
       Caption         =   "알림메일 전송설정 수정"
       Height          =   390
       Index           =   3
-      Left            =   7440
+      Left            =   7680
       TabIndex        =   86
       Top             =   11040
       Width           =   2085
@@ -23,7 +23,7 @@ Begin VB.Form frmExample
       Caption         =   "알림메일 전송목록 조회"
       Height          =   390
       Index           =   2
-      Left            =   7440
+      Left            =   7680
       TabIndex        =   85
       Top             =   10560
       Width           =   2085
@@ -32,7 +32,7 @@ Begin VB.Form frmExample
       Caption         =   "문서번호 할당"
       Height          =   390
       Index           =   1
-      Left            =   5400
+      Left            =   5640
       TabIndex        =   84
       Top             =   11040
       Width           =   1965
@@ -68,7 +68,7 @@ Begin VB.Form frmExample
       Left            =   2950
       TabIndex        =   72
       Top             =   11040
-      Width           =   1845
+      Width           =   2085
    End
    Begin VB.CommandButton btnUpdateCorpInfo 
       Caption         =   "회사정보 수정"
@@ -292,7 +292,7 @@ Begin VB.Form frmExample
       Height          =   3255
       Left            =   10080
       TabIndex        =   90
-      Top             =   4920
+      Top             =   4320
       Width           =   3615
       Begin VB.CommandButton btnRegistRequest 
          BackColor       =   &H00FFFFC0&
@@ -421,7 +421,7 @@ Begin VB.Form frmExample
          Height          =   3255
          Left            =   720
          TabIndex        =   69
-         Top             =   1800
+         Top             =   1200
          Width           =   3255
          Begin VB.CommandButton btnRegistIssue 
             BackColor       =   &H00C0C0FF&
@@ -429,7 +429,7 @@ Begin VB.Form frmExample
             Height          =   495
             Left            =   360
             Style           =   1  '그래픽
-            TabIndex        =   107
+            TabIndex        =   104
             Top             =   480
             Width           =   975
          End
@@ -477,14 +477,14 @@ Begin VB.Form frmExample
       Begin VB.CommandButton btnGetEmailPublicKeys 
          Caption         =   "유통사업자메일 목록"
          Height          =   375
-         Left            =   10080
+         Left            =   16080
          TabIndex        =   60
          Top             =   240
          Width           =   1965
       End
       Begin MSComDlg.CommonDialog CommonDialog1 
-         Left            =   240
-         Top             =   5280
+         Left            =   0
+         Top             =   4800
          _ExtentX        =   847
          _ExtentY        =   847
          _Version        =   393216
@@ -492,7 +492,7 @@ Begin VB.Form frmExample
       Begin VB.Frame Frame14 
          Caption         =   " 보기/인쇄"
          Height          =   3480
-         Left            =   9600
+         Left            =   9840
          TabIndex        =   55
          Top             =   6120
          Width           =   5490
@@ -500,7 +500,7 @@ Begin VB.Form frmExample
             Caption         =   "(구)인쇄 팝업 URL"
             Height          =   375
             Left            =   210
-            TabIndex        =   110
+            TabIndex        =   107
             Top             =   1800
             Width           =   2745
          End
@@ -508,7 +508,7 @@ Begin VB.Form frmExample
             Caption         =   "PDF 다운로드 URL"
             Height          =   375
             Left            =   3120
-            TabIndex        =   109
+            TabIndex        =   106
             Top             =   360
             Width           =   2175
          End
@@ -516,7 +516,7 @@ Begin VB.Form frmExample
             Caption         =   "세금계산서 팝업 URL (메뉴x)"
             Height          =   390
             Left            =   210
-            TabIndex        =   108
+            TabIndex        =   105
             Top             =   840
             Width           =   2745
          End
@@ -564,10 +564,10 @@ Begin VB.Form frmExample
       Begin VB.Frame Frame13 
          Caption         =   " 기타 URL "
          Height          =   3495
-         Left            =   15360
+         Left            =   15600
          TabIndex        =   50
          Top             =   6120
-         Width           =   2265
+         Width           =   2385
          Begin VB.CommandButton btnGetURL_TBOX 
             Caption         =   "임시 문서함"
             Height          =   390
@@ -604,7 +604,7 @@ Begin VB.Form frmExample
       Begin VB.Frame Frame12 
          Caption         =   " 부가 기능"
          Height          =   3495
-         Left            =   4920
+         Left            =   5160
          TabIndex        =   48
          Top             =   6120
          Width           =   4545
@@ -655,14 +655,22 @@ Begin VB.Form frmExample
          Left            =   2520
          TabIndex        =   43
          Top             =   6120
-         Width           =   2265
+         Width           =   2505
+         Begin VB.CommandButton btnGetBulkResult 
+            Caption         =   "초대량 접수결과 확인"
+            Height          =   390
+            Left            =   195
+            TabIndex        =   112
+            Top             =   2760
+            Width           =   2085
+         End
          Begin VB.CommandButton btnGetDetailInfo 
             Caption         =   "상세정보 확인"
             Height          =   390
             Left            =   195
             TabIndex        =   47
             Top             =   1320
-            Width           =   1845
+            Width           =   2085
          End
          Begin VB.CommandButton btnGetLogs 
             Caption         =   "상태 변경이력"
@@ -670,7 +678,7 @@ Begin VB.Form frmExample
             Left            =   195
             TabIndex        =   46
             Top             =   2280
-            Width           =   1845
+            Width           =   2085
          End
          Begin VB.CommandButton btnGetInfos 
             Caption         =   "상태 대량 확인"
@@ -678,7 +686,7 @@ Begin VB.Form frmExample
             Left            =   210
             TabIndex        =   45
             Top             =   825
-            Width           =   1845
+            Width           =   2085
          End
          Begin VB.CommandButton btnGetInfo 
             Caption         =   "상태 확인"
@@ -686,7 +694,7 @@ Begin VB.Form frmExample
             Left            =   210
             TabIndex        =   44
             Top             =   390
-            Width           =   1845
+            Width           =   2085
          End
       End
       Begin VB.Frame Frame10 
@@ -733,10 +741,10 @@ Begin VB.Form frmExample
          BackColor       =   &H00C0C0FF&
          Caption         =   "국세청 즉시 전송"
          Height          =   375
-         Left            =   2400
+         Left            =   2280
          Style           =   1  '그래픽
          TabIndex        =   37
-         Top             =   5160
+         Top             =   4560
          Width           =   4200
       End
       Begin VB.Frame Frame9 
@@ -744,7 +752,7 @@ Begin VB.Form frmExample
          Height          =   3255
          Left            =   13680
          TabIndex        =   21
-         Top             =   1800
+         Top             =   1200
          Width           =   4095
          Begin VB.CommandButton btnRefuse 
             BackColor       =   &H00C0C0FF&
@@ -880,7 +888,7 @@ Begin VB.Form frmExample
          Height          =   3255
          Left            =   4200
          TabIndex        =   20
-         Top             =   1800
+         Top             =   1200
          Width           =   4695
          Begin VB.CommandButton btnRegister 
             BackColor       =   &H00C0C0FF&
@@ -994,9 +1002,9 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame21 
          Height          =   615
-         Left            =   5160
+         Left            =   9240
          TabIndex        =   101
-         Top             =   960
+         Top             =   120
          Width           =   3615
          Begin VB.Label Label10 
             AutoSize        =   -1  'True
@@ -1039,64 +1047,51 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame20 
          Caption         =   " 역발행 프로세스"
-         Height          =   4935
+         Height          =   4215
          Left            =   9600
          TabIndex        =   99
          Top             =   840
          Width           =   8415
-         Begin VB.Frame Frame22 
-            Height          =   615
-            Left            =   4680
-            TabIndex        =   104
-            Top             =   120
-            Width           =   3615
-            Begin VB.Shape Shape10 
-               BackColor       =   &H00FFFFC0&
-               BorderColor     =   &H00404040&
-               FillColor       =   &H00FFFFC0&
-               FillStyle       =   0  '단색
-               Height          =   255
-               Left            =   1680
-               Top             =   240
-               Width           =   255
-            End
-            Begin VB.Shape Shape9 
-               BackColor       =   &H00C0C0FF&
-               BorderColor     =   &H00404040&
-               FillColor       =   &H00C0C0FF&
-               FillStyle       =   0  '단색
-               Height          =   255
-               Left            =   120
-               Top             =   240
-               Width           =   255
-            End
-            Begin VB.Label Label12 
-               AutoSize        =   -1  'True
-               Caption         =   ": 공급자 처리"
-               Height          =   180
-               Left            =   480
-               TabIndex        =   106
-               Top             =   270
-               Width           =   1080
-            End
-            Begin VB.Label Label11 
-               AutoSize        =   -1  'True
-               Caption         =   ": 공급받는자 처리"
-               Height          =   180
-               Left            =   2040
-               TabIndex        =   105
-               Top             =   270
-               Width           =   1440
-            End
-         End
       End
       Begin VB.Frame Frame19 
          Caption         =   " 정발행 프로세스"
-         Height          =   4935
+         Height          =   4215
          Left            =   480
          TabIndex        =   97
          Top             =   840
          Width           =   8775
+      End
+      Begin VB.Frame Frame22 
+         Caption         =   "초대량 발행"
+         Height          =   735
+         Left            =   480
+         TabIndex        =   108
+         Top             =   5160
+         Width           =   8775
+         Begin VB.CommandButton btnBulkSubmit 
+            BackColor       =   &H00C0C0FF&
+            Caption         =   "초대량 발행 접수"
+            Height          =   375
+            Left            =   6960
+            TabIndex        =   111
+            Top             =   240
+            Width           =   1695
+         End
+         Begin VB.TextBox txtSubmitID 
+            Height          =   330
+            Left            =   2400
+            TabIndex        =   110
+            Top             =   290
+            Width           =   4455
+         End
+         Begin VB.Label Label8 
+            Caption         =   "제출 아이디(SubmitID) : "
+            Height          =   255
+            Left            =   240
+            TabIndex        =   109
+            Top             =   360
+            Width           =   2055
+         End
       End
       Begin VB.Label Label3 
          AutoSize        =   -1  'True
@@ -1153,7 +1148,7 @@ Attribute VB_Exposed = False
 '
 ' 팝빌 전자세금계산서 API VB 6.0 SDK Example
 '
-' - 업데이트 일자 : 2020-07-20
+' - 업데이트 일자 : 2021-10-07
 ' - 연동 기술지원 연락처 : 1600-9854 / 070-4304-2991
 ' - 연동 기술지원 이메일 : code@linkhub.co.kr
 '
@@ -1178,6 +1173,8 @@ Private Const SecretKey = "SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I="
 
 '세금계산서 객체 생성
 Private TaxinvoiceService As New PBTIService
+
+
 
 '=========================================================================
 ' 파트너가 세금계산서 관리 목적으로 할당하는 문서번호의 사용여부를 확인합니다.
@@ -1213,6 +1210,7 @@ Private Sub btnCheckID_Click()
     
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
+
 
 
 '=========================================================================
@@ -2052,6 +2050,293 @@ Private Sub btnRegistIssue_Click()
     End If
     
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청승인번호 : " + Response.ntsconfirmNum)
+End Sub
+
+Private Sub btnBulkSubmit_Click()
+    Dim Response As PBTIBulkResponse
+    Dim taxinvoiceList As New Collection
+    
+    Dim i As Integer
+    For i = 0 To 50
+        Dim Taxinvoice
+        Set Taxinvoice = New PBTaxinvoice
+        '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20210801
+        Taxinvoice.writeDate = "20211005"
+        
+        '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
+        Taxinvoice.issueType = "정발행"
+        
+        '[필수] {정과금, 역과금} 중 기재, '역과금'은 역발행 프로세스에서만 이용가능
+        '- 정과금(공급자 과금), 역과금(공급받는자 과금)
+        Taxinvoice.chargeDirection = "정과금"
+        
+        '[필수] 영수/청구, [영수, 청구] 중 기재
+        Taxinvoice.purposeType = "영수"
+            
+        '[필수] 과세형태, [과세, 영세, 면세] 중 기재
+        Taxinvoice.taxType = "과세"
+        
+        
+        '=========================================================================
+        '                              공급자 정보
+        '=========================================================================
+            
+        '[필수] 공급자 사업자번호, '-' 제외 10자리
+        Taxinvoice.invoicerCorpNum = txtCorpNum.Text
+        
+        '[필수] 공급자 종사업장 식별번호. 필요시 숫자 4자리 기재
+        Taxinvoice.invoicerTaxRegID = ""
+        
+        '[필수] 공급자 상호
+        Taxinvoice.invoicerCorpName = "공급자 상호"
+        
+        '[필수] 공급자 문서번호, 최대 24자리, 영문, 숫자 '-', '_'를 조합하여 사업자별로 중복되지 않도록 구성
+        Taxinvoice.invoicerMgtKey = txtSubmitID.Text + CStr(i)
+        
+        '[필수] 공급자 대표자 성명
+        Taxinvoice.invoicerCEOName = "공급자 대표자 성명"
+        
+        '공급자 주소
+        Taxinvoice.invoicerAddr = "공급자 주소"
+        
+        '공급자 업태
+        Taxinvoice.invoicerBizType = "공급자 업태,업태2"
+        
+        '공급자 종목
+        Taxinvoice.invoicerBizClass = "공급자 종목"
+        
+        '공급자 담당자명
+        Taxinvoice.invoicerContactName = "공급자 담당자명"
+        
+        '공급자 담당자 메일주소
+        Taxinvoice.invoicerEmail = "test@test.com"
+        
+        '공급자 담당자 연락처
+        Taxinvoice.invoicerTEL = "070-7070-0707"
+        
+        '공급자 담당자 휴대폰번호
+        Taxinvoice.invoicerHP = "010-000-2222"
+        
+        ' 발행시 알림문자 전송여부 (정발행에서만 사용가능)
+        ' - 공급받는자 주)담당자 휴대폰번호(invoiceeHP1)로 전송
+        ' - 전송시 포인트가 차감되며 전송실패하는 경우 포인트 환불처리
+        Taxinvoice.invoicerSMSSendYN = False
+        
+        
+        '=========================================================================
+        '                            공급받는자 정보
+        '=========================================================================
+            
+        '[필수] 공급받는자 구분, [사업자, 개인, 외국인] 중 기재
+        Taxinvoice.invoiceeType = "사업자"
+        
+        '[필수] 공급받는자 사업자번호, '-' 제외 10자리
+        Taxinvoice.invoiceeCorpNum = "8888888888"
+        
+        '[필수] 공급받는자 종사업장 식별번호. 필요시 숫자 4자리 기재
+        Taxinvoice.invoiceeTaxRegID = ""
+        
+        '[필수] 공급자받는자 상호
+        Taxinvoice.invoiceeCorpName = "공급받는자 상호"
+        
+        '[역발행시 필수] 공급받는자 문서번호,  최대 24자리, 영문, 숫자 '-', '_'를 조합하여 사업자별로 중복되지 않도록 구성
+        Taxinvoice.invoiceeMgtKey = ""
+        
+        '[필수] 공급받는자 대표자 성명
+        Taxinvoice.invoiceeCEOName = "공급받는자 대표자 성명"
+        
+        '공급받는자 주소
+        Taxinvoice.invoiceeAddr = "공급받는자 주소"
+        
+        '공급받는자 종목
+        Taxinvoice.invoiceeBizClass = "공급받는자 업종"
+        
+        '공급받는자 업태
+        Taxinvoice.invoiceeBizType = "공급받는자 업태"
+        
+        '공급받는자 담당자명
+        Taxinvoice.invoiceeContactName1 = "공급받는자 담당자명"
+        
+        '공급받는자 담당자 메일주소
+        '팝빌 개발환경에서 테스트하는 경우에도 안내 메일이 전송되므로,
+        '실제 거래처의 메일주소가 기재되지 않도록 주의
+        Taxinvoice.invoiceeEmail1 = "test@invoicee.com"
+        
+        '공급받는자 담당자 연락처
+        Taxinvoice.invoiceeTEL1 = "070-1234-1234"
+        
+        '공급받는자 담당자 휴대폰번호
+        Taxinvoice.invoiceeHP1 = "010-111-222"
+        
+        
+        '=========================================================================
+        '                            세금계산서 정보
+        '=========================================================================
+        
+        '[필수] 공급가액 합계
+        Taxinvoice.supplyCostTotal = "200000"
+        
+        '[필수] 세액 합계
+        Taxinvoice.taxTotal = "20000"
+        
+        '[필수] 합계금액, 공급가액 합계 + 세액합계
+        Taxinvoice.totalAmount = "220000"
+        
+        '기재 상 '일련번호' 항목
+        Taxinvoice.serialNum = "123"
+        
+        '기재 상 '권' 항목, 최대값 32767
+        '미기재시 Taxinvoice.kwon = ""
+        Taxinvoice.kwon = "1"
+        
+        '기재 상 '호' 항목, 최대값 32767
+        '미기재시 Taxinvoice.kwon = ""
+        Taxinvoice.ho = "1"
+        
+        '기재 상 '현금' 항목
+        Taxinvoice.cash = ""
+        
+        '기재 상 '수표' 항목
+        Taxinvoice.chkBill = ""
+        
+        '기재 상 '어음' 항목
+        Taxinvoice.note = ""
+        
+        '기재 상 '외상미수금' 항목
+        Taxinvoice.credit = ""
+        
+        '기재 상 '비고'항목
+        Taxinvoice.remark1 = "비고1"
+        Taxinvoice.remark2 = "비고2"
+        Taxinvoice.remark3 = "비고3"
+        
+        '사업자등록증 이미지 첨부여부
+        Taxinvoice.businessLicenseYN = False
+        
+        '통장사본 이미지 첨부여부
+        Taxinvoice.bankBookYN = False
+        
+    
+        '=========================================================================
+        '         수정세금계산서 정보 (수정세금계산서 작성시에만 기재
+        ' - 수정세금계산서 관련 정보는 연동매뉴얼 또는 개발가이드 링크 참조
+        ' - [참고] 수정세금계산서 작성방법 안내 - https://docs.popbill.com/taxinvoice/modify?lang=vb
+        '========================================================================='
+        
+        ' 수정사유코드, 수정사유에 따라 1~6중 선택기재
+        Taxinvoice.modifyCode = ""
+        
+        ' 원본세금계산서 국세청승인번호 기재
+        Taxinvoice.orgNTSConfirmNum = ""
+            
+        
+        '=========================================================================
+        '             상세항목(품목) 정보 > 배열로 99개까지 기재 가능
+        '=========================================================================
+        
+        Set Taxinvoice.detailList = New Collection
+        
+        Dim newDetail As New PBTIDetail
+        
+        newDetail.serialNum = 1             '일련번호 1부터 순차 기재
+        newDetail.purchaseDT = "20210901"   '거래일자  yyyyMMdd
+        newDetail.itemName = "품명"         '품목명
+        newDetail.spec = "규격"             '규격
+        newDetail.qty = "1"                 '수량
+        newDetail.unitCost = "100000"       '단가
+        newDetail.supplyCost = "100000"     '공급가액
+        newDetail.tax = "10000"             '세액
+        newDetail.remark = "비고"           '비고
+        
+        Taxinvoice.detailList.Add newDetail
+        
+        Dim newDetail2 As New PBTIDetail
+        newDetail2.serialNum = 2             '일련번호 1부터 순차 기재
+        newDetail2.purchaseDT = "20210901"   '거래일자  yyyyMMdd
+        newDetail2.itemName = "품명2"        '품목명
+        newDetail2.spec = "규격"             '규격
+        newDetail2.qty = "1"                 '수량
+        newDetail2.unitCost = "100000"       '단가
+        newDetail2.supplyCost = "100000"     '공급가액
+        newDetail2.tax = "10000"             '세액
+        newDetail2.remark = "비고"           '비고
+        
+        Taxinvoice.detailList.Add newDetail2
+        
+        
+        '=========================================================================
+        '             추가담당자 정보 > 배열로 5개까지 기재 가능
+        ' - 세금계산서 발행안내 메일을 수신받을 공급받는자 담당자가 다수인 경우
+        ' 담당자 정보를 추가하여 발행안내메일을 다수에게 전송할 수 있습니다.
+        '=========================================================================
+        
+        Set Taxinvoice.addContactList = New Collection
+        Dim newContact As New PBTIContact
+        newContact.serialNum = 1                 '일련번호, 1부터 순차기재
+        newContact.ContactName = "담당자 성명"   '담당자명
+        newContact.email = "test2@test.com"      '담당자 메일주소
+        Taxinvoice.addContactList.Add newContact
+        
+        Dim newContact2 As New PBTIContact
+        newContact2.serialNum = 2                '일련번호, 1부터 순차기재
+        newContact2.ContactName = "담당자 성명"  '담당자명
+        newContact2.email = "test2@test.com"     '담당자 메일주소
+        Taxinvoice.addContactList.Add newContact2
+            
+        taxinvoiceList.Add Taxinvoice
+    Next
+
+    Set Response = TaxinvoiceService.bulkSubmit(txtCorpNum.Text, txtSubmitID.Text, taxinvoiceList, False, txtUserID.Text)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "접수아이디 : " + Response.receiptID)
+End Sub
+
+'=========================================================================
+' 접수시 기재한 SubmitID를 사용하여 세금계산서 접수결과를 확인합니다.
+' - https://docs.popbill.com/taxinvoice/vb/api#GetBulkResult
+'=========================================================================
+Private Sub btnGetBulkResult_Click()
+    Dim Response As PBTIBulkTaxinvoiceResult
+    Dim tmp As String
+    
+    Set Response = TaxinvoiceService.GetBulkResult(txtCorpNum.Text, txtSubmitID.Text)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    tmp = "code (응답코드) : " + CStr(Response.code) + vbCrLf
+    tmp = tmp + "message (응답메시지) : " + Response.message + vbCrLf
+    tmp = tmp + "submitID (제출아이디) : " + Response.submitID + vbCrLf
+    tmp = tmp + "submitCount (세금계산서 접수 건수) : " + CStr(Response.submitCount) + vbCrLf
+    tmp = tmp + "successCount (세금계산서 발행 성공 건수) : " + CStr(Response.successCount) + vbCrLf
+    tmp = tmp + "failCount (세금계산서 발행 실패 건수) : " + CStr(Response.failCount) + vbCrLf
+    tmp = tmp + "txState (접수상태코드) : " + CStr(Response.txState) + vbCrLf
+    tmp = tmp + "txResultCode (접수 결과코드) : " + CStr(Response.txResultCode) + vbCrLf
+    tmp = tmp + "txStartDT (발행처리 시작일시) : " + Response.txStartDT + vbCrLf
+    tmp = tmp + "txEndDT (발행처리 완료일시) : " + Response.txEndDT + vbCrLf
+    tmp = tmp + "receiptDT (접수 접수일시) : " + Response.receiptDT + vbCrLf
+    tmp = tmp + "receiptID (접수아이디) : " + Response.receiptDT + vbCrLf
+  
+    
+    tmp = tmp + "invoicerMgtKey(공급자 문서번호) |  code (코드) |  ntsconfirmNum (국세청승인번호) |  issueDT (발행일시) " + vbCrLf + vbCrLf
+            
+    Dim issueResult As PBTIBulkTaxinvoiceIssueResult
+    
+    For Each issueResult In Response.issueResult
+        tmp = tmp + issueResult.invoicerMgtKey + " | "
+        tmp = tmp + CStr(issueResult.code) + " | "
+        tmp = tmp + issueResult.ntsconfirmNum + " | "
+        tmp = tmp + issueResult.issueDT + vbCrLf
+    Next
+    
+    MsgBox tmp
 End Sub
 
 '=========================================================================
@@ -5129,6 +5414,7 @@ Private Sub btnGetURL_WRITE_Click()
     
 End Sub
 
+
 Private Sub Form_Load()
 
     ' 모듈 초기화
@@ -5140,8 +5426,12 @@ Private Sub Form_Load()
     ' 인증토큰 IP제한기능 사용여부, True(권장)
     TaxinvoiceService.IPRestrictOnOff = True
     
-    TaxinvoiceService.UseGAIP = True
-
+    ' 팝빌 API 서비스 고정 IP 사용여부, True-사용, False-미사용, 기본값(False)
+    TaxinvoiceService.UseStaticIP = False
+    
+    ' 로컬시스템 시간 사용여부 True-사용, Fasle-미사용, 기본값(False)
+    TaxinvoiceService.UseLocalTimeYN = False
+    
     cboMgtKeyType.AddItem "SELL"
     cboMgtKeyType.AddItem "BUY"
     cboMgtKeyType.AddItem "TRUSTEE"

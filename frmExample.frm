@@ -1580,7 +1580,7 @@ Private Sub btnRegistContact_Click()
 End Sub
 
 '=========================================================================
-' 전자세금계산서 PDF 파일을 다운 받을 수 있는 URL을 반환합니다.
+' 연동회원 사업자번호에 등록된 담당자(팝빌 로그인 계정) 정보를 확인합니다.
 ' https://docs.popbill.com/taxinvoice/vb/api#GetContactInfo
 '=========================================================================
 Private Sub btnGetContactInfo_Click()

@@ -1545,7 +1545,7 @@ Private Sub btnRegistContact_Click()
     Dim Response As PBResponse
     
     '담당자 아이디, 6자 이상 50자 미만
-    joinData.id = "contactID01"
+    joinData.id = "contactID04"
     
     '비밀번호, 8자 이상 20자 이하(영문, 숫자, 특수문자 조합)
     joinData.Password = "asdf#$%123"
@@ -1569,7 +1569,7 @@ Private Sub btnRegistContact_Click()
     joinData.searchRole = 3
     
         
-    Set Response = TaxinvoiceService.RegistContact(txtCorpNum.Text, joinData)
+    Set Response = TaxinvoiceService.RegistContact(txtCorpNum.Text, joinData, txtUserID.Text)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)

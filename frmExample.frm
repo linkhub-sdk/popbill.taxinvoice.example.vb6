@@ -10,6 +10,13 @@ Begin VB.Form frmExample
    ScaleHeight     =   13320
    ScaleWidth      =   19275
    StartUpPosition =   2  '화면 가운데
+   Begin VB.TextBox txtURL 
+      Height          =   315
+      Left            =   13680
+      TabIndex        =   118
+      Top             =   165
+      Width           =   5055
+   End
    Begin VB.CommandButton btnCheckID 
       Caption         =   "ID 중복 확인"
       Height          =   410
@@ -1132,6 +1139,15 @@ Begin VB.Form frmExample
          Width           =   2115
       End
    End
+   Begin VB.Label URL 
+      AutoSize        =   -1  'True
+      Caption         =   "URL : "
+      Height          =   180
+      Left            =   13080
+      TabIndex        =   117
+      Top             =   240
+      Width           =   525
+   End
    Begin VB.Label Label7 
       AutoSize        =   -1  'True
       BackStyle       =   0  '투명
@@ -1195,7 +1211,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 '링크아이디
-Private Const linkID = "TESTER"
+Private Const LinkID = "TESTER"
 
 '비밀키. 유출에 주의하시기 바랍니다.
 Private Const SecretKey = "SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I="
@@ -1213,7 +1229,7 @@ Private TaxinvoiceService As New PBTIService
 Private Sub btnCheckIsMember_Click()
     Dim Response As PBResponse
     
-    Set Response = TaxinvoiceService.CheckIsMember(txtCorpNum.Text, linkID)
+    Set Response = TaxinvoiceService.CheckIsMember(txtCorpNum.Text, LinkID)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -1246,7 +1262,7 @@ End Sub
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetPDFURL
 '=========================================================================
 Private Sub btnGetPDFURL_Click()
-    Dim url As String
+    Dim URL As String
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -1261,15 +1277,16 @@ Private Sub btnGetPDFURL_Click()
             Exit Sub
     End Select
     
-    url = TaxinvoiceService.GetPDFURL(txtCorpNum.Text, KeyType, txtMgtKey.Text)
+    URL = TaxinvoiceService.GetPDFURL(txtCorpNum.Text, KeyType, txtMgtKey.Text)
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    txtUserID.Text = url
-    MsgBox "URL : " + vbCrLf + url
+    txtUserID.Text = URL
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -1278,7 +1295,7 @@ End Sub
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetViewURL
 '=========================================================================
 Private Sub btnGetViewURL_Click()
-    Dim url As String
+    Dim URL As String
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -1293,16 +1310,15 @@ Private Sub btnGetViewURL_Click()
             Exit Sub
     End Select
     
-    url = TaxinvoiceService.GetViewURL(txtCorpNum.Text, KeyType, txtMgtKey.Text)
+    URL = TaxinvoiceService.GetViewURL(txtCorpNum.Text, KeyType, txtMgtKey.Text)
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
-    txtUserID.Text = url
-    
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -1320,7 +1336,7 @@ Private Sub btnJoinMember_Click()
     joinData.Password = "asdf$%^123"
     
     '파트너링크 아이디
-    joinData.linkID = linkID
+    joinData.LinkID = LinkID
     
     '사업자번호, '-'제외, 10자리
     joinData.CorpNum = "1234567890"
@@ -1429,24 +1445,24 @@ End Sub
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetTaxCertURL
 '=========================================================================
 Private Sub btnGetTaxCertURL_Click()
-    Dim url As String
+    Dim URL As String
            
-    url = TaxinvoiceService.GetTaxCertURL(txtCorpNum.Text, txtUserID.Text)
+    URL = TaxinvoiceService.GetTaxCertURL(txtCorpNum.Text, txtUserID.Text)
 
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
-    
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
     'Internet Explorer Browser 호출
     Dim IE As Object
     Dim strResult As String
     Dim strSiteName As String
    
     Set IE = CreateObject("InternetExplorer.Application")
-    strSiteName = url
+    strSiteName = URL
     IE.Navigate strSiteName
     With IE
         .Resizable = True
@@ -1488,16 +1504,17 @@ End Sub
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetAccessURL
 '=========================================================================
 Private Sub btnGetAccessURL_Click()
-    Dim url As String
+    Dim URL As String
            
-    url = TaxinvoiceService.GetAccessURL(txtCorpNum.Text, txtUserID.Text)
+    URL = TaxinvoiceService.GetAccessURL(txtCorpNum.Text, txtUserID.Text)
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -1506,16 +1523,17 @@ End Sub
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetSealURL
 '=========================================================================
 Private Sub btnGetSealURL_Click()
-    Dim url As String
+    Dim URL As String
            
-    url = TaxinvoiceService.GetSealURL(txtCorpNum.Text, txtUserID.Text)
+    URL = TaxinvoiceService.GetSealURL(txtCorpNum.Text, txtUserID.Text)
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
    
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -1736,16 +1754,17 @@ End Sub
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetChargeURL
 '=========================================================================
 Private Sub btnGetChargeURL_Click()
-    Dim url As String
+    Dim URL As String
            
-    url = TaxinvoiceService.GetChargeURL(txtCorpNum.Text, txtUserID.Text)
+    URL = TaxinvoiceService.GetChargeURL(txtCorpNum.Text, txtUserID.Text)
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -1754,16 +1773,17 @@ End Sub
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetPaymentURL
 '=========================================================================
 Private Sub btnGetPaymentURL_Click()
-    Dim url As String
+    Dim URL As String
            
-    url = TaxinvoiceService.GetPaymentURL(txtCorpNum.Text, txtUserID.Text)
+    URL = TaxinvoiceService.GetPaymentURL(txtCorpNum.Text, txtUserID.Text)
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -1772,16 +1792,17 @@ End Sub
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetUseHistoryURL
 '=========================================================================
 Private Sub btnGetUseHistoryURL_Click()
-    Dim url As String
+    Dim URL As String
            
-    url = TaxinvoiceService.GetUseHistoryURL(txtCorpNum.Text, txtUserID.Text)
+    URL = TaxinvoiceService.GetUseHistoryURL(txtCorpNum.Text, txtUserID.Text)
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -1808,16 +1829,17 @@ End Sub
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetPartnerURL
 '=========================================================================
 Private Sub btnGetPartnerURL_CHRG_Click()
-    Dim url As String
+    Dim URL As String
            
-    url = TaxinvoiceService.GetPartnerURL(txtCorpNum.Text, "CHRG")
+    URL = TaxinvoiceService.GetPartnerURL(txtCorpNum.Text, "CHRG")
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -5261,7 +5283,7 @@ End Sub
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetPopUpURL
 '=========================================================================
 Private Sub btnGetPopUpURL_Click()
-    Dim url As String
+    Dim URL As String
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -5276,14 +5298,15 @@ Private Sub btnGetPopUpURL_Click()
             Exit Sub
     End Select
     
-    url = TaxinvoiceService.GetPopUpURL(txtCorpNum.Text, KeyType, txtMgtKey.Text)
+    URL = TaxinvoiceService.GetPopUpURL(txtCorpNum.Text, KeyType, txtMgtKey.Text)
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -5292,7 +5315,7 @@ End Sub
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetPrintURL
 '=========================================================================
 Private Sub btnGetPrintURL_Click()
-    Dim url As String
+    Dim URL As String
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -5307,14 +5330,15 @@ Private Sub btnGetPrintURL_Click()
             Exit Sub
     End Select
     
-    url = TaxinvoiceService.GetPrintURL(txtCorpNum.Text, KeyType, txtMgtKey.Text)
+    URL = TaxinvoiceService.GetPrintURL(txtCorpNum.Text, KeyType, txtMgtKey.Text)
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -5323,7 +5347,7 @@ End Sub
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetOldPrintURL
 '=========================================================================
 Private Sub btnGetOldPrintURL_Click()
-Dim url As String
+Dim URL As String
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -5338,14 +5362,15 @@ Dim url As String
             Exit Sub
     End Select
     
-    url = TaxinvoiceService.GetOldPrintURL(txtCorpNum.Text, KeyType, txtMgtKey.Text)
+    URL = TaxinvoiceService.GetOldPrintURL(txtCorpNum.Text, KeyType, txtMgtKey.Text)
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 '=========================================================================
 ' "공급받는자" 용 세금계산서 1건을 인쇄하기 위한 페이지의 팝업 URL을 반환합니다.
@@ -5353,7 +5378,7 @@ End Sub
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetEPrintURL
 '=========================================================================
 Private Sub btnGetEPrintUrl_Click()
-    Dim url As String
+    Dim URL As String
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -5368,14 +5393,15 @@ Private Sub btnGetEPrintUrl_Click()
             Exit Sub
     End Select
     
-    url = TaxinvoiceService.GetEPrintURL(txtCorpNum.Text, KeyType, txtMgtKey.Text)
+    URL = TaxinvoiceService.GetEPrintURL(txtCorpNum.Text, KeyType, txtMgtKey.Text)
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -5384,7 +5410,7 @@ End Sub
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetMassPrintURL
 '=========================================================================
 Private Sub btnGetMassPrintURL_Click()
-    Dim url As String
+    Dim URL As String
     Dim KeyType As MgtKeyType
     Dim KeyList As New Collection
     
@@ -5406,14 +5432,15 @@ Private Sub btnGetMassPrintURL_Click()
     KeyList.Add "20210901-03"
     KeyList.Add "20210901-04"
     
-    url = TaxinvoiceService.GetMassPrintURL(txtCorpNum.Text, KeyType, KeyList)
+    URL = TaxinvoiceService.GetMassPrintURL(txtCorpNum.Text, KeyType, KeyList)
      
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -5422,7 +5449,7 @@ End Sub
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetMailURL
 '=========================================================================
 Private Sub btnGetMailURL_Click()
-    Dim url As String
+    Dim URL As String
     Dim KeyType As MgtKeyType
     
     Select Case cboMgtKeyType.Text
@@ -5437,14 +5464,15 @@ Private Sub btnGetMailURL_Click()
             Exit Sub
     End Select
     
-    url = TaxinvoiceService.GetMailURL(txtCorpNum.Text, KeyType, txtMgtKey.Text)
+    URL = TaxinvoiceService.GetMailURL(txtCorpNum.Text, KeyType, txtMgtKey.Text)
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -5453,16 +5481,17 @@ End Sub
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetURL
 '=========================================================================
 Private Sub btnGetURL_TBOX_Click()
-    Dim url As String
+    Dim URL As String
     
-    url = TaxinvoiceService.GetURL(txtCorpNum.Text, txtUserID.Text, "TBOX")
+    URL = TaxinvoiceService.GetURL(txtCorpNum.Text, txtUserID.Text, "TBOX")
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -5471,16 +5500,17 @@ End Sub
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetURL
 '=========================================================================
 Private Sub btnGetURL_SBOX_Click()
-    Dim url As String
+    Dim URL As String
     
-    url = TaxinvoiceService.GetURL(txtCorpNum.Text, txtUserID.Text, "SBOX")
+    URL = TaxinvoiceService.GetURL(txtCorpNum.Text, txtUserID.Text, "SBOX")
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
     
 End Sub
 
@@ -5490,16 +5520,17 @@ End Sub
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetURL
 '=========================================================================
 Private Sub btnGetURL_PBOX_Click()
-    Dim url As String
+    Dim URL As String
     
-    url = TaxinvoiceService.GetURL(txtCorpNum.Text, txtUserID.Text, "PBOX")
+    URL = TaxinvoiceService.GetURL(txtCorpNum.Text, txtUserID.Text, "PBOX")
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -5508,16 +5539,17 @@ End Sub
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetURL
 '=========================================================================
 Private Sub btnGetURL_WRITE_Click()
-    Dim url As String
+    Dim URL As String
     
-    url = TaxinvoiceService.GetURL(txtCorpNum.Text, txtUserID.Text, "WRITE")
+    URL = TaxinvoiceService.GetURL(txtCorpNum.Text, txtUserID.Text, "WRITE")
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
     
 End Sub
 
@@ -5525,7 +5557,7 @@ End Sub
 Private Sub Form_Load()
 
     ' 모듈 초기화
-    TaxinvoiceService.Initialize linkID, SecretKey
+    TaxinvoiceService.Initialize LinkID, SecretKey
 
     ' 연동환경 설정값 True(개발용), False(상업용), 상업용 전환시 False로 변경.
     TaxinvoiceService.IsTest = True
@@ -5544,3 +5576,6 @@ Private Sub Form_Load()
     cboMgtKeyType.AddItem "TRUSTEE"
 End Sub
 
+Private Sub Label11_Click()
+
+End Sub

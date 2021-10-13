@@ -2147,7 +2147,7 @@ Private Sub btnBulkSubmit_Click()
         Dim Taxinvoice
         Set Taxinvoice = New PBTaxinvoice
         '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20210801
-        Taxinvoice.writeDate = "20211005"
+        Taxinvoice.writeDate = "20211013"
         
         '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
         Taxinvoice.issueType = "정발행"

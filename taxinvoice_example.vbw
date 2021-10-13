@@ -1,7 +1,7 @@
 frmExample = 185, -1, 1278, 771, , 18, -11, 1457, 964, C
 cStringBuilder = 88, 116, 1289, 768, 
-Linkhub = 111, 8, 1312, 653, 
-LinkhubToken = 66, 87, 1259, 827, C
+Linkhub = 111, 8, 1312, 653, Z
+LinkhubToken = 66, 87, 1259, 827, 
 PBTIService = 25, 16, 1301, 896, 
 PBTaxinvoice = 113, 193, 1306, 907, 
 PBTIDetail = 176, 232, 1369, 946, C

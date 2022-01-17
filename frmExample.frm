@@ -2160,6 +2160,10 @@ Private Sub btnRegistIssue_Click()
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청승인번호 : " + Response.ntsConfirmNum)
 End Sub
 
+'=========================================================================
+' 최대 100건의 세금계산서 발행을 한번의 요청으로 접수합니다.
+' - https://docs.popbill.com/taxinvoice/vb/api#BulkSubmit
+'=========================================================================
 Private Sub btnBulkSubmit_Click()
     Dim Response As PBTIBulkResponse
     Dim taxinvoiceList As New Collection
@@ -5571,6 +5575,3 @@ Private Sub Form_Load()
     cboMgtKeyType.AddItem "TRUSTEE"
 End Sub
 
-Private Sub Label11_Click()
-
-End Sub

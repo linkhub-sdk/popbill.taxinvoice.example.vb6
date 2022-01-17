@@ -5554,16 +5554,16 @@ End Sub
 
 Private Sub Form_Load()
 
-    ' 모듈 초기화
+    '모듈 초기화
     TaxinvoiceService.Initialize LinkID, SecretKey
 
-    ' 연동환경 설정값 True(개발용), False(상업용), 상업용 전환시 False로 변경.
+    '연동환경설정값, True-개발용 False-상업용
     TaxinvoiceService.IsTest = True
     
-    ' 인증토큰 IP제한기능 사용여부, True(권장)
+    '인증토큰 IP제한기능 사용여부, True-사용, False-미사용, 기본값(True)
     TaxinvoiceService.IPRestrictOnOff = True
     
-    ' 로컬시스템 시간 사용여부 True-사용, Fasle-미사용, 기본값(False)
+    '로컬시스템 시간 사용여부 True-사용, Fasle-미사용, 기본값(False)
     TaxinvoiceService.UseLocalTimeYN = False
     
     cboMgtKeyType.AddItem "SELL"

@@ -1914,7 +1914,7 @@ Private Sub btnRegistIssue_Click()
     '- 정과금(공급자 과금), 역과금(공급받는자 과금)
     Taxinvoice.chargeDirection = "정과금"
     
-    '[필수] 영수/청구, [영수, 청구] 중 기재
+    '[필수] 영수/청구, [영수, 청구, 없음] 중 기재
     Taxinvoice.purposeType = "영수"
         
     '[필수] 과세형태, [과세, 영세, 면세] 중 기재
@@ -2177,7 +2177,7 @@ Private Sub btnBulkSubmit_Click()
         '- 정과금(공급자 과금), 역과금(공급받는자 과금)
         Taxinvoice.chargeDirection = "정과금"
         
-        '[필수] 영수/청구, [영수, 청구] 중 기재
+        '[필수] 영수/청구, [영수, 청구, 없음] 중 기재
         Taxinvoice.purposeType = "영수"
             
         '[필수] 과세형태, [과세, 영세, 면세] 중 기재
@@ -2535,7 +2535,7 @@ Private Sub btnRegister_Click()
     '- 정과금(공급자 과금), 역과금(공급받는자 과금)
     Taxinvoice.chargeDirection = "정과금"
     
-    '[필수] 영수/청구, [영수, 청구] 중 기재
+    '[필수] 영수/청구, [영수, 청구, 없음] 중 기재
     Taxinvoice.purposeType = "영수"
         
     '[필수] 과세형태, [과세, 영세, 면세] 중 기재
@@ -2794,7 +2794,7 @@ Private Sub btnUpdate_Click()
     '- 정과금(공급자 과금), 역과금(공급받는자 과금)
     Taxinvoice.chargeDirection = "정과금"
     
-    '[필수] 영수/청구, [영수, 청구] 중 기재
+    '[필수] 영수/청구, [영수, 청구, 없음] 중 기재
     Taxinvoice.purposeType = "영수"
         
     '[필수] 과세형태, [과세, 영세, 면세] 중 기재
@@ -3184,7 +3184,7 @@ Private Sub btnRegistRequest_Click()
     '- 정과금(공급자 과금), 역과금(공급받는자 과금)
     Taxinvoice.chargeDirection = "정과금"
     
-    '[필수] 영수/청구, [영수, 청구] 중 기재
+    '[필수] 영수/청구, [영수, 청구, 없음] 중 기재
     Taxinvoice.purposeType = "영수"
         
     '[필수] 과세형태, [과세, 영세, 면세] 중 기재
@@ -3590,7 +3590,7 @@ Private Sub btnRegister_rev_Click()
     '- 정과금(공급자 과금), 역과금(공급받는자 과금)
     Taxinvoice.chargeDirection = "정과금"
     
-    '[필수] 영수/청구, [영수, 청구] 중 기재
+    '[필수] 영수/청구, [영수, 청구, 없음] 중 기재
     Taxinvoice.purposeType = "영수"
         
     '[필수] 과세형태, [과세, 영세, 면세] 중 기재
@@ -3820,7 +3820,7 @@ Private Sub btnUpdate_rev_Click()
     '- 정과금(공급자 과금), 역과금(공급받는자 과금)
     Taxinvoice.chargeDirection = "정과금"
     
-    '[필수] 영수/청구, [영수, 청구] 중 기재
+    '[필수] 영수/청구, [영수, 청구, 없음] 중 기재
     Taxinvoice.purposeType = "영수"
         
     '[필수] 과세형태, [과세, 영세, 면세] 중 기재

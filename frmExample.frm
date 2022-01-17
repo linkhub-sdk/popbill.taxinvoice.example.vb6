@@ -5563,9 +5563,6 @@ Private Sub Form_Load()
     ' 인증토큰 IP제한기능 사용여부, True(권장)
     TaxinvoiceService.IPRestrictOnOff = True
     
-    ' 팝빌 API 서비스 고정 IP 사용여부, True-사용, False-미사용, 기본값(False)
-    TaxinvoiceService.UseStaticIP = False
-    
     ' 로컬시스템 시간 사용여부 True-사용, Fasle-미사용, 기본값(False)
     TaxinvoiceService.UseLocalTimeYN = False
     

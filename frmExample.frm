@@ -1196,9 +1196,10 @@ Attribute VB_Exposed = False
 ' - 업데이트 일자 : 2022-01-17
 ' - 연동 기술지원 연락처 : 1600-9854
 ' - 연동 기술지원 이메일 : code@linkhubcorp.com
-'
+' - VB6 SDK 적용방법 안내 : https://docs.popbill.com/taxinvoice/tutorial/vb
+
 ' <테스트 연동개발 준비사항>
-' 1) 29, 32번 라인에 선언된 링크아이디(LinkID)와 비밀키(SecretKey)를
+' 1) 30, 33번 라인에 선언된 링크아이디(LinkID)와 비밀키(SecretKey)를
 '    링크허브 가입시 메일로 발급받은 인증정보를 참조하여 변경합니다.
 ' 2) 전자세금계산서 발행을 위해 공동인증서를 등록합니다.
 '    - 팝빌사이트 로그인 > [전자세금계산서] > [환경설정]

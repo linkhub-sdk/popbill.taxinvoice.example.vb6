@@ -1193,18 +1193,17 @@ Attribute VB_Exposed = False
 '
 ' 팝빌 전자세금계산서 API VB 6.0 SDK Example
 '
-' - 업데이트 일자 : 2021-10-07
-' - 연동 기술지원 연락처 : 1600-9854 / 070-4304-2991
-' - 연동 기술지원 이메일 : code@linkhub.co.kr
+' - 업데이트 일자 : 2022-01-17
+' - 연동 기술지원 연락처 : 1600-9854
+' - 연동 기술지원 이메일 : code@linkhubcorp.com
 '
 ' <테스트 연동개발 준비사항>
-' 1) 30, 33번 라인에 선언된 링크아이디(LinkID)와 비밀키(SecretKey)를
+' 1) 29, 32번 라인에 선언된 링크아이디(LinkID)와 비밀키(SecretKey)를
 '    링크허브 가입시 메일로 발급받은 인증정보를 참조하여 변경합니다.
-' 2) 팝빌 개발용 사이트(test.popbill.com)에 연동회원으로 가입합니다.
-' 3) 전자세금계산서 발행을 위해 공인인증서를 등록합니다.
+' 2) 전자세금계산서 발행을 위해 공동인증서를 등록합니다.
 '    - 팝빌사이트 로그인 > [전자세금계산서] > [환경설정]
-'      > [공인인증서 관리]
-'    - 공인인증서 등록 팝업 URL (GetTaxCertURL API)을 이용하여 등록
+'      > [공동인증서 관리]
+'    - 공동인증서 등록 팝업 URL (GetTaxCertURL API)을 이용하여 등록
 '
 '=========================================================================
 
@@ -1475,7 +1474,7 @@ Private Sub btnGetTaxCertURL_Click()
         .Top = 0
         .Height = 800
         .Width = 800
-        .StatusText = "팝빌 공인인증서 등록 URL"
+        .StatusText = "팝빌 공동인증서 등록 URL"
     End With
     
     Set IE = Nothing
@@ -1905,8 +1904,8 @@ End Sub
 Private Sub btnRegistIssue_Click()
     Dim Taxinvoice As New PBTaxinvoice
     
-    '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20210801
-    Taxinvoice.writeDate = "20210901"
+    '[필수] 작성일자, 표시형식 (yyyyMMdd)
+    Taxinvoice.writeDate = "20220101"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
     Taxinvoice.issueType = "정발행"
@@ -2084,7 +2083,7 @@ Private Sub btnRegistIssue_Click()
     Dim newDetail As New PBTIDetail
     
     newDetail.serialNum = 1             '일련번호 1부터 순차 기재
-    newDetail.purchaseDT = "20210901"   '거래일자  yyyyMMdd
+    newDetail.purchaseDT = "20220101"   '거래일자  yyyyMMdd
     newDetail.itemName = "품명"         '품목명
     newDetail.spec = "규격"             '규격
     newDetail.qty = "1"                 '수량
@@ -2097,7 +2096,7 @@ Private Sub btnRegistIssue_Click()
     
     Dim newDetail2 As New PBTIDetail
     newDetail2.serialNum = 2             '일련번호 1부터 순차 기재
-    newDetail2.purchaseDT = "20210901"   '거래일자  yyyyMMdd
+    newDetail2.purchaseDT = "20220101"   '거래일자  yyyyMMdd
     newDetail2.itemName = "품명2"        '품목명
     newDetail2.spec = "규격"             '규격
     newDetail2.qty = "1"                 '수량
@@ -2168,8 +2167,8 @@ Private Sub btnBulkSubmit_Click()
     For i = 0 To 50
         Dim Taxinvoice
         Set Taxinvoice = New PBTaxinvoice
-        '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20210801
-        Taxinvoice.writeDate = "20211013"
+        '[필수] 작성일자, 표시형식 (yyyyMMdd)
+        Taxinvoice.writeDate = "20220101"
         
         '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
         Taxinvoice.issueType = "정발행"
@@ -2347,7 +2346,7 @@ Private Sub btnBulkSubmit_Click()
         Dim newDetail As New PBTIDetail
         
         newDetail.serialNum = 1             '일련번호 1부터 순차 기재
-        newDetail.purchaseDT = "20210901"   '거래일자  yyyyMMdd
+        newDetail.purchaseDT = "20220101"   '거래일자  yyyyMMdd
         newDetail.itemName = "품명"         '품목명
         newDetail.spec = "규격"             '규격
         newDetail.qty = "1"                 '수량
@@ -2360,7 +2359,7 @@ Private Sub btnBulkSubmit_Click()
         
         Dim newDetail2 As New PBTIDetail
         newDetail2.serialNum = 2             '일련번호 1부터 순차 기재
-        newDetail2.purchaseDT = "20210901"   '거래일자  yyyyMMdd
+        newDetail2.purchaseDT = "20220101"   '거래일자  yyyyMMdd
         newDetail2.itemName = "품명2"        '품목명
         newDetail2.spec = "규격"             '규격
         newDetail2.qty = "1"                 '수량
@@ -2526,8 +2525,8 @@ Private Sub btnRegister_Click()
     Dim writeSpecification As Boolean
     Dim Taxinvoice As New PBTaxinvoice
     
-    '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20210801
-    Taxinvoice.writeDate = "20210901"
+    '[필수] 작성일자, 표시형식 (yyyyMMdd)
+    Taxinvoice.writeDate = "20220101"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
     Taxinvoice.issueType = "정발행"
@@ -2704,7 +2703,7 @@ Private Sub btnRegister_Click()
     Dim newDetail As New PBTIDetail
     
     newDetail.serialNum = 1             '일련번호 1부터 순차 기재
-    newDetail.purchaseDT = "20210901"   '거래일자  yyyyMMdd
+    newDetail.purchaseDT = "20220101"   '거래일자  yyyyMMdd
     newDetail.itemName = "품명"         '품목명
     newDetail.spec = "규격"             '규격
     newDetail.qty = "1"                 '수량
@@ -2717,7 +2716,7 @@ Private Sub btnRegister_Click()
     
     Dim newDetail2 As New PBTIDetail
     newDetail2.serialNum = 2             '일련번호 1부터 순차 기재
-    newDetail2.purchaseDT = "20210901"   '거래일자  yyyyMMdd
+    newDetail2.purchaseDT = "20220101"   '거래일자  yyyyMMdd
     newDetail2.itemName = "품명2"        '품목명
     newDetail2.spec = "규격"             '규격
     newDetail2.qty = "1"                 '수량
@@ -2785,8 +2784,8 @@ Private Sub btnUpdate_Click()
     
     Dim Taxinvoice As New PBTaxinvoice
     
-    '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20210801
-    Taxinvoice.writeDate = "20210901"
+    '[필수] 작성일자, 표시형식 (yyyyMMdd)
+    Taxinvoice.writeDate = "20220101"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
     Taxinvoice.issueType = "정발행"
@@ -2962,7 +2961,7 @@ Private Sub btnUpdate_Click()
     Dim newDetail As New PBTIDetail
     
     newDetail.serialNum = 1             '일련번호 1부터 순차 기재
-    newDetail.purchaseDT = "20210901"   '거래일자  yyyyMMdd
+    newDetail.purchaseDT = "20220101"   '거래일자  yyyyMMdd
     newDetail.itemName = "품명"         '품목명
     newDetail.spec = "규격"             '규격
     newDetail.qty = "1"                 '수량
@@ -2975,7 +2974,7 @@ Private Sub btnUpdate_Click()
     
     Dim newDetail2 As New PBTIDetail
     newDetail2.serialNum = 2             '일련번호 1부터 순차 기재
-    newDetail2.purchaseDT = "20210901"   '거래일자  yyyyMMdd
+    newDetail2.purchaseDT = "20220101"   '거래일자  yyyyMMdd
     newDetail2.itemName = "품명2"        '품목명
     newDetail2.spec = "규격"             '규격
     newDetail2.qty = "1"                 '수량
@@ -3175,8 +3174,8 @@ End Sub
 Private Sub btnRegistRequest_Click()
     Dim Taxinvoice As New PBTaxinvoice
     
-    '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20210801
-    Taxinvoice.writeDate = "20210901"
+    '[필수] 작성일자, 표시형식 (yyyyMMdd)
+    Taxinvoice.writeDate = "20220101"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
     Taxinvoice.issueType = "역발행"
@@ -3352,7 +3351,7 @@ Private Sub btnRegistRequest_Click()
     Dim newDetail As New PBTIDetail
     
     newDetail.serialNum = 1             '일련번호 1부터 순차 기재
-    newDetail.purchaseDT = "20210901"   '거래일자  yyyyMMdd
+    newDetail.purchaseDT = "20220101"   '거래일자  yyyyMMdd
     newDetail.itemName = "품명"         '품목명
     newDetail.spec = "규격"             '규격
     newDetail.qty = "1"                 '수량
@@ -3365,7 +3364,7 @@ Private Sub btnRegistRequest_Click()
     
     Dim newDetail2 As New PBTIDetail
     newDetail2.serialNum = 2             '일련번호 1부터 순차 기재
-    newDetail2.purchaseDT = "20210901"   '거래일자  yyyyMMdd
+    newDetail2.purchaseDT = "20220101"   '거래일자  yyyyMMdd
     newDetail2.itemName = "품명2"        '품목명
     newDetail2.spec = "규격"             '규격
     newDetail2.qty = "1"                 '수량
@@ -3581,8 +3580,8 @@ End Sub
 Private Sub btnRegister_rev_Click()
     Dim Taxinvoice As New PBTaxinvoice
     
-    '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20210801
-    Taxinvoice.writeDate = "20210901"
+    '[필수] 작성일자, 표시형식 (yyyyMMdd)
+    Taxinvoice.writeDate = "20220101"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
     Taxinvoice.issueType = "역발행"
@@ -3763,7 +3762,7 @@ Private Sub btnRegister_rev_Click()
     Dim newDetail As New PBTIDetail
     
     newDetail.serialNum = 1             '일련번호 1부터 순차 기재
-    newDetail.purchaseDT = "20210901"   '거래일자  yyyyMMdd
+    newDetail.purchaseDT = "20220101"   '거래일자  yyyyMMdd
     newDetail.itemName = "품명"         '품목명
     newDetail.spec = "규격"             '규격
     newDetail.qty = "1"                 '수량
@@ -3776,7 +3775,7 @@ Private Sub btnRegister_rev_Click()
     
     Dim newDetail2 As New PBTIDetail
     newDetail2.serialNum = 2             '일련번호 1부터 순차 기재
-    newDetail2.purchaseDT = "20210901"   '거래일자  yyyyMMdd
+    newDetail2.purchaseDT = "20220101"   '거래일자  yyyyMMdd
     newDetail2.itemName = "품명2"        '품목명
     newDetail2.spec = "규격"             '규격
     newDetail2.qty = "1"                 '수량
@@ -3811,8 +3810,8 @@ Private Sub btnUpdate_rev_Click()
     
     Dim Taxinvoice As New PBTaxinvoice
     
-    '[필수] 작성일자, 표시형식 (yyyyMMdd) ex)20210801
-    Taxinvoice.writeDate = "20210901"
+    '[필수] 작성일자, 표시형식 (yyyyMMdd)
+    Taxinvoice.writeDate = "20220101"
     
     '[필수] 발행형태, [정발행, 역발행, 위수탁] 중 기재
     Taxinvoice.issueType = "역발행"
@@ -3988,7 +3987,7 @@ Private Sub btnUpdate_rev_Click()
     Dim newDetail As New PBTIDetail
     
     newDetail.serialNum = 1             '일련번호 1부터 순차 기재
-    newDetail.purchaseDT = "20210901"   '거래일자  yyyyMMdd
+    newDetail.purchaseDT = "20220101"   '거래일자  yyyyMMdd
     newDetail.itemName = "품명"         '품목명
     newDetail.spec = "규격"             '규격
     newDetail.qty = "1"                 '수량
@@ -4001,7 +4000,7 @@ Private Sub btnUpdate_rev_Click()
     
     Dim newDetail2 As New PBTIDetail
     newDetail2.serialNum = 2             '일련번호 1부터 순차 기재
-    newDetail2.purchaseDT = "20210901"   '거래일자  yyyyMMdd
+    newDetail2.purchaseDT = "20220101"   '거래일자  yyyyMMdd
     newDetail2.itemName = "품명2"        '품목명
     newDetail2.spec = "규격"             '규격
     newDetail2.qty = "1"                 '수량
@@ -4369,7 +4368,7 @@ Private Sub btnGetInfo_Click()
         Exit Sub
     End If
     
-    tmp = tmp + "itemKey (팝빌 문서번호) : " + tiInfo.itemKey + vbCrLf
+    tmp = tmp + "itemKey (팝빌번호) : " + tiInfo.itemKey + vbCrLf
     tmp = tmp + "taxType (과세형태) : " + tiInfo.taxType + vbCrLf
     tmp = tmp + "writeDate (작성일자) : " + tiInfo.writeDate + vbCrLf
     tmp = tmp + "regDT (임시저장 일자) : " + tiInfo.regDT + vbCrLf
@@ -4433,10 +4432,10 @@ Private Sub btnGetInfos_Click()
     End Select
     
     '세금계산서 문서번호 배열, 최대 1000건
-    KeyList.Add "20210901-01"
-    KeyList.Add "20210901-02"
-    KeyList.Add "20210901-03"
-    KeyList.Add "20210901-04"
+    KeyList.Add "20220101-01"
+    KeyList.Add "20220101-02"
+    KeyList.Add "20220101-03"
+    KeyList.Add "20220101-04"
     
     Set resultList = TaxinvoiceService.GetInfos(txtCorpNum.Text, KeyType, KeyList)
      
@@ -4445,7 +4444,7 @@ Private Sub btnGetInfos_Click()
         Exit Sub
     End If
     
-    tmp = tmp + "itemKey(팝빌 문서번호) | taxType (과세형태) | writeDate (작성일자) | regDT (임시저장 일시) | issueType (발행형태) | supplyCostTotal (공급가액 합계) | " + vbCrLf
+    tmp = tmp + "itemKey(팝빌번호) | taxType (과세형태) | writeDate (작성일자) | regDT (임시저장 일시) | issueType (발행형태) | supplyCostTotal (공급가액 합계) | " + vbCrLf
     tmp = tmp + "taxTotal (세액 합계) | purposeType (영수/청구) |issueDT (발행일시) | lateIssueYN (지연발행 여부) | openYN (개봉 여부) | openDT (개봉 일시) | " + vbCrLf
     tmp = tmp + "stateMemo (상태메모) | stateCode (상태코드) | ntsconfirmNum (국세청승인번호) | ntsresult (국세청 전송결과) | ntssendDT (국세청 전송일시) | " + vbCrLf
     tmp = tmp + "ntsresultDT (국세청 결과 수신일시) | ntssendErrCode (실패사유 사유코드) | modifyCode (수정 사유코드) | interOPYN (연동문서 여부) | invoicerCorpName (공급자 상호) | " + vbCrLf
@@ -4555,7 +4554,6 @@ Private Sub btnGetDetailInfo_Click()
 
     tmp = tmp + "modifyCode(수정사유 코드) : " + tiDetailInfo.modifyCode + vbCrLf
     tmp = tmp + "orgNTSConfirmNum(원본 세금계산서 국세청승인번호) : " + tiDetailInfo.orgNTSConfirmNum + vbCrLf
-    tmp = tmp + "originalTaxinvoiceKey(원본 팝빌 문서번호) : " + tiDetailInfo.originalTaxinvoiceKey + vbCrLf
    
     If (tiDetailInfo.detailList Is Nothing) = False Then
         For Each detail In tiDetailInfo.detailList
@@ -4627,13 +4625,12 @@ Private Sub btnSearch_Click()
     DType = "W"
     
     '[필수] 시작일자, yyyyMMdd
-    SDate = "20210901"
+    SDate = "20220101"
     
     '[필수] 종료일자, yyyyMMdd
-    EDate = "20210910"
+    EDate = "20220110"
     
     '전송상태값 배열, 미기재시 전체상태조회, 문서상태값 3자리숫자 작성 2,3번째 와일드카드 가능
-    '상태코드에 대한 자세한 사항은 "[전자세금계산서 API 연동매뉴얼] > 5.1 세금계산서 상태코드" 를 참조하시기 바랍니다.
     state.Add "3**"
     state.Add "6**"
     
@@ -4708,7 +4705,7 @@ Private Sub btnSearch_Click()
     tmp = tmp + "pageCount (페이지 개수) : " + CStr(tiSearchList.pageCount) + vbCrLf
     tmp = tmp + "message (응답메시지) : " + tiSearchList.message + vbCrLf + vbCrLf
     
-    tmp = tmp + "itemKey(팝빌 문서번호) |  taxType (과세형태) |  writeDate (작성일자) |  regDT (임시저장 일시) |  issueType (발행형태) |  supplyCostTotal (공급가액 합계) | " + _
+    tmp = tmp + "itemKey(팝빌번호) |  taxType (과세형태) |  writeDate (작성일자) |  regDT (임시저장 일시) |  issueType (발행형태) |  supplyCostTotal (공급가액 합계) | " + _
          "taxTotal (세액 합계) |  purposeType (영수/청구) | issueDT (발행일시) | lateIssueYN (지연발행 여부) | openYN (개봉 여부) | openDT (개봉 일시) | " + _
          "stateMemo (상태메모) | stateCode (상태코드) | ntsconfirmNum (국세청승인번호) | ntsresult (국세청 전송결과) | ntssendDT (국세청 전송일시) | " + _
          "ntsresultDT (국세청 결과 수신일시) | ntssendErrCode (전송실패 사유코드) | modifyCode (수정 사유코드) | interOPYN (연동문서 여부) | invoicerCorpName (공급자 상호) | " + _
@@ -4946,7 +4943,7 @@ Private Sub btnAssignmgtkey_Click()
     itemKey = "021090515070600001"
             
     '할당할 문서번호, 최대 24자리, 영문, 숫자 '-', '_'를 조합하여 사업자별로 중복되지 않도록 구성
-    mgtKey = "20210901-001"
+    mgtKey = "20220101-001"
         
     Set Response = TaxinvoiceService.AssignMgtKey(txtCorpNum.Text, KeyType, itemKey, mgtKey)
     
@@ -4984,7 +4981,7 @@ Private Sub btnAttachStatement_Click()
     SubItemCode = 121
     
     '첨부할 전자명세서 문서번호
-    SubMgtKey = "20210901-01"
+    SubMgtKey = "20220101-01"
         
     Set Response = TaxinvoiceService.AttachStatement(txtCorpNum.Text, KeyType, txtMgtKey.Text, SubItemCode, SubMgtKey)
     
@@ -5022,7 +5019,7 @@ Private Sub btnDetachStatement_Click()
     SubItemCode = 121
     
     '첨부해제할 전자명세서 문서번호
-    SubMgtKey = "20210901-01"
+    SubMgtKey = "20220101-01"
 
     Set Response = TaxinvoiceService.DetachStatement(txtCorpNum.Text, KeyType, txtMgtKey.Text, SubItemCode, SubMgtKey)
     
@@ -5182,7 +5179,7 @@ Private Sub btnListemailconfig_Click()
         End If
         
         If resultList(i).emailType = "ETC_CERT_EXPIRATION" Then
-            tmp = tmp + "[정기발송] 팝빌에서 이용중인 공인인증서의 갱신 알림 : " + resultList(i).emailType + " | "
+            tmp = tmp + "[정기발송] 팝빌에서 이용중인 공동인증서의 갱신 알림 : " + resultList(i).emailType + " | "
             tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
         End If
         
@@ -5234,7 +5231,7 @@ End Sub
 '
 ' [정기발송]
 ' TAX_SEND_INFO : 전월 귀속분 [매출 발행 대기] 세금계산서의 발행을 안내하는 메일입니다.
-' ETC_CERT_EXPIRATION : 팝빌에서 이용중인 공인인증서의 갱신을 안내하는 메일입니다.
+' ETC_CERT_EXPIRATION : 팝빌에서 이용중인 공동인증서의 갱신을 안내하는 메일입니다.
 '
 '=========================================================================
 Private Sub btnUpdateemailconfig_Click()
@@ -5427,10 +5424,10 @@ Private Sub btnGetMassPrintURL_Click()
     End Select
     
     ' 전자세금계산서 문서 문서번호 배열 (최대 100건)
-    KeyList.Add "20210901-01"
-    KeyList.Add "20210901-02"
-    KeyList.Add "20210901-03"
-    KeyList.Add "20210901-04"
+    KeyList.Add "20220101-01"
+    KeyList.Add "20220101-02"
+    KeyList.Add "20220101-03"
+    KeyList.Add "20220101-04"
     
     URL = TaxinvoiceService.GetMassPrintURL(txtCorpNum.Text, KeyType, KeyList)
      

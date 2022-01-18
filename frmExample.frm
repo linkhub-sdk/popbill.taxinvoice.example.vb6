@@ -2165,7 +2165,7 @@ End Sub
 ' - https://docs.popbill.com/taxinvoice/vb/api#BulkSubmit
 '=========================================================================
 Private Sub btnBulkSubmit_Click()
-    Dim Response As PBTIBulkResponse
+    Dim Response As PBBulkResponse
     Dim taxinvoiceList As New Collection
     
     Dim i As Integer
@@ -2398,7 +2398,7 @@ Private Sub btnBulkSubmit_Click()
         taxinvoiceList.Add Taxinvoice
     Next
 
-    Set Response = TaxinvoiceService.bulkSubmit(txtCorpNum.Text, txtSubmitID.Text, taxinvoiceList, False, txtUserID.Text)
+    Set Response = TaxinvoiceService.BulkSubmit(txtCorpNum.Text, txtSubmitID.Text, taxinvoiceList, False, txtUserID.Text)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
@@ -2413,7 +2413,7 @@ End Sub
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetBulkResult
 '=========================================================================
 Private Sub btnGetBulkResult_Click()
-    Dim Response As PBTIBulkTaxinvoiceResult
+    Dim Response As PBBulkTaxinvoiceResult
     Dim tmp As String
     
     Set Response = TaxinvoiceService.GetBulkResult(txtCorpNum.Text, txtSubmitID.Text)
@@ -2439,7 +2439,7 @@ Private Sub btnGetBulkResult_Click()
     
     tmp = tmp + "invoicerMgtKey(공급자 문서번호) |  code (코드) |  ntsconfirmNum (국세청승인번호) |  issueDT (발행일시) " + vbCrLf + vbCrLf
             
-    Dim issueResult As PBTIBulkTaxinvoiceIssueResult
+    Dim issueResult As PBBulkTaxinvoiceIssueResult
     
     For Each issueResult In Response.issueResult
         tmp = tmp + issueResult.invoicerMgtKey + " | "

@@ -2441,12 +2441,14 @@ Private Sub btnGetBulkResult_Click()
             
     Dim issueResult As PBBulkTaxinvoiceIssueResult
     
-    For Each issueResult In Response.issueResult
-        tmp = tmp + issueResult.invoicerMgtKey + " | "
-        tmp = tmp + CStr(issueResult.code) + " | "
-        tmp = tmp + issueResult.ntsConfirmNum + " | "
-        tmp = tmp + issueResult.issueDT + vbCrLf
-    Next
+    If Response.issueResult Is Nothing = False Then
+        For Each issueResult In Response.issueResult
+            tmp = tmp + issueResult.invoicerMgtKey + " | "
+            tmp = tmp + CStr(issueResult.code) + " | "
+            tmp = tmp + issueResult.ntsConfirmNum + " | "
+            tmp = tmp + issueResult.issueDT + vbCrLf
+        Next
+    End If
     
     MsgBox tmp
 End Sub

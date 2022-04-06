@@ -2,12 +2,12 @@ VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Begin VB.Form frmExample 
    Caption         =   "팝빌 세금계산서 SDK 예제"
-   ClientHeight    =   13320
+   ClientHeight    =   14070
    ClientLeft      =   60
    ClientTop       =   450
    ClientWidth     =   19275
    LinkTopic       =   "Form1"
-   ScaleHeight     =   13320
+   ScaleHeight     =   14070
    ScaleWidth      =   19275
    StartUpPosition =   2  '화면 가운데
    Begin VB.TextBox txtURL 
@@ -129,6 +129,14 @@ Begin VB.Form frmExample
          TabIndex        =   12
          Top             =   240
          Width           =   2175
+         Begin VB.CommandButton btnGetTaxCertInfo 
+            Caption         =   "인증서 정보 확인"
+            Height          =   375
+            Left            =   120
+            TabIndex        =   119
+            Top             =   1800
+            Width           =   1935
+         End
          Begin VB.CommandButton btnCheckCertValidation 
             Caption         =   "인증서 유효성 확인"
             Height          =   375
@@ -285,7 +293,7 @@ Begin VB.Form frmExample
    End
    Begin VB.Frame Frame7 
       Caption         =   " 세금계산서 관련 기능"
-      Height          =   9825
+      Height          =   10185
       Left            =   240
       TabIndex        =   13
       Top             =   3720
@@ -365,7 +373,7 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame14 
          Caption         =   " 보기/인쇄"
-         Height          =   3480
+         Height          =   3960
          Left            =   10080
          TabIndex        =   45
          Top             =   6120
@@ -437,7 +445,7 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame13 
          Caption         =   " 기타 URL "
-         Height          =   3495
+         Height          =   3975
          Left            =   15600
          TabIndex        =   40
          Top             =   6120
@@ -477,7 +485,7 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame12 
          Caption         =   " 부가 기능"
-         Height          =   3495
+         Height          =   3975
          Left            =   5400
          TabIndex        =   38
          Top             =   6120
@@ -557,17 +565,25 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame11 
          Caption         =   " 정보 확인"
-         Height          =   3495
+         Height          =   3975
          Left            =   2640
          TabIndex        =   33
          Top             =   6120
          Width           =   2505
+         Begin VB.CommandButton btnGetXML 
+            Caption         =   "상세정보 확인 - XML"
+            Height          =   390
+            Left            =   195
+            TabIndex        =   120
+            Top             =   1800
+            Width           =   2085
+         End
          Begin VB.CommandButton btnSearch 
             Caption         =   "목록 조회"
             Height          =   390
             Left            =   195
             TabIndex        =   86
-            Top             =   1800
+            Top             =   2280
             Width           =   2085
          End
          Begin VB.CommandButton btnGetBulkResult 
@@ -575,7 +591,7 @@ Begin VB.Form frmExample
             Height          =   390
             Left            =   195
             TabIndex        =   81
-            Top             =   2760
+            Top             =   3240
             Width           =   2085
          End
          Begin VB.CommandButton btnGetDetailInfo 
@@ -591,7 +607,7 @@ Begin VB.Form frmExample
             Height          =   390
             Left            =   195
             TabIndex        =   36
-            Top             =   2280
+            Top             =   2760
             Width           =   2085
          End
          Begin VB.CommandButton btnGetInfos 
@@ -613,7 +629,7 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame10 
          Caption         =   " 첨부파일 "
-         Height          =   3480
+         Height          =   3960
          Left            =   120
          TabIndex        =   28
          Top             =   6135
@@ -1222,7 +1238,7 @@ Private TaxinvoiceService As New PBTIService
 
 '=========================================================================
 ' 사업자번호를 조회하여 연동회원 가입여부를 확인합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#CheckIsMember
+' - https://docs.popbill.com/taxinvoice/vbapi#CheckIsMember
 '=========================================================================
 Private Sub btnCheckIsMember_Click()
     Dim Response As PBResponse
@@ -1239,7 +1255,7 @@ End Sub
 
 '=========================================================================
 ' 사용하고자 하는 아이디의 중복여부를 확인합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#CheckID
+' - https://docs.popbill.com/taxinvoice/vbapi#CheckID
 '=========================================================================
 Private Sub btnCheckID_Click()
     Dim Response As PBResponse
@@ -1257,7 +1273,7 @@ End Sub
 '=========================================================================
 ' 전자세금계산서 PDF 파일을 다운 받을 수 있는 URL을 반환합니다.
 ' - 반환되는 URL은 보안정책상 30초의 유효시간을 갖으며, 유효시간 이후 호출시 정상적으로 페이지가 호출되지 않습니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#GetPDFURL
+' - https://docs.popbill.com/taxinvoice/vbapi#GetPDFURL
 '=========================================================================
 Private Sub btnGetPDFURL_Click()
     Dim URL As String
@@ -1285,6 +1301,34 @@ Private Sub btnGetPDFURL_Click()
     txtUserID.Text = URL
     MsgBox "URL : " + vbCrLf + URL
     txtURL.Text = URL
+End Sub
+
+'=========================================================================
+' 팝빌 인증서버에 등록된 공동인증서의 정보를 확인합니다.
+' - https://docs.popbill.com/taxinvoice/vb/api#GetTaxCertInfo
+'=========================================================================
+Private Sub btnGetTaxCertInfo_Click()
+    Dim CertInfo As PBTaxinvoiceCertificate
+    Dim tmp As String
+    
+    Set CertInfo = TaxinvoiceService.GetTaxCertInfo(txtCorpNum.Text, txtUserID.Text)
+    
+    If CertInfo Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    tmp = tmp + "regDT (등록일시) : " + CertInfo.regDT + vbCrLf
+    tmp = tmp + "expireDT (만료일시) : " + CertInfo.expireDT + vbCrLf
+    tmp = tmp + "issuerDN (인증서 발급자 DN) : " + CertInfo.issuerDN + vbCrLf
+    tmp = tmp + "subjectDN (등록된 인증서 DN) : " + CertInfo.subjectDN + vbCrLf
+    tmp = tmp + "issuerName (인증서 종류) : " + CertInfo.issuerName + vbCrLf
+    tmp = tmp + "oid (OID) : " + CertInfo.oid + vbCrLf
+    tmp = tmp + "regContactName (등록 담당자 성명) : " + CertInfo.regContactName + vbCrLf
+    tmp = tmp + "regContactID (등록 담당자 아이디  ) : " + CertInfo.regContactID + vbCrLf
+    
+    MsgBox tmp
+
 End Sub
 
 '=========================================================================
@@ -1382,7 +1426,7 @@ End Sub
 
 '=========================================================================
 ' 세금계산서 발행시 과금되는 포인트 단가를 확인합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#GetUnitCost
+' - https://docs.popbill.com/taxinvoice/vbapi#GetUnitCost
 '=========================================================================
 Private Sub btnUnitCost_Click()
     Dim unitCost As Double
@@ -1399,7 +1443,7 @@ End Sub
 
 '=========================================================================
 ' 팝빌 전자세금계산서 API 서비스 과금정보를 확인합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#GetChargeInfo
+' - https://docs.popbill.com/taxinvoice/vbapi#GetChargeInfo
 '=========================================================================
 Private Sub btnGetChargeInfo_Click()
     Dim ChargeInfo As PBChargeInfo
@@ -1421,7 +1465,7 @@ End Sub
 
 '=========================================================================
 ' 팝빌 인증서버에 등록된 인증서의 만료일을 확인합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#GetCertificateExpireDate
+' - https://docs.popbill.com/taxinvoice/vbapi#GetCertificateExpireDate
 '=========================================================================
 Private Sub btnCertificateExpireDate_Click()
     Dim expireDate As String
@@ -1439,7 +1483,7 @@ End Sub
 '=========================================================================
 ' 전자세금계산서 발행에 필요한 인증서를 팝빌 인증서버에 등록하기 위한 페이지의 팝업 URL을 반환합니다.
 ' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#GetTaxCertURL
+' - https://docs.popbill.com/taxinvoice/vbapi#GetTaxCertURL
 '=========================================================================
 Private Sub btnGetTaxCertURL_Click()
     Dim URL As String
@@ -1480,7 +1524,7 @@ End Sub
 
 '=========================================================================
 ' 팝빌 인증서버에 등록된 인증서의 유효성을 확인합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#CheckCertValidation
+' - https://docs.popbill.com/taxinvoice/vbapi#CheckCertValidation
 '=========================================================================
 Private Sub btnCheckCertValidation_Click()
     Dim Response As PBResponse
@@ -1498,7 +1542,7 @@ End Sub
 '=========================================================================
 ' 팝빌 사이트에 로그인 상태로 접근할 수 있는 페이지의 팝업 URL을 반환합니다.
 ' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#GetAccessURL
+' - https://docs.popbill.com/taxinvoice/vbapi#GetAccessURL
 '=========================================================================
 Private Sub btnGetAccessURL_Click()
     Dim URL As String
@@ -1730,7 +1774,7 @@ End Sub
 
 '=========================================================================
 ' 연동회원의 잔여포인트를 확인합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#GetBalance
+' - https://docs.popbill.com/taxinvoice/vbapi#GetBalance
 '=========================================================================
 Private Sub btnGetBalance_Click()
     Dim balance As Double
@@ -1748,7 +1792,7 @@ End Sub
 '=========================================================================
 ' 연동회원 포인트 충전을 위한 페이지의 팝업 URL을 반환합니다.
 ' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#GetChargeURL
+' - https://docs.popbill.com/taxinvoice/vbapi#GetChargeURL
 '=========================================================================
 Private Sub btnGetChargeURL_Click()
     Dim URL As String
@@ -1804,7 +1848,7 @@ End Sub
 
 '=========================================================================
 ' 파트너의 잔여포인트를 확인합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#GetPartnerBalance
+' - https://docs.popbill.com/taxinvoice/vbapi#GetPartnerBalance
 '=========================================================================
 Private Sub btnGetPartnerBalance_Click()
     Dim balance As Double
@@ -1841,7 +1885,7 @@ End Sub
 '=========================================================================
 ' 파트너가 세금계산서 관리 목적으로 할당하는 문서번호의 사용여부를 확인합니다.
 ' - 이미 사용 중인 문서번호는 중복 사용이 불가하고, 세금계산서가 삭제된 경우에만 문서번호의 재사용이 가능합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#CheckMgtKeyInUse
+' - https://docs.popbill.com/taxinvoice/vbapi#CheckMgtKeyInUse
 '=========================================================================
 Private Sub checkMgtKeyInUse_Click()
     Dim Response As PBResponse
@@ -1871,7 +1915,7 @@ End Sub
 
 '=========================================================================
 ' 전자세금계산서 유통사업자의 메일 목록을 확인합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#GetEmailPublicKeys
+' - https://docs.popbill.com/taxinvoice/vbapi#GetEmailPublicKeys
 '=========================================================================
 Private Sub btnGetEmailPublicKeys_Click()
     Dim resultList As Collection
@@ -1900,7 +1944,7 @@ End Sub
 ' - 임시저장(Register API) 함수와 발행(Issue API) 함수를 한 번의 프로세스로 처리합니다.
 ' - 세금계산서 발행을 위해서 공급자의 인증서가 팝빌 인증서버에 사전등록 되어야 합니다.
 '   └ 위수탁발행의 경우, 수탁자의 인증서 등록이 필요합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#RegistIssue
+' - https://docs.popbill.com/taxinvoice/vbapi#RegistIssue
 '=========================================================================
 Private Sub btnRegistIssue_Click()
     Dim Taxinvoice As New PBTaxinvoice
@@ -2164,7 +2208,7 @@ End Sub
 ' 최대 100건의 세금계산서 발행을 한번의 요청으로 접수합니다.
 ' - 세금계산서 발행을 위해서 공급자의 인증서가 팝빌 인증서버에 사전등록 되어야 합니다.
 '    └ 위수탁발행의 경우, 수탁자의 인증서 등록이 필요합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#BulkSubmit
+' - https://docs.popbill.com/taxinvoice/vbapi#BulkSubmit
 '=========================================================================
 Private Sub btnBulkSubmit_Click()
     Dim Response As PBBulkResponse
@@ -2413,7 +2457,7 @@ End Sub
 '=========================================================================
 ' 접수시 기재한 SubmitID를 사용하여 세금계산서 접수결과를 확인합니다.
 ' - 개별 세금계산서 처리상태는 접수상태(txState)가 완료(2) 시 반환됩니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#GetBulkResult
+' - https://docs.popbill.com/taxinvoice/vbapi#GetBulkResult
 '=========================================================================
 Private Sub btnGetBulkResult_Click()
     Dim Response As PBBulkTaxinvoiceResult
@@ -2459,7 +2503,7 @@ End Sub
 '=========================================================================
 ' 국세청 전송 이전 "발행완료" 상태의 세금계산서를 "발행취소"하고 국세청 전송 대상에서 제외합니다.
 ' - 삭제(Delete API) 함수를 호출하여 "발행취소" 상태의 전자세금계산서를 삭제하면, 문서번호 재사용이 가능합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#CancelIssue
+' - https://docs.popbill.com/taxinvoice/vbapi#CancelIssue
 '=========================================================================
 Private Sub btnCancelIssue_sub_Click()
     Dim Response As PBResponse
@@ -2495,7 +2539,7 @@ End Sub
 ' 삭제 가능한 상태의 세금계산서를 삭제합니다.
 ' - 삭제 가능한 상태: "임시저장", "발행취소", "역발행거부", "역발행취소", "전송실패"
 ' - 삭제처리된 세금계산서의 문서번호는 재사용이 가능합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#Delete
+' - https://docs.popbill.com/taxinvoice/vbapi#Delete
 '=========================================================================
 Private Sub btnDelete_sub_Click()
     Dim Response As PBResponse
@@ -2532,7 +2576,7 @@ End Sub
 ' - 역발행 세금계산서를 저장하는 경우, 객체 'Taxinvoice'의 변수 'chargeDirection' 값을 통해 과금 주체를 지정할 수 있습니다.
 '   └ 정과금 : 공급자 과금 , 역과금 : 공급받는자 과금
 ' - 임시저장된 세금계산서는 팝빌 사이트 '임시문서함'에서 확인 가능합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#Register
+' - https://docs.popbill.com/taxinvoice/vbapi#Register
 '=========================================================================
 
 Private Sub btnRegister_Click()
@@ -3037,12 +3081,12 @@ End Sub
 
 '======================================================================================================================
 ' "임시저장" 또는 "(역)발행대기" 상태의 세금계산서를 발행(전자서명)하며, "발행완료" 상태로 처리합니다.
-' - 세금계산서 국세청 전송정책 [https://docs.popbill.com/taxinvoice/ntsSendPolicy?lang=vba]
+' - 세금계산서 국세청 전송정책 [https://docs.popbill.com/taxinvoice/ntsSendPolicy?lang=vb]
 ' - "발행완료" 된 전자세금계산서는 국세청 전송 이전에 발행취소(CancelIssue API) 함수로 국세청 신고 대상에서 제외할 수 있습니다.
 ' - 세금계산서 발행을 위해서 공급자의 인증서가 팝빌 인증서버에 사전등록 되어야 합니다.
 '   └ 위수탁발행의 경우, 수탁자의 인증서 등록이 필요합니다.
 ' - 세금계산서 발행 시 공급받는자에게 발행 메일이 발송됩니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#TIIssue
+' - https://docs.popbill.com/taxinvoice/vbapi#TIIssue
 '======================================================================================================================
 Private Sub btnIssue_Click()
     Dim Response As PBResponse
@@ -3088,7 +3132,7 @@ End Sub
 '=========================================================================
 ' 국세청 전송 이전 "발행완료" 상태의 세금계산서를 "발행취소"하고 국세청 전송 대상에서 제외합니다.
 ' - 삭제(Delete API) 함수를 호출하여 "발행취소" 상태의 전자세금계산서를 삭제하면, 문서번호 재사용이 가능합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#CancelIssue
+' - https://docs.popbill.com/taxinvoice/vbapi#CancelIssue
 '=========================================================================
 Private Sub btnCancelIssue_Click()
     Dim Response As PBResponse
@@ -3154,7 +3198,7 @@ End Sub
 '=========================================================================
 ' "발행완료" 상태의 전자세금계산서를 국세청에 즉시 전송하며, 함수 호출 후 최대 30분 이내에 전송 처리가 완료됩니다.
 ' - 국세청 즉시전송을 호출하지 않은 세금계산서는 발행일 기준 다음 영업일 오후 3시에 팝빌 시스템에서 일괄적으로 국세청으로 전송합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#SendToNTS
+' - https://docs.popbill.com/taxinvoice/vbapi#SendToNTS
 '=========================================================================
 Private Sub btnSendToNTS_Click()
     Dim Response As PBResponse
@@ -3188,7 +3232,7 @@ End Sub
 ' - 발행 요청된 세금계산서는 "(역)발행대기" 상태이며, 공급자가 팝빌 사이트 또는 함수를 호출하여 발행한 경우에만 국세청으로 전송됩니다.
 ' - 공급자는 팝빌 사이트의 "매출 발행 대기함"에서 발행대기 상태의 역발행 세금계산서를 확인할 수 있습니다.
 ' - 임시저장(Register API) 함수와 역발행 요청(Request API) 함수를 한 번의 프로세스로 처리합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#RegistRequest
+' - https://docs.popbill.com/taxinvoice/vbapi#RegistRequest
 '=========================================================================================================================================
 Private Sub btnRegistRequest_Click()
     Dim Taxinvoice As New PBTaxinvoice
@@ -3411,12 +3455,12 @@ End Sub
 
 '======================================================================================================================
 ' "임시저장" 또는 "(역)발행대기" 상태의 세금계산서를 발행(전자서명)하며, "발행완료" 상태로 처리합니다.
-' - 세금계산서 국세청 전송정책 [https://docs.popbill.com/taxinvoice/ntsSendPolicy?lang=vba]
+' - 세금계산서 국세청 전송정책 [https://docs.popbill.com/taxinvoice/ntsSendPolicy?lang=vb]
 ' - "발행완료" 된 전자세금계산서는 국세청 전송 이전에 발행취소(CancelIssue API) 함수로 국세청 신고 대상에서 제외할 수 있습니다.
 ' - 세금계산서 발행을 위해서 공급자의 인증서가 팝빌 인증서버에 사전등록 되어야 합니다.
 '   └ 위수탁발행의 경우, 수탁자의 인증서 등록이 필요합니다.
 ' - 세금계산서 발행 시 공급받는자에게 발행 메일이 발송됩니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#TIIssue
+' - https://docs.popbill.com/taxinvoice/vbapi#TIIssue
 '======================================================================================================================
 Private Sub btnIssue_rev_sub_Click()
     Dim Response As PBResponse
@@ -3460,7 +3504,7 @@ End Sub
 
 '=========================================================================
 ' 공급자가 공급받는자에게 역발행 요청 받은 세금계산서의 발행을 거부합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#Refuse
+' - https://docs.popbill.com/taxinvoice/vbapi#Refuse
 '=========================================================================
 Private Sub btnRefuse_sub_Click()
     Dim Response As PBResponse
@@ -3495,7 +3539,7 @@ End Sub
 '=========================================================================
 ' 국세청 전송 이전 "발행완료" 상태의 세금계산서를 "발행취소"하고 국세청 전송 대상에서 제외합니다.
 ' - 삭제(Delete API) 함수를 호출하여 "발행취소" 상태의 전자세금계산서를 삭제하면, 문서번호 재사용이 가능합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#CancelIssue
+' - https://docs.popbill.com/taxinvoice/vbapi#CancelIssue
 '=========================================================================
 Private Sub btnCancelIssue_rev_sub_Click()
     Dim Response As PBResponse
@@ -3531,7 +3575,7 @@ End Sub
 ' 공급자가 요청받은 역발행 세금계산서를 발행하기 전, 공급받는자가 역발행요청을 취소합니다.
 ' - 함수 호출시 상태 값이 "취소"로 변경되고, 해당 역발행 세금계산서는 공급자에 의해 발행 될 수 없습니다.
 ' - [취소]한 세금계산서의 문서번호를 재사용하기 위해서는 삭제 (Delete API) 함수를 호출해야 합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#CancelRequest
+' - https://docs.popbill.com/taxinvoice/vbapi#CancelRequest
 '=========================================================================
 Private Sub btnRequestCancel_sub_Click()
     Dim Response As PBResponse
@@ -3567,7 +3611,7 @@ End Sub
 ' 삭제 가능한 상태의 세금계산서를 삭제합니다.
 ' - 삭제 가능한 상태: "임시저장", "발행취소", "역발행거부", "역발행취소", "전송실패"
 ' - 삭제처리된 세금계산서의 문서번호는 재사용이 가능합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#Delete
+' - https://docs.popbill.com/taxinvoice/vbapi#Delete
 '=========================================================================
 Private Sub btnDelete_rev_sub_Click()
     Dim Response As PBResponse
@@ -3604,7 +3648,7 @@ End Sub
 ' - 역발행 세금계산서를 저장하는 경우, 객체 'Taxinvoice'의 변수 'chargeDirection' 값을 통해 과금 주체를 지정할 수 있습니다.
 '   └ 정과금 : 공급자 과금 , 역과금 : 공급받는자 과금
 ' - 임시저장된 세금계산서는 팝빌 사이트 '임시문서함'에서 확인 가능합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#Register
+' - https://docs.popbill.com/taxinvoice/vbapi#Register
 '=========================================================================
 Private Sub btnRegister_rev_Click()
     Dim Taxinvoice As New PBTaxinvoice
@@ -3829,7 +3873,7 @@ End Sub
 
 '=========================================================================
 ' "임시저장" 상태의 세금계산서를 수정합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#Update
+' - https://docs.popbill.com/taxinvoice/vbapi#Update
 '=========================================================================
 Private Sub btnUpdate_rev_Click()
     Dim KeyType As MgtKeyType
@@ -4059,7 +4103,7 @@ End Sub
 ' - 공급자는 팝빌 사이트의 "매출 발행 대기함"에서 발행대기 상태의 역발행 세금계산서를 확인할 수 있습니다.
 ' - 역발행 요청시 공급자에게 역발행 요청 메일이 발송됩니다.
 ' - 공급자가 역발행 세금계산서 발행시 포인트가 과금됩니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#Request
+' - https://docs.popbill.com/taxinvoice/vbapi#Request
 '=========================================================================
 Private Sub btnRequest_Click()
     Dim Response As PBResponse
@@ -4094,12 +4138,12 @@ End Sub
 
 '======================================================================================================================
 ' "임시저장" 또는 "(역)발행대기" 상태의 세금계산서를 발행(전자서명)하며, "발행완료" 상태로 처리합니다.
-' - 세금계산서 국세청 전송정책 [https://docs.popbill.com/taxinvoice/ntsSendPolicy?lang=vba]
+' - 세금계산서 국세청 전송정책 [https://docs.popbill.com/taxinvoice/ntsSendPolicy?lang=vb]
 ' - "발행완료" 된 전자세금계산서는 국세청 전송 이전에 발행취소(CancelIssue API) 함수로 국세청 신고 대상에서 제외할 수 있습니다.
 ' - 세금계산서 발행을 위해서 공급자의 인증서가 팝빌 인증서버에 사전등록 되어야 합니다.
 '   └ 위수탁발행의 경우, 수탁자의 인증서 등록이 필요합니다.
 ' - 세금계산서 발행 시 공급받는자에게 발행 메일이 발송됩니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#TIIssue
+' - https://docs.popbill.com/taxinvoice/vbapi#TIIssue
 '======================================================================================================================
 Private Sub btnIssue_rev_Click()
     Dim Response As PBResponse
@@ -4143,7 +4187,7 @@ End Sub
 
 '=========================================================================
 ' 공급자가 공급받는자에게 역발행 요청 받은 세금계산서의 발행을 거부합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#Refuse
+' - https://docs.popbill.com/taxinvoice/vbapi#Refuse
 '=========================================================================
 Private Sub btnRefuse_Click()
     Dim Response As PBResponse
@@ -4178,7 +4222,7 @@ End Sub
 '=========================================================================
 '국세청 전송 이전 "발행완료" 상태의 세금계산서를 "발행취소"하고 국세청 전송 대상에서 제외합니다.
 ' - 삭제(Delete API) 함수를 호출하여 "발행취소" 상태의 전자세금계산서를 삭제하면, 문서번호 재사용이 가능합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#CancelIssue
+' - https://docs.popbill.com/taxinvoice/vbapi#CancelIssue
 '=========================================================================
 Private Sub btnCancelIssue_rev_Click()
     Dim Response As PBResponse
@@ -4214,7 +4258,7 @@ End Sub
 ' 공급자가 요청받은 역발행 세금계산서를 발행하기 전, 공급받는자가 역발행요청을 취소합니다.
 ' - 함수 호출시 상태 값이 "취소"로 변경되고, 해당 역발행 세금계산서는 공급자에 의해 발행 될 수 없습니다.
 ' - [취소]한 세금계산서의 문서번호를 재사용하기 위해서는 삭제 (Delete API) 함수를 호출해야 합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#CancelRequest
+' - https://docs.popbill.com/taxinvoice/vbapi#CancelRequest
 '=========================================================================
 Private Sub btnRequestCancel_Click()
     Dim Response As PBResponse
@@ -4250,7 +4294,7 @@ End Sub
 ' 1삭제 가능한 상태의 세금계산서를 삭제합니다.
 ' - 삭제 가능한 상태: "임시저장", "발행취소", "역발행거부", "역발행취소", "전송실패"
 ' - 삭제처리된 세금계산서의 문서번호는 재사용이 가능합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#Delete
+' - https://docs.popbill.com/taxinvoice/vbapi#Delete
 '=========================================================================
 Private Sub btnDelete_rev_Click()
     Dim Response As PBResponse
@@ -4280,7 +4324,7 @@ End Sub
 
 '=========================================================================
 ' "임시저장" 상태의 세금계산서에 1개의 파일을 첨부합니다. (최대 5개)
-' - https://docs.popbill.com/taxinvoice/vba/api#AttachFile
+' - https://docs.popbill.com/taxinvoice/vbapi#AttachFile
 '=========================================================================
 Private Sub btnAttachFile_Click()
     Dim FilePath As String
@@ -4320,7 +4364,7 @@ End Sub
 '=========================================================================
 ' 세금계산서에 첨부된 파일목록을 확인합니다.
 ' - 응답항목 중 파일아이디(AttachedFile) 항목은 첨부파일 삭제(DeleteFile API) 함수 호출 시 이용할 수 있습니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#GetFiles
+' - https://docs.popbill.com/taxinvoice/vbapi#GetFiles
 '=========================================================================
 Private Sub btnGetFiles_Click()
     Dim resultList As Collection
@@ -4349,7 +4393,7 @@ End Sub
 '=========================================================================
 ' "임시저장" 상태의 세금계산서에 첨부된 1개의 파일을 삭제합니다.
 ' - 파일 식별을 위해 첨부 시 부여되는 'FileID'는 첨부파일 목록 확인(GetFiles API) 함수를 호출하여 확인합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#DeleteFile
+' - https://docs.popbill.com/taxinvoice/vbapi#DeleteFile
 '=========================================================================
 Private Sub btnDeleteFile_Click()
     Dim Response As PBResponse
@@ -4380,8 +4424,8 @@ End Sub
 '=========================================================================
 ' 세금계산서 1건의 상태 및 요약정보를 확인합니다.
 ' - 리턴값 'PBTIInfo'의 변수 'stateCode'를 통해 세금계산서의 상태코드를 확인합니다.
-' - 세금계산서 상태코드 [https://docs.popbill.com/taxinvoice/stateCode?lang=vba]
-' - https://docs.popbill.com/taxinvoice/vba/api#GetInfo
+' - 세금계산서 상태코드 [https://docs.popbill.com/taxinvoice/stateCode?lang=vb]
+' - https://docs.popbill.com/taxinvoice/vbapi#GetInfo
 '=========================================================================
 Private Sub btnGetInfo_Click()
     Dim tiInfo As PBTIInfo
@@ -4450,8 +4494,8 @@ End Sub
 '=========================================================================
 ' 다수건의 세금계산서 상태 및 요약 정보를 확인합니다. (1회 호출 시 최대 1,000건 확인 가능)
 ' 리턴값 'PBTIInfo'의 변수 'stateCode'를 통해 세금계산서의 상태코드를 확인합니다.
-' 세금계산서 상태코드 [https://docs.popbill.com/taxinvoice/stateCode?lang=vba]
-' - https://docs.popbill.com/taxinvoice/vba/api#GetInfos
+' 세금계산서 상태코드 [https://docs.popbill.com/taxinvoice/stateCode?lang=vb]
+' - https://docs.popbill.com/taxinvoice/vbapi#GetInfos
 '=========================================================================
 Private Sub btnGetInfos_Click()
     Dim resultList As Collection
@@ -4512,7 +4556,7 @@ End Sub
 
 '=========================================================================
 ' 세금계산서 1건의 상세정보를 확인합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#GetDetailInfo
+' - https://docs.popbill.com/taxinvoice/vbapi#GetDetailInfo
 '=========================================================================
 Private Sub btnGetDetailInfo_Click()
     Dim tiDetailInfo As PBTaxinvoice
@@ -4622,8 +4666,45 @@ Private Sub btnGetDetailInfo_Click()
 End Sub
 
 '=========================================================================
+' 세금계산서 1건의 상세정보를 XML로 반환합니다.
+' - https://docs.popbill.com/taxinvoice/vb/api#GetXML
+'=========================================================================
+Private Sub btnGetXML_Click()
+    Dim result As PBTaxinvoiceXML
+    Dim KeyType As MgtKeyType
+    Dim tmp As String
+    
+    '세금계산서 발행유형, SELL-매출, BUY-매입, TRUSTEE-위수탁
+    Select Case cboMgtKeyType.Text
+        Case "SELL"
+            KeyType = SELL
+        Case "BUY"
+            KeyType = BUY
+        Case "TRUSTEE"
+            KeyType = TRUSTEE
+        Case Else
+            MsgBox "문서번호 형태를 선택해주세요."
+            Exit Sub
+    End Select
+    
+    Set result = TaxinvoiceService.GetXML(txtCorpNum.Text, KeyType, txtMgtKey.Text, txtUserID.Text)
+     
+    If result Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    tmp = tmp + "code (응답코드) : " + CStr(result.code) + vbCrLf
+    tmp = tmp + "message (응답메시지) : " + result.message + vbCrLf
+    tmp = tmp + "retObject (전자세금계산서 XML 문서 ) : " + result.retObject + vbCrLf
+    
+    MsgBox tmp
+    
+End Sub
+
+'=========================================================================
 ' 검색조건에 해당하는 세금계산서를 조회합니다. (조회기간 단위 : 최대 6개월)
-' - https://docs.popbill.com/taxinvoice/vba/api#Search
+' - https://docs.popbill.com/taxinvoice/vbapi#Search
 '=========================================================================
 Private Sub btnSearch_Click()
     Dim tiSearchList As PBTISearchList
@@ -4800,7 +4881,7 @@ End Sub
 
 '=========================================================================
 ' 세금계산서의 상태에 대한 변경이력을 확인합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#GetLogs
+' - https://docs.popbill.com/taxinvoice/vbapi#GetLogs
 '=========================================================================
 Private Sub btnGetLogs_Click()
     Dim resultList As Collection
@@ -4841,7 +4922,7 @@ End Sub
 
 '=========================================================================
 ' 세금계산서와 관련된 안내 메일을 재전송 합니다.
-' - https://docs.popbill.com/taxinvoice/vba/api#SendEmail
+' - https://docs.popbill.com/taxinvoice/vbapi#SendEmail
 '=========================================================================
 Private Sub btnSendEmail_Click()
     Dim Response As PBResponse
@@ -4877,7 +4958,7 @@ End Sub
 ' 세금계산서와 관련된 안내 SMS(단문) 문자를 재전송하는 함수로, 팝빌 사이트 [문자·팩스] > [문자] > [전송내역] 메뉴에서 전송결과를 확인 할 수 있습니다.
 ' - 메시지는 최대 90byte까지 입력 가능하고, 초과한 내용은 자동으로 삭제되어 전송합니다. (한글 최대 45자)
 ' - 함수 호출시 포인트가 과금됩니다
-' - https://docs.popbill.com/taxinvoice/vba/api#SendSMS
+' - https://docs.popbill.com/taxinvoice/vbapi#SendSMS
 '=========================================================================
 Private Sub btnSendSMS_Click()
     Dim Response As PBResponse

@@ -1,6 +1,6 @@
 frmExample = 185, -1, 1278, 771, , 18, -11, 1457, 964, C
 cStringBuilder = 88, 116, 1289, 768, 
-Linkhub = 111, 8, 1312, 653, 
+Linkhub = 111, 8, 1312, 653, C
 LinkhubToken = 66, 87, 1259, 827, 
 PBTIService = 25, 16, 1301, 896, 
 PBTaxinvoice = 113, 193, 1306, 907, 
@@ -21,3 +21,5 @@ PBBulkSubmit = 220, 290, 1384, 939,
 PBBulkTaxinvoiceIssueResult = 44, 58, 1208, 707, 
 PBBulkTaxinvoiceResult = 44, 58, 1297, 649, 
 PBSendToNTSConfig = 0, 0, 0, 0, C
+PBTaxinvoiceCertificate = 198, 261, 1361, 910, 
+PBTaxinvoiceXML = 198, 261, 1361, 910, 

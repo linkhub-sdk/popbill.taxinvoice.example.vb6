@@ -1209,7 +1209,7 @@ Attribute VB_Exposed = False
 '
 ' 팝빌 전자세금계산서 API VB 6.0 SDK Example
 '
-' - 업데이트 일자 : 2022-04-06
+' - 업데이트 일자 : 2022-07-25
 ' - 연동 기술지원 연락처 : 1600-9854
 ' - 연동 기술지원 이메일 : code@linkhubcorp.com
 ' - VB6 SDK 적용방법 안내 : https://docs.popbill.com/taxinvoice/tutorial/vb
@@ -2466,7 +2466,7 @@ Private Sub btnGetBulkResult_Click()
     tmp = tmp + "receiptID (접수아이디) : " + Response.receiptDT + vbCrLf
   
     
-    tmp = tmp + "invoicerMgtKey(공급자 문서번호) |  code (코드) |  ntsconfirmNum (국세청승인번호) |  issueDT (발행일시) " + vbCrLf + vbCrLf
+    tmp = tmp + "invoicerMgtKey(공급자 문서번호) |  code (코드) | message (메시지) |  ntsconfirmNum (국세청승인번호) |  issueDT (발행일시) " + vbCrLf + vbCrLf
             
     Dim issueResult As PBBulkTaxinvoiceIssueResult
     
@@ -2474,6 +2474,7 @@ Private Sub btnGetBulkResult_Click()
         For Each issueResult In Response.issueResult
             tmp = tmp + issueResult.invoicerMgtKey + " | "
             tmp = tmp + CStr(issueResult.code) + " | "
+            tmp = tmp + issueResult.message + " | "
             tmp = tmp + issueResult.ntsConfirmNum + " | "
             tmp = tmp + issueResult.issueDT + vbCrLf
         Next

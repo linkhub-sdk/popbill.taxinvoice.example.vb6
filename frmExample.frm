@@ -10,6 +10,14 @@ Begin VB.Form frmExample
    ScaleHeight     =   14070
    ScaleWidth      =   19275
    StartUpPosition =   2  '화면 가운데
+   Begin VB.CommandButton Command1 
+      Caption         =   "임시 문서함"
+      Height          =   390
+      Left            =   0
+      TabIndex        =   121
+      Top             =   0
+      Width           =   1845
+   End
    Begin VB.TextBox txtURL 
       Height          =   315
       Left            =   13680
@@ -450,9 +458,28 @@ Begin VB.Form frmExample
          TabIndex        =   40
          Top             =   6120
          Width           =   2385
+         Begin VB.CommandButton btnGetURL_PWBOX 
+            Caption         =   "매입 발행 대기함"
+            Height          =   390
+            Index           =   2
+            Left            =   210
+            TabIndex        =   123
+            Top             =   1320
+            Width           =   1845
+         End
+         Begin VB.CommandButton btnGetURL_SWBOX 
+            Caption         =   "매출 발행 대기함"
+            Height          =   390
+            Index           =   1
+            Left            =   210
+            TabIndex        =   122
+            Top             =   840
+            Width           =   1845
+         End
          Begin VB.CommandButton btnGetURL_TBOX 
             Caption         =   "임시 문서함"
             Height          =   390
+            Index           =   0
             Left            =   210
             TabIndex        =   44
             Top             =   390
@@ -463,23 +490,23 @@ Begin VB.Form frmExample
             Height          =   390
             Left            =   210
             TabIndex        =   43
-            Top             =   825
+            Top             =   1785
             Width           =   1845
          End
          Begin VB.CommandButton btnGetURL_PBOX 
             Caption         =   "매입 문서함"
             Height          =   390
-            Left            =   195
+            Left            =   210
             TabIndex        =   42
-            Top             =   1260
+            Top             =   2220
             Width           =   1845
          End
          Begin VB.CommandButton btnGetURL_WRITE 
             Caption         =   "매출 문서작성"
             Height          =   390
-            Left            =   195
+            Left            =   210
             TabIndex        =   41
-            Top             =   1710
+            Top             =   2640
             Width           =   1845
          End
       End
@@ -1330,6 +1357,7 @@ Private Sub btnGetTaxCertInfo_Click()
     MsgBox tmp
 
 End Sub
+
 
 '=========================================================================
 ' 세금계산서 1건의 상세정보 페이지(사이트 상단, 좌측 메뉴 및 버튼 제외)의 팝업 URL을 반환합니다.
@@ -5506,16 +5534,55 @@ Private Sub btnGetMailURL_Click()
     MsgBox "URL : " + vbCrLf + URL
     txtURL.Text = URL
 End Sub
-
 '=========================================================================
 ' 로그인 상태로 팝빌 사이트의 전자세금계산서 임시문서함 메뉴에 접근할 수 있는 페이지의 팝업 URL을 반환합니다.
 ' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다.
 ' - https://docs.popbill.com/taxinvoice/vb/api#GetURL
 '=========================================================================
-Private Sub btnGetURL_TBOX_Click()
+Private Sub btnGetURL_TBOX_Click(Index As Integer)
     Dim URL As String
     
     URL = TaxinvoiceService.GetURL(txtCorpNum.Text, txtUserID.Text, "TBOX")
+    
+    If URL = "" Then
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
+End Sub
+
+
+'=========================================================================
+' 로그인 상태로 팝빌 사이트의 전자세금계산서 매출 문서 대기함 메뉴에 접근할 수 있는 페이지의 팝업 URL을 반환합니다.
+' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다.
+' - https://docs.popbill.com/taxinvoice/vb/api#GetURL
+'=========================================================================
+Private Sub btnGetURL_SWBOX_Click(Index As Integer)
+    Dim URL As String
+    
+    URL = TaxinvoiceService.GetURL(txtCorpNum.Text, txtUserID.Text, "SWBOX")
+    
+    If URL = "" Then
+        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
+
+End Sub
+
+'=========================================================================
+' 로그인 상태로 팝빌 사이트의 전자세금계산서 매입 문서 대기함 메뉴에 접근할 수 있는 페이지의 팝업 URL을 반환합니다.
+' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다.
+' - https://docs.popbill.com/taxinvoice/vb/api#GetURL
+'=========================================================================
+Private Sub btnGetURL_PWBOX_Click(Index As Integer)
+    Dim URL As String
+    
+    URL = TaxinvoiceService.GetURL(txtCorpNum.Text, txtUserID.Text, "PWBOX")
     
     If URL = "" Then
         MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)

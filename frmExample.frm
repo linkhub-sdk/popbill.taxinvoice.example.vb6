@@ -1511,29 +1511,7 @@ Private Sub btnGetTaxCertURL_Click()
     
     MsgBox "URL : " + vbCrLf + URL
     txtURL.Text = URL
-    'Internet Explorer Browser 호출
-    Dim IE As Object
-    Dim strResult As String
-    Dim strSiteName As String
-   
-    Set IE = CreateObject("InternetExplorer.Application")
-    strSiteName = URL
-    IE.Navigate strSiteName
-    With IE
-        .Resizable = True
-        .MenuBar = True
-        .Toolbar = True
-        .AddressBar = True
-        .Visible = True
-        .StatusBar = True
-        .Left = 0
-        .Top = 0
-        .Height = 800
-        .Width = 800
-        .StatusText = "팝빌 공동인증서 등록 URL"
-    End With
     
-    Set IE = Nothing
 End Sub
 
 '=========================================================================
